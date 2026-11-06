@@ -1,0 +1,3334 @@
+<!DOCTYPE html>
+<!-- saved from url=(0048)https://almeida-cma.github.io/fe08/t8_final.html -->
+<html lang="pt-BR"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TEMA 08 • Layout Responsivo, CSS Grid e Flexbox</title>
+<style>
+:root{
+  --bg-body:#0b1120;
+  --surface-dark:#111827;
+  --surface-hover:#1f2937;
+  --card-white:#ffffff;
+  --grid:#2563eb;
+  --grid-soft:#dbeafe;
+  --grid-border:#1d4ed8;
+  --flex:#ea580c;
+  --flex-soft:#ffedd5;
+  --flex-border:#c2410c;
+  --accent:#0ea5e9;
+  --ok:#16a34a;
+  --ok-soft:#dcfce7;
+  --no:#dc2626;
+  --no-soft:#fee2e2;
+  --warn:#d97706;
+  --warn-soft:#fef3c7;
+  --text-dark:#0f172a;
+  --text-muted:#64748b;
+  --border-light:#e2e8f0;
+  --border-dark:#334155;
+  --radius:18px;
+  --trans:all .22s ease;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
+  background:radial-gradient(circle at 12% 8%,#1e3a8a 0%,#0b1120 60%);
+  color:var(--text-dark);
+  min-height:100vh;
+  padding:22px 12px 90px;
+  line-height:1.6;
+  overflow-x:hidden;
+}
+.container{max-width:1180px;margin:0 auto;}
+
+/* ---------- HEADER ---------- */
+.header{
+  background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 45%,#ea580c 100%);
+  border-radius:var(--radius);
+  padding:34px 22px;
+  margin-bottom:22px;
+  text-align:center;
+  color:#fff;
+  box-shadow:0 12px 34px rgba(37,99,235,.38);
+}
+.header h1{
+  font-size:clamp(1.35rem,3.4vw,2rem);
+  margin-bottom:8px;
+  letter-spacing:-.5px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.header h1 span{color:#fed7aa;}
+.header p{opacity:.96;font-size:.98rem;max-width:840px;margin:0 auto;}
+.badge-group{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:16px;}
+.badge{
+  background:rgba(255,255,255,.18);
+  border:1px solid rgba(255,255,255,.32);
+  padding:5px 13px;
+  border-radius:30px;
+  font-size:.72rem;
+  font-weight:700;
+  color:#fff;
+}
+
+/* ---------- ABAS ---------- */
+.tabs-nav{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding-bottom:8px;
+  margin-bottom:20px;
+  -webkit-overflow-scrolling:touch;
+}
+.tab-btn{
+  background:var(--surface-dark);
+  color:#93c5fd;
+  border:1px solid var(--border-dark);
+  padding:11px 16px;
+  border-radius:30px;
+  font-size:.8rem;
+  font-weight:700;
+  cursor:pointer;
+  white-space:nowrap;
+  transition:var(--trans);
+  font-family:inherit;
+}
+.tab-btn:hover{color:#fff;background:var(--surface-hover);}
+.tab-btn.active{
+  background:linear-gradient(135deg,#2563eb,#ea580c);
+  color:#fff;
+  border-color:#93c5fd;
+  box-shadow:0 0 14px rgba(37,99,235,.5);
+}
+.tab-btn:focus-visible{outline:3px solid #fbbf24;outline-offset:2px;}
+.tab-content{display:none;}
+.tab-content.active{display:block;animation:fadeIn .28s ease-out;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:translateY(0);}}
+
+/* ---------- CARDS ---------- */
+.card{
+  background:var(--card-white);
+  border-radius:var(--radius);
+  padding:26px;
+  margin-bottom:22px;
+  box-shadow:0 10px 28px rgba(0,0,0,.16);
+}
+.card h2{
+  color:#1d4ed8;
+  margin-bottom:14px;
+  border-left:5px solid var(--grid);
+  padding-left:12px;
+  font-size:clamp(1.12rem,2.2vw,1.42rem);
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.card h3{
+  color:#0f172a;
+  margin:22px 0 10px;
+  font-size:1.1rem;
+  border-bottom:2px dashed #cbd5e1;
+  padding-bottom:6px;
+}
+.card h4{color:#1e293b;margin:16px 0 8px;font-size:1rem;}
+.card p{color:#334155;margin-bottom:12px;font-size:.95rem;}
+.card ul,.card ol{color:#334155;line-height:1.8;margin:8px 0 14px 24px;font-size:.94rem;}
+.card li{margin-bottom:4px;}
+
+code{
+  background:#f1f5f9;
+  color:#1d4ed8;
+  padding:2px 6px;
+  border-radius:4px;
+  font-family:'Courier New',monospace;
+  font-weight:700;
+  font-size:.88em;
+  border:1px solid var(--border-light);
+}
+
+/* ---------- CAIXAS DE DESTAQUE ---------- */
+.hl{padding:14px 18px;border-radius:11px;margin:14px 0;font-size:.92rem;line-height:1.68;}
+.hl.blue{background:#e0f2fe;border-left:5px solid #0284c7;color:#0c4a6e;}
+.hl.amber{background:var(--warn-soft);border-left:5px solid var(--warn);color:#78350f;}
+.hl.rose{background:#ffe4e6;border-left:5px solid #e11d48;color:#881337;}
+.hl.green{background:var(--ok-soft);border-left:5px solid var(--ok);color:#14532d;}
+.hl.violet{background:#ede9fe;border-left:5px solid #7c3aed;color:#4c1d95;}
+.hl code{background:rgba(255,255,255,.85);border:1px solid rgba(0,0,0,.16);color:#0f172a;}
+
+/* ---------- TABELAS ---------- */
+table.tabela{
+  width:100%;
+  border-collapse:collapse;
+  font-size:.86rem;
+  margin:14px 0;
+  background:#fff;
+  border-radius:8px;
+  overflow:hidden;
+  box-shadow:0 2px 10px rgba(0,0,0,.06);
+}
+table.tabela thead tr{background:linear-gradient(135deg,#1e3a8a,#ea580c);color:#fff;}
+table.tabela th{padding:11px 12px;text-align:left;font-weight:800;font-size:.8rem;}
+table.tabela td{padding:9px 12px;border-bottom:1px solid var(--border-light);color:#334155;vertical-align:top;}
+table.tabela tbody tr:hover{background:#f8fafc;}
+table.tabela tbody tr:last-child td{border-bottom:none;}
+
+/* ---------- CÓDIGO ---------- */
+.code-wrapper{
+  margin:16px 0;
+  border-radius:12px;
+  overflow:hidden;
+  border:1px solid var(--border-dark);
+  background:#0b1220;
+}
+.code-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:#111827;
+  padding:9px 14px;
+  border-bottom:1px solid var(--border-dark);
+  flex-wrap:wrap;
+  gap:8px;
+}
+.code-title{color:#93c5fd;font-size:.8rem;font-weight:700;font-family:monospace;}
+.code-actions{display:flex;gap:6px;flex-wrap:wrap;}
+.code-actions button{
+  border:none;
+  padding:5px 12px;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:.72rem;
+  font-weight:700;
+  transition:var(--trans);
+  font-family:inherit;
+  color:#fff;
+}
+.btn-copy{background:#10b981;}
+.btn-copy:hover{background:#059669;}
+.btn-oc{background:#0ea5e9;}
+.btn-oc:hover{background:#0284c7;}
+.btn-vs{background:#007acc;}
+.btn-vs:hover{background:#0066aa;}
+.btn-prev{background:#c026d3;}
+.btn-prev:hover{background:#a21caf;}
+.code-pane{
+  padding:16px 18px;
+  color:#e2e8f0;
+  font-family:'Courier New',monospace;
+  font-size:.8rem;
+  line-height:1.62;
+  overflow-x:auto;
+  white-space:pre;
+  max-height:420px;
+}
+
+/* ---------- DEMO VISUAL ---------- */
+.demo-triplo{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:12px;
+  margin:16px 0;
+  align-items:start;
+}
+.demo-triplo .col-dev{text-align:center;}
+.demo-triplo .col-dev .titulo-dev{
+  font-size:.76rem;
+  font-weight:800;
+  color:#475569;
+  text-transform:uppercase;
+  letter-spacing:.4px;
+  margin-bottom:6px;
+}
+.tela-mock{
+  background:#fff;
+  border:2px solid var(--border-dark);
+  border-radius:10px;
+  overflow:hidden;
+  position:relative;
+  margin:0 auto;
+}
+.tela-mock .barra-mock{
+  background:#111827;
+  color:#93c5fd;
+  font-size:.62rem;
+  padding:4px 8px;
+  font-family:monospace;
+  text-align:left;
+}
+.tela-mock .conteudo-mock{padding:6px;}
+.tela-mock.desktop{width:100%;height:210px;}
+.tela-mock.tablet{width:74%;height:210px;}
+.tela-mock.celular{width:46%;height:210px;}
+
+.layout-exemplo{display:grid;gap:4px;height:100%;}
+.layout-exemplo .lh{background:#2563eb;color:#fff;padding:6px 8px;font-size:.6rem;border-radius:4px;text-align:center;font-weight:700;}
+.layout-exemplo .lmenu{background:#93c5fd;padding:6px 8px;font-size:.6rem;border-radius:4px;text-align:center;color:#0f172a;font-weight:700;}
+.layout-exemplo .lmain{background:#e0e7ff;padding:6px 8px;font-size:.6rem;border-radius:4px;text-align:center;color:#1e3a8a;font-weight:700;min-height:50px;}
+.layout-exemplo .lfoot{background:#334155;color:#fff;padding:6px 8px;font-size:.6rem;border-radius:4px;text-align:center;font-weight:700;}
+
+@media (max-width:760px){
+  .demo-triplo{grid-template-columns:1fr;}
+  .tela-mock.desktop,.tela-mock.tablet,.tela-mock.celular{width:100%;height:auto;min-height:140px;}
+}
+
+/* ---------- LABORATÓRIO INTERATIVO ---------- */
+.lab{
+  display:grid;
+  grid-template-columns:280px 1fr;
+  gap:16px;
+  margin:16px 0;
+  background:#f8fafc;
+  border:2px solid var(--border-light);
+  border-radius:12px;
+  padding:16px;
+}
+@media (max-width:820px){ .lab{grid-template-columns:1fr;} }
+.lab-controles label{
+  display:block;
+  font-size:.78rem;
+  font-weight:700;
+  color:#334155;
+  margin-bottom:4px;
+  margin-top:10px;
+}
+.lab-controles select,
+.lab-controles input[type="range"]{
+  width:100%;
+  font-family:inherit;
+  font-size:.82rem;
+  padding:6px 8px;
+  border:1px solid var(--border-light);
+  border-radius:6px;
+  background:#fff;
+}
+.lab-controles input[type="range"]{padding:0;height:26px;}
+.lab-controles .valor{
+  display:inline-block;
+  background:#2563eb;
+  color:#fff;
+  font-size:.7rem;
+  padding:1px 8px;
+  border-radius:10px;
+  margin-left:6px;
+  font-family:monospace;
+}
+.lab-palco{
+  background:#fff;
+  border:2px dashed #94a3b8;
+  border-radius:8px;
+  padding:10px;
+  min-height:220px;
+  overflow:auto;
+  display:flex;
+  align-items:stretch;
+}
+.lab-palco .alvo{
+  display:grid;
+  gap:8px;
+  width:100%;
+  transition:var(--trans);
+}
+.lab-palco .alvo .item{
+  background:var(--grid-soft);
+  border:2px solid var(--grid-border);
+  border-radius:6px;
+  padding:12px;
+  font-size:.8rem;
+  font-weight:700;
+  color:#1e3a8a;
+  text-align:center;
+  min-height:44px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.lab-palco.flex .alvo{display:flex;}
+.lab-codigo{
+  margin-top:12px;
+  background:#0b1220;
+  color:#93c5fd;
+  padding:10px 12px;
+  border-radius:6px;
+  font-family:monospace;
+  font-size:.76rem;
+  line-height:1.55;
+  white-space:pre-wrap;
+  overflow-x:auto;
+}
+
+/* ---------- LABORATÓRIO DE ALINHAMENTO GRID ---------- */
+.lab-alin{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:14px;
+  margin:16px 0;
+  background:#f8fafc;
+  border:2px solid var(--border-light);
+  border-radius:12px;
+  padding:16px;
+}
+.lab-alin .controles-alin{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:10px;
+}
+.lab-alin .controles-alin label{
+  display:block;
+  font-size:.76rem;
+  font-weight:800;
+  color:#1d4ed8;
+  margin-bottom:4px;
+  font-family:monospace;
+}
+.lab-alin .controles-alin select{
+  width:100%;
+  font-family:inherit;
+  font-size:.8rem;
+  padding:6px 8px;
+  border:1px solid var(--border-light);
+  border-radius:6px;
+  background:#fff;
+}
+.lab-alin .palco-alin{
+  background:#fff;
+  border:2px dashed #94a3b8;
+  border-radius:8px;
+  padding:14px;
+  min-height:260px;
+  display:grid;
+  overflow:auto;
+}
+.lab-alin .palco-alin .alvo-alin{
+  display:grid;
+  grid-template-columns:repeat(3, 90px);
+  grid-template-rows:repeat(2, 90px);
+  gap:8px;
+  background:#e0e7ff;
+  padding:8px;
+  border-radius:6px;
+  transition:var(--trans);
+  min-height:100%;
+  min-width:100%;
+}
+.lab-alin .palco-alin .alvo-alin .cx{
+  background:#2563eb;
+  color:#fff;
+  border-radius:6px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:800;
+  font-size:.95rem;
+  width:90px;
+  height:90px;
+  transition:var(--trans);
+}
+.lab-alin .legenda-alin{
+  font-size:.82rem;
+  color:#475569;
+  line-height:1.6;
+  background:#fff;
+  border-radius:6px;
+  padding:10px 12px;
+  border:1px solid var(--border-light);
+}
+.lab-alin .legenda-alin strong{color:#1d4ed8;}
+
+/* ---------- SELETOR DE DISPOSITIVO ---------- */
+.device-picker{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin:12px 0 10px;
+  justify-content:center;
+}
+.device-btn{
+  background:#fff;
+  border:2px solid var(--border-light);
+  color:#334155;
+  padding:8px 18px;
+  border-radius:30px;
+  cursor:pointer;
+  font-family:inherit;
+  font-size:.82rem;
+  font-weight:700;
+  transition:var(--trans);
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+}
+.device-btn:hover{border-color:var(--grid);color:#1d4ed8;}
+.device-btn.ativo{
+  background:linear-gradient(135deg,#2563eb,#ea580c);
+  border-color:transparent;
+  color:#fff;
+  box-shadow:0 4px 12px rgba(37,99,235,.35);
+}
+.device-stage{
+  background:#0b1220;
+  border:2px solid var(--border-dark);
+  border-radius:12px;
+  padding:16px;
+  display:flex;
+  justify-content:center;
+  overflow:auto;
+  transition:var(--trans);
+}
+.device-frame{
+  background:#fff;
+  border-radius:10px;
+  overflow:hidden;
+  box-shadow:0 10px 30px rgba(0,0,0,.35);
+  transition:width .3s ease, height .3s ease;
+  display:flex;
+  flex-direction:column;
+  width:100%;
+  height:520px;
+}
+.device-frame .device-bar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:6px 12px;
+  background:#111827;
+  color:#93c5fd;
+  font-family:monospace;
+  font-size:.72rem;
+  border-bottom:1px solid #1e293b;
+  flex-shrink:0;
+}
+.device-frame .device-viewport{
+  flex:1;
+  overflow:hidden;
+  background:#fff;
+}
+.device-frame iframe{
+  width:100%;
+  height:100%;
+  border:0;
+  display:block;
+}
+.device-info{
+  text-align:center;
+  margin-top:10px;
+  font-size:.78rem;
+  color:#64748b;
+  font-family:monospace;
+}
+
+/* ---------- MISSÕES ---------- */
+.missao{
+  border-radius:12px;
+  padding:20px 18px 18px;
+  margin-bottom:16px;
+  background:#f8fafc;
+  border:2px solid var(--border-light);
+  position:relative;
+}
+.missao::before{
+  content:attr(data-nivel);
+  position:absolute;
+  top:-12px;
+  left:16px;
+  background:var(--nivel-color,#2563eb);
+  color:#fff;
+  padding:4px 14px;
+  border-radius:16px;
+  font-size:.68rem;
+  font-weight:900;
+  letter-spacing:.4px;
+}
+.missao[data-num="1"]{--nivel-color:#0ea5e9;}
+.missao[data-num="2"]{--nivel-color:#16a34a;}
+.missao[data-num="3"]{--nivel-color:#ea580c;}
+.missao[data-num="4"]{--nivel-color:#7c3aed;}
+.missao[data-num="5"]{--nivel-color:#0891b2;}
+.missao h3{margin-top:8px;border:0;padding:0;font-size:1.04rem;}
+.missao h4{margin-top:12px;font-size:.9rem;color:#0f172a;}
+.missao p{font-size:.92rem;}
+
+.missao .fazer{
+  background:#fff;
+  border:1px solid var(--border-light);
+  border-radius:8px;
+  padding:12px 14px;
+  margin:10px 0;
+}
+.missao .fazer h5{
+  font-size:.82rem;
+  text-transform:uppercase;
+  color:#475569;
+  margin:0 0 8px;
+  letter-spacing:.5px;
+  font-weight:800;
+}
+.missao .fazer ol{margin:0 0 0 20px;font-size:.9rem;line-height:1.7;}
+
+.missao .validar{
+  background:#f0fdf4;
+  border-left:4px solid var(--ok);
+  border-radius:6px;
+  padding:10px 14px;
+  margin:10px 0;
+  font-size:.88rem;
+  color:#14532d;
+}
+.missao .validar h5{
+  margin:0 0 6px;
+  font-size:.82rem;
+  color:#166534;
+  text-transform:uppercase;
+  letter-spacing:.5px;
+}
+.missao .validar ul{margin:0 0 0 20px;line-height:1.6;}
+
+.missao details.dica{
+  margin:10px 0;
+  background:#fffbeb;
+  border-left:4px solid var(--warn);
+  border-radius:6px;
+  padding:10px 14px;
+  font-size:.87rem;
+  color:#78350f;
+}
+.missao details.dica summary{
+  cursor:pointer;
+  font-weight:800;
+  color:#92400e;
+  font-size:.85rem;
+  list-style:none;
+}
+.missao details.dica summary::-webkit-details-marker{display:none;}
+.missao details.dica summary::before{content:'💡 '; }
+.missao details.dica[open] summary{margin-bottom:6px;}
+.missao details.dica p{margin:6px 0;color:#78350f;font-size:.87rem;}
+.missao details.dica code{background:#fff;border:1px solid #fcd34d;color:#78350f;}
+
+.prog-missoes{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+  background:#111827;
+  color:#fff;
+  padding:10px 16px;
+  border-radius:10px;
+  margin-bottom:14px;
+  font-size:.85rem;
+}
+.prog-missoes strong{color:#fed7aa;}
+.prog-missoes .barra{flex:1;min-width:100px;height:8px;background:#334155;border-radius:5px;overflow:hidden;}
+.prog-missoes .barra span{display:block;height:100%;width:0;background:linear-gradient(90deg,#93c5fd,#fed7aa);transition:width .3s;}
+
+/* ---------- QUIZ ---------- */
+.quiz-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:14px;
+  flex-wrap:wrap;
+  background:#111827;
+  color:#fff;
+  padding:12px 18px;
+  border-radius:11px;
+  margin-bottom:16px;
+}
+.quiz-header .progresso-texto{font-size:.88rem;}
+.barra-quiz{flex:1;min-width:120px;height:9px;background:#334155;border-radius:5px;overflow:hidden;}
+.barra-quiz-preenchimento{height:100%;width:0%;background:linear-gradient(90deg,#93c5fd,#fed7aa);transition:width .3s;}
+.question{
+  background:#f8fafc;
+  border-radius:11px;
+  padding:16px 18px;
+  margin-bottom:14px;
+  border-left:4px solid var(--grid);
+  border-top:1px solid var(--border-light);
+  border-right:1px solid var(--border-light);
+  border-bottom:1px solid var(--border-light);
+}
+.question-header{
+  font-weight:700;
+  color:#0f172a;
+  margin-bottom:10px;
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  font-size:.93rem;
+  line-height:1.5;
+}
+.question-number{
+  background:var(--grid);
+  color:#fff;
+  width:24px;
+  height:24px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:12px;
+  font-weight:bold;
+  flex-shrink:0;
+  margin-top:2px;
+}
+.options{display:flex;flex-direction:column;gap:7px;}
+.option{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  padding:9px 13px;
+  background:#fff;
+  border-radius:7px;
+  border:2px solid var(--border-light);
+  cursor:pointer;
+  transition:var(--trans);
+  font-size:.87rem;
+  color:#334155;
+}
+.option:hover:not(.disabled){border-color:var(--grid);background:#eff6ff;transform:translateX(2px);}
+.option.correct{border-color:var(--ok)!important;background:var(--ok-soft)!important;}
+.option.wrong{border-color:var(--no)!important;background:var(--no-soft)!important;}
+.option.disabled{cursor:default;opacity:.94;}
+.feedback-imediato{display:none;margin-top:10px;padding:10px 14px;border-radius:7px;font-size:.85rem;line-height:1.55;}
+.feedback-imediato.mostrar{display:block;}
+.feedback-imediato.ok{background:var(--ok-soft);color:#14532d;border-left:4px solid var(--ok);}
+.feedback-imediato.no{background:var(--no-soft);color:#881337;border-left:4px solid var(--no);}
+.results{background:#fff;border:2px solid var(--accent);border-radius:11px;padding:16px 20px;margin-top:16px;display:none;}
+.results.mostrar{display:block;}
+
+/* ---------- BOTÕES ---------- */
+.btn-grupo{display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap;}
+.btn{
+  background:linear-gradient(135deg,var(--grid),var(--flex));
+  color:#fff;
+  border:none;
+  padding:10px 22px;
+  border-radius:30px;
+  cursor:pointer;
+  font-size:.88rem;
+  font-weight:700;
+  transition:var(--trans);
+  font-family:inherit;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+}
+.btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 6px 16px rgba(37,99,235,.38);}
+.btn:disabled{opacity:.5;cursor:not-allowed;}
+.btn-sec{background:#64748b;}
+.btn-sec:hover:not(:disabled){box-shadow:0 6px 16px rgba(100,116,139,.4);}
+
+/* ---------- CHECKLIST ---------- */
+.check-item{
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+  padding:12px 15px;
+  background:#f8fafc;
+  border:2px solid var(--border-light);
+  border-radius:9px;
+  margin-bottom:9px;
+  cursor:pointer;
+  transition:var(--trans);
+  user-select:none;
+}
+.check-item:hover{background:#f1f5f9;border-color:#cbd5e1;}
+.check-item.marcado{background:#f0fdf4;border-color:var(--ok);}
+.check-item .check-box{
+  flex-shrink:0;
+  width:22px;
+  height:22px;
+  border:2px solid #94a3b8;
+  border-radius:6px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:.85rem;
+  color:transparent;
+  font-weight:900;
+  margin-top:1px;
+}
+.check-item.marcado .check-box{background:var(--ok);border-color:var(--ok);color:#fff;}
+.check-item .check-texto{flex:1;font-size:.9rem;color:#334155;line-height:1.5;}
+.check-item.marcado .check-texto{color:#14532d;}
+.progresso-check{
+  background:#111827;
+  color:#fff;
+  padding:13px 18px;
+  border-radius:11px;
+  margin-bottom:16px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.progresso-check strong{color:#fed7aa;font-size:1.05rem;}
+.progresso-check .barra{flex:1;min-width:120px;height:9px;background:#334155;border-radius:5px;overflow:hidden;}
+.progresso-check .barra span{display:block;height:100%;width:0%;background:linear-gradient(90deg,#93c5fd,#fed7aa);transition:width .3s;}
+
+/* ---------- TOAST + TOPO ---------- */
+.toast{
+  position:fixed;
+  bottom:22px;
+  right:22px;
+  background:#2563eb;
+  color:#fff;
+  padding:11px 18px;
+  border-radius:9px;
+  font-weight:bold;
+  font-size:.83rem;
+  box-shadow:0 10px 24px rgba(0,0,0,.32);
+  display:none;
+  z-index:9999;
+  max-width:320px;
+  line-height:1.5;
+}
+.toast.show{display:block;animation:slideUp .28s ease;}
+@keyframes slideUp{from{transform:translateY(16px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+.btn-top{
+  position:fixed;
+  bottom:18px;
+  left:18px;
+  background:var(--grid);
+  color:#fff;
+  border:none;
+  padding:9px 16px;
+  border-radius:50px;
+  cursor:pointer;
+  font-size:12px;
+  font-weight:700;
+  box-shadow:0 4px 14px rgba(0,0,0,.28);
+  z-index:100;
+}
+
+/* ---------- DESAFIO FINAL (níveis) ---------- */
+.desafio-final{
+  background:linear-gradient(135deg,#1e3a8a 0%,#7c2d12 100%);
+  color:#fff;
+  border-radius:12px;
+  padding:22px 24px;
+  margin-top:16px;
+}
+.desafio-final h3{color:#fed7aa;border-bottom:2px solid #fbbf24;padding-bottom:8px;margin-top:0;}
+.desafio-final ul{color:#dbeafe;}
+.desafio-final code{background:rgba(255,255,255,.18);color:#fff;border-color:rgba(255,255,255,.32);}
+
+.entrega-nivel{
+  background:#f8fafc;
+  border-radius:11px;
+  padding:16px 18px;
+  margin-bottom:14px;
+  border:2px solid var(--border-light);
+  position:relative;
+}
+.entrega-nivel::before{
+  content:attr(data-nivel);
+  position:absolute;
+  top:-12px;
+  left:16px;
+  padding:4px 14px;
+  border-radius:16px;
+  font-size:.68rem;
+  font-weight:900;
+  letter-spacing:.4px;
+  color:#fff;
+}
+.entrega-nivel.bronze{border-color:#b45309;}
+.entrega-nivel.bronze::before{background:#b45309;}
+.entrega-nivel.prata{border-color:#64748b;}
+.entrega-nivel.prata::before{background:#64748b;}
+.entrega-nivel.ouro{border-color:#ca8a04;}
+.entrega-nivel.ouro::before{background:#ca8a04;}
+.entrega-nivel h4{font-size:1rem;margin-top:6px;}
+.entrega-nivel ul{margin:8px 0 8px 20px;font-size:.9rem;line-height:1.7;color:#334155;}
+.entrega-nivel p{font-size:.9rem;color:#334155;margin-bottom:8px;}
+.entrega-nivel p:last-child{margin-bottom:0;}
+
+/* ---------- PREVIEW ---------- */
+.preview-inline{
+  margin:12px 0;
+  border:1px solid var(--border-dark);
+  border-radius:10px;
+  overflow:hidden;
+  background:#0b1220;
+}
+.preview-inline .preview-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:7px 12px;
+  background:#111827;
+  border-bottom:1px solid #1e293b;
+  color:#93c5fd;
+  font-size:.75rem;
+  font-weight:700;
+  font-family:monospace;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.preview-inline .preview-close{
+  background:transparent;
+  border:1px solid #334155;
+  color:#f87171;
+  padding:2px 9px;
+  border-radius:5px;
+  cursor:pointer;
+  font-size:.7rem;
+  font-weight:700;
+  font-family:inherit;
+}
+.preview-inline iframe{width:100%;height:380px;border:none;background:#fff;display:block;}
+
+/* ---------- VSCode SECTION ---------- */
+.vscode-card{
+  background:#eff6ff;
+  border:2px solid #93c5fd;
+  border-radius:12px;
+  padding:18px 20px;
+  margin:16px 0;
+}
+.vscode-card h4{
+  color:#1e40af;
+  margin:0 0 10px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:.96rem;
+}
+.vscode-card ol{color:#1e3a8a;font-size:.9rem;margin:8px 0 8px 22px;line-height:1.8;}
+.vscode-card code{background:#fff;color:#1e40af;border-color:#bfdbfe;}
+
+.estrutura-pasta{
+  background:#0b1220;
+  color:#e2e8f0;
+  padding:16px 18px;
+  border-radius:10px;
+  font-family:'Courier New',monospace;
+  font-size:.82rem;
+  line-height:1.7;
+  white-space:pre;
+  overflow-x:auto;
+  margin:12px 0;
+}
+.estrutura-pasta .pasta{color:#fbbf24;font-weight:700;}
+.estrutura-pasta .arq{color:#93c5fd;}
+.estrutura-pasta .com{color:#64748b;font-style:italic;}
+
+/* ---------- RESPONSIVO ---------- */
+@media (max-width:768px){
+  .card{padding:16px 13px;}
+  .header{padding:24px 14px;}
+  .tab-btn{padding:9px 12px;font-size:.74rem;}
+  .code-pane{font-size:.74rem;padding:12px;}
+  .header h1{gap:6px;}
+  .device-frame{height:420px;}
+  .missao{padding:18px 14px 14px;}
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header class="header">
+    <h1>🧩 TEMA <span>08</span> • Layout Responsivo, Grid e Flexbox</h1>
+    <p>Você vai construir páginas que se adaptam a telas diferentes usando CSS Grid (para organizar a estrutura) e Flexbox (para distribuir elementos em grupos). Experimente, modifique, teste.</p>
+    <div class="badge-group">
+      <span class="badge">🖥 Responsivo</span>
+      <span class="badge">🔵 Grid</span>
+      <span class="badge">🟠 Flexbox</span>
+      <span class="badge">🎯 Missões curtas</span>
+      <span class="badge">🧪 Preview multi-device</span>
+      <span class="badge">✅ Quiz com feedback</span>
+      <span class="badge">💾 Progresso salvo</span>
+    </div>
+  </header>
+
+  <nav class="tabs-nav" role="tablist" aria-label="Navegação do tema 08">
+    <button type="button" class="tab-btn" role="tab" aria-selected="false" data-aba="aba-01">🖥 1. Por que responsivo?</button>
+    <button type="button" class="tab-btn" role="tab" aria-selected="false" data-aba="aba-02">🧱 2. Preparação</button>
+    <button type="button" class="tab-btn" role="tab" aria-selected="false" data-aba="aba-03">🔵 3. CSS Grid</button>
+    <button type="button" class="tab-btn" role="tab" aria-selected="false" data-aba="aba-04">🧪 4. Missões Grid</button>
+    <button type="button" class="tab-btn" role="tab" aria-selected="false" data-aba="aba-05">🟠 5. Flexbox</button>
+    <button type="button" class="tab-btn" role="tab" aria-selected="false" data-aba="aba-06">🛠 6. Missões Flexbox</button>
+    <button type="button" class="tab-btn" role="tab" aria-selected="false" data-aba="aba-07">📐 7. Responsividade (@media)</button>
+    <button type="button" class="tab-btn active" role="tab" aria-selected="true" data-aba="aba-08">🎯 8. Consolidação</button>
+    <button type="button" class="tab-btn" role="tab" aria-selected="false" data-aba="aba-09">🚀 9. Desafio final</button>
+  </nav>
+
+  <!-- ========== ABA 1 ========== -->
+  <div id="aba-01" class="tab-content" role="tabpanel">
+    <section class="card">
+      <h2>🖥 Por que os sites precisam se adaptar?</h2>
+      <p>O mesmo site é acessado por telas muito diferentes. Um layout fixo funcionaria para um único tamanho — e ficaria ruim em todos os outros. Um layout <strong>responsivo</strong> reorganiza elementos conforme o espaço disponível.</p>
+
+      <h3>O mesmo html, três telas</h3>
+      <p>Veja abaixo a mesma estrutura de página em três larguras. O conteúdo é idêntico; só o tamanho muda.</p>
+
+      <div class="demo-triplo">
+        <div class="col-dev">
+          <div class="titulo-dev">🖥 Computador</div>
+          <div class="tela-mock desktop">
+            <div class="barra-mock">1024px</div>
+            <div class="conteudo-mock">
+              <div class="layout-exemplo" style="grid-template-columns:120px 1fr;grid-template-rows:auto 1fr auto;">
+                <div class="lh" style="grid-column:1 / -1;">Cabeçalho</div>
+                <div class="lmenu">Menu</div>
+                <div class="lmain">Conteúdo principal</div>
+                <div class="lfoot" style="grid-column:1 / -1;">Rodapé</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-dev">
+          <div class="titulo-dev">📱 Tablet</div>
+          <div class="tela-mock tablet">
+            <div class="barra-mock">720px</div>
+            <div class="conteudo-mock">
+              <div class="layout-exemplo" style="grid-template-columns:1fr;grid-template-rows:auto auto 1fr auto;">
+                <div class="lh">Cabeçalho</div>
+                <div class="lmenu">Menu</div>
+                <div class="lmain">Conteúdo principal</div>
+                <div class="lfoot">Rodapé</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-dev">
+          <div class="titulo-dev">📱 Celular</div>
+          <div class="tela-mock celular">
+            <div class="barra-mock">360px</div>
+            <div class="conteudo-mock">
+              <div class="layout-exemplo" style="grid-template-columns:1fr;grid-template-rows:auto auto 1fr auto;">
+                <div class="lh">Cabeçalho</div>
+                <div class="lmenu">Menu</div>
+                <div class="lmain">Conteúdo</div>
+                <div class="lfoot">Rodapé</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hl blue">
+        <strong>📌 Analogia:</strong> um layout responsivo é como um móvel modulável. A estrutura (o que existe) é a mesma; a organização (como as peças se encaixam) muda conforme o espaço.
+      </div>
+
+      <h3>O que é layout</h3>
+      <p><strong>Layout</strong> é a forma como os elementos se organizam na tela: o que fica à esquerda, à direita, acima ou abaixo, qual área é maior, quais elementos formam um grupo.</p>
+
+      <h3>Benefícios de um layout responsivo</h3>
+      <table class="tabela">
+        <thead><tr><th>Benefício</th><th>Por que importa</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Acessibilidade</strong></td><td>Funciona em celular, tablet, computador e leitores de tela.</td></tr>
+          <tr><td><strong>Experiência do usuário</strong></td><td>Sem zoom, sem rolagem horizontal, textos legíveis.</td></tr>
+          <tr><td><strong>Manutenção</strong></td><td>Um único código CSS atende vários dispositivos.</td></tr>
+          <tr><td><strong>SEO</strong></td><td>Buscadores priorizam páginas responsivas.</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Critérios de otimização de layout</h3>
+      <ul>
+        <li><strong>Sem rolagem horizontal</strong>: conteúdo cabe na largura da tela.</li>
+        <li><strong>Legibilidade</strong>: fontes e espaçamentos confortáveis em todas as larguras.</li>
+        <li><strong>Hierarquia preservada</strong>: o que é importante continua visível e destacado.</li>
+        <li><strong>Alvos de toque</strong>: botões e links grandes o suficiente no celular (recomendado ≥ 44px).</li>
+        <li><strong>Sem conteúdo cortado</strong>: tabelas, imagens e formulários se ajustam.</li>
+      </ul>
+
+      <h3>🧩 Atividade de identificação</h3>
+      <p>Abra um site qualquer no computador. Reduza a janela até ficar estreita (ou abra o DevTools e ative a visualização mobile). Anote:</p>
+      <ol>
+        <li>O menu horizontal continua na mesma linha ou virou um botão "☰"?</li>
+        <li>Os cartões continuam lado a lado ou empilharam?</li>
+        <li>Aparece rolagem horizontal?</li>
+        <li>Algum texto fica ilegível ou cortado?</li>
+      </ol>
+      <div class="hl amber">
+        <strong>⚠️ Não é sobre adivinhar:</strong> teste em pelo menos três larguras — por exemplo 1024px, 720px e 360px. É o mesmo exercício que faremos em todos os laboratórios deste material.
+      </div>
+    </section>
+  </div>
+
+  <!-- ========== ABA 2 ========== -->
+  <div id="aba-02" class="tab-content" role="tabpanel">
+    <section class="card">
+      <h2>🧱 Preparação: o que já sabemos</h2>
+      <p>Antes de aprender Grid e Flexbox, revise os conceitos que vão aparecer o tempo todo. Esta não é uma aula nova — é uma checagem rápida.</p>
+
+      <h3>HTML como estrutura</h3>
+      <p>O HTML descreve <em>o que</em> existe na página (cabeçalho, menu, conteúdo, rodapé). O CSS descreve <em>como</em> isso se organiza visualmente. Grid e Flexbox são recursos de CSS — não alteram o HTML.</p>
+
+      <h3>Classes e seletores</h3>
+      <p>Classes permitem aplicar estilo a grupos de elementos. Veja o exemplo abaixo — repare que <code>.cartao</code> aplica o estilo base e <code>.cartao.destaque</code> sobrescreve algumas propriedades:</p>
+      <div class="code-wrapper">
+        <div class="code-header">
+          <span class="code-title">classes-e-seletores.html</span>
+          <div class="code-actions">
+            <button type="button" class="btn-copy" data-copiar="classes">📋 Copiar</button>
+            <button type="button" class="btn-oc" data-onecompiler="classes">▶ OneCompiler</button>
+            <button type="button" class="btn-prev" data-preview="classes">🧪 Preview</button>
+          </div>
+        </div>
+        <div class="code-pane" id="codigo-classes">&lt;!DOCTYPE html&gt;
+&lt;html lang="pt-BR"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Classes e Seletores&lt;/title&gt;
+  &lt;style&gt;
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .cartao {
+      background: #dbeafe;
+      border: 2px solid #2563eb;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+    .cartao.destaque {
+      background: #ffedd5;
+      border-color: #ea580c;
+      font-weight: 700;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class="cartao"&gt;Cartão normal&lt;/div&gt;
+  &lt;div class="cartao destaque"&gt;Cartão em destaque&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</div>
+      </div>
+      <div id="preview-classes"></div>
+
+      <h3>Box Model — revisão de 60 segundos</h3>
+      <p>Todo elemento é uma caixa com quatro áreas: conteúdo, padding, border e margin. A regra que mais importa aqui:</p>
+      <div class="hl violet">
+        <strong>Regra de ouro:</strong> sempre adicione <code>* { box-sizing: border-box; }</code> no início do CSS. Assim, <code>width</code> e <code>padding</code> trabalham juntos sem estourar o layout — fundamental quando lidamos com Grid e Flexbox.
+      </div>
+
+      <h3>Unidades que vamos usar</h3>
+      <table class="tabela">
+        <thead><tr><th>Unidade</th><th>O que significa</th><th>Quando usar</th></tr></thead>
+        <tbody>
+          <tr><td><code>px</code></td><td>Pixel — valor fixo</td><td>Bordas, tamanhos base, espaçamentos pequenos</td></tr>
+          <tr><td><code>%</code></td><td>Porcentagem do elemento pai</td><td>Larguras relativas</td></tr>
+          <tr><td><code>rem</code></td><td>Múltiplo da fonte raiz (padrão 16px)</td><td>Fontes e espaçamentos escaláveis</td></tr>
+          <tr><td><code>fr</code></td><td>Fração do espaço — <strong>exclusivo do Grid</strong></td><td>Dimensionar colunas e linhas em Grid</td></tr>
+          <tr><td><code>vh</code> / <code>vw</code></td><td>1% da altura / largura da viewport</td><td>Seções em tela cheia</td></tr>
+        </tbody>
+      </table>
+
+      <h3>🧪 Diagnóstico rápido</h3>
+      <p>Responda mentalmente antes de olhar a aba 3:</p>
+      <ol>
+        <li>Para que serve <code>display: block</code> vs. <code>display: inline</code>?</li>
+        <li>O que <code>margin: 0 auto</code> faz com um elemento de largura fixa?</li>
+        <li>Por que <code>* { box-sizing: border-box; }</code> evita problemas?</li>
+      </ol>
+      <p>Se você travou em alguma, não tem problema — esses conceitos vão aparecer de novo em exemplos práticos, sempre que fizer sentido.</p>
+    </section>
+  </div>
+
+  <!-- ========== ABA 3 ========== -->
+  <div id="aba-03" class="tab-content" role="tabpanel">
+    <section class="card">
+      <h2>🔵 CSS Grid: organizar a estrutura</h2>
+      <p>Grid divide o espaço em linhas e colunas como uma planilha. Você declara <em>quantas colunas</em> e <em>quais proporções</em>, e posiciona os itens nessas células.</p>
+
+      <h3>Grid container e grid items</h3>
+      <p>Você aplica <code>display: grid</code> no <strong>container</strong>. Os filhos diretos tornam-se <strong>grid items</strong> automaticamente.</p>
+
+      <div class="lab">
+        <div class="lab-controles">
+          <label for="sel-cols-g">grid-template-columns <span class="valor" id="val-cols-g">1fr 1fr</span></label>
+          <select id="sel-cols-g">
+            <option value="1fr 1fr">1fr 1fr (duas colunas iguais)</option>
+            <option value="1fr 1fr 1fr">1fr 1fr 1fr (três colunas)</option>
+            <option value="1fr 2fr">1fr 2fr (a 2ª o dobro)</option>
+            <option value="200px 1fr">200px 1fr (fixa + flexível)</option>
+            <option value="repeat(3, 1fr)">repeat(3, 1fr)</option>
+            <option value="1fr">1fr (uma coluna)</option>
+          </select>
+
+          <label for="sel-gap-g">gap <span class="valor" id="val-gap-g">8px</span></label>
+          <input type="range" id="sel-gap-g" min="0" max="32" value="8" step="4">
+        </div>
+        <div class="lab-palco">
+          <div class="alvo" id="alvo-grid" style="grid-template-columns:1fr 1fr;gap:8px;">
+            <div class="item">1</div>
+            <div class="item">2</div>
+            <div class="item">3</div>
+            <div class="item">4</div>
+            <div class="item">5</div>
+            <div class="item">6</div>
+          </div>
+        </div>
+      </div>
+      <div class="lab-codigo" id="codigo-grid-gerado">.container { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }</div>
+
+      <h3>O que grid-template-columns faz</h3>
+      <p>Define quantas colunas o grid tem e a largura de cada uma. <code>1fr 1fr</code> = duas colunas que dividem o espaço igualmente.</p>
+      <ul>
+        <li><code>1fr 2fr</code> → a segunda coluna tem o dobro do tamanho.</li>
+        <li><code>200px 1fr</code> → primeira fixa em 200px, segunda ocupa o restante.</li>
+        <li><code>repeat(3, 1fr)</code> → três colunas iguais (atalho).</li>
+      </ul>
+
+      <h3>grid-template-rows</h3>
+      <p>O mesmo raciocínio para linhas. Em muitos casos a altura das linhas é automática (definida pelo conteúdo) — você só define <code>grid-template-rows</code> quando quer controlar alturas específicas.</p>
+      <ul>
+        <li><code>auto 1fr auto</code> → cabeçalho e rodapé com altura do conteúdo, meio ocupando o resto (layout clássico de página).</li>
+        <li><code>repeat(2, 100px)</code> → duas linhas de 100px.</li>
+      </ul>
+
+      <h3>A unidade fr</h3>
+      <div class="hl blue">
+        <strong>fr = fração.</strong> O espaço disponível é dividido em frações. Com <code>grid-template-columns: 1fr 2fr 1fr</code>, a soma é 4fr: a primeira ocupa 1/4, a segunda 2/4, a terceira 1/4.
+      </div>
+
+      <h3>gap, row-gap, column-gap</h3>
+      <p>Criam espaçamento <strong>entre</strong> os itens (não em volta do container).</p>
+      <ul>
+        <li><code>gap: 16px</code> → o mesmo espaçamento entre linhas e colunas.</li>
+        <li><code>gap: 8px 24px</code> → 8px entre linhas, 24px entre colunas.</li>
+      </ul>
+
+      <h3>grid-template-areas</h3>
+      <p>Você "desenha" o layout usando nomes. Cada string é uma linha; cada palavra é uma coluna. Áreas com o mesmo nome ocupam mais de uma célula.</p>
+      <div class="code-wrapper">
+        <div class="code-header">
+          <span class="code-title">areas.html</span>
+          <div class="code-actions">
+            <button type="button" class="btn-copy" data-copiar="areas">📋 Copiar</button>
+            <button type="button" class="btn-oc" data-onecompiler="areas">▶ OneCompiler</button>
+            <button type="button" class="btn-prev" data-preview="areas">🧪 Preview</button>
+          </div>
+        </div>
+        <div class="code-pane" id="codigo-areas">&lt;!DOCTYPE html&gt;
+&lt;html lang="pt-BR"&gt;
+&lt;head&gt;
+&lt;meta charset="UTF-8"&gt;
+&lt;title&gt;Grid Template Areas&lt;/title&gt;
+&lt;style&gt;
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; padding: 16px; }
+  .pagina {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: 180px 1fr;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+      "cabecalho cabecalho"
+      "menu      conteudo"
+      "rodape    rodape";
+    min-height: 320px;
+  }
+  .cabecalho { grid-area: cabecalho; background: #1e3a8a; color: #fff; padding: 14px; border-radius: 8px; }
+  .menu      { grid-area: menu;      background: #93c5fd; padding: 14px; border-radius: 8px; }
+  .conteudo  { grid-area: conteudo;  background: #e0e7ff; padding: 14px; border-radius: 8px; }
+  .rodape    { grid-area: rodape;    background: #334155; color: #fff; padding: 14px; border-radius: 8px; }
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class="pagina"&gt;
+    &lt;header class="cabecalho"&gt;Cabeçalho&lt;/header&gt;
+    &lt;nav class="menu"&gt;Menu&lt;/nav&gt;
+    &lt;main class="conteudo"&gt;Conteúdo principal&lt;/main&gt;
+    &lt;footer class="rodape"&gt;Rodapé&lt;/footer&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</div>
+      </div>
+      <div id="preview-areas"></div>
+
+      <h3>Alinhamento: justify-items x align-items x justify-content x align-content</h3>
+      <p>Essas quatro propriedades são as que mais confundem — e a melhor forma de entender é <strong>mexer nelas ao vivo</strong>. Use os seletores abaixo e observe o que muda no palco:</p>
+
+      <div class="lab-alin">
+        <div class="controles-alin">
+          <div>
+            <label for="alin-ji">justify-items</label>
+            <select id="alin-ji">
+              <option value="stretch">stretch (padrão)</option>
+              <option value="start">start</option>
+              <option value="center">center</option>
+              <option value="end">end</option>
+            </select>
+          </div>
+          <div>
+            <label for="alin-ai">align-items</label>
+            <select id="alin-ai">
+              <option value="stretch">stretch (padrão)</option>
+              <option value="start">start</option>
+              <option value="center">center</option>
+              <option value="end">end</option>
+            </select>
+          </div>
+          <div>
+            <label for="alin-jc">justify-content</label>
+            <select id="alin-jc">
+              <option value="normal">normal (padrão)</option>
+              <option value="start">start</option>
+              <option value="center">center</option>
+              <option value="end">end</option>
+              <option value="space-between">space-between</option>
+              <option value="space-around">space-around</option>
+              <option value="space-evenly">space-evenly</option>
+            </select>
+          </div>
+          <div>
+            <label for="alin-ac">align-content</label>
+            <select id="alin-ac">
+              <option value="normal">normal (padrão)</option>
+              <option value="start">start</option>
+              <option value="center">center</option>
+              <option value="end">end</option>
+              <option value="space-between">space-between</option>
+              <option value="space-around">space-around</option>
+              <option value="space-evenly">space-evenly</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="palco-alin">
+          <div class="alvo-alin" id="alvo-alin" style="place-items: stretch; place-content: normal;">
+            <div class="cx">1</div>
+            <div class="cx">2</div>
+            <div class="cx">3</div>
+            <div class="cx">4</div>
+            <div class="cx">5</div>
+            <div class="cx">6</div>
+          </div>
+        </div>
+
+        <div class="lab-codigo" id="codigo-alin-gerado">.container { display: grid; grid-template-columns: repeat(3, 90px); gap: 8px; justify-items: stretch; align-items: stretch; justify-content: normal; align-content: normal; }</div>
+
+        <div class="legenda-alin">
+          <strong>O que observar:</strong>
+          <ul style="margin-top:6px;margin-bottom:0;">
+            <li><code>justify-items</code> / <code>align-items</code> mexem no <strong>conteúdo de cada célula</strong> (as caixas azuis).</li>
+            <li><code>justify-content</code> / <code>align-content</code> mexem no <strong>conjunto todo</strong> do grid <em>quando sobra espaço</em> no container.</li>
+            <li>Como o alvo tem <code>width</code> e <code>height</code> = 100%, o grid ocupa todo o palco — por isso <code>justify-content</code> e <code>align-content</code> não têm efeito visível agora. <strong>É exatamente a confusão do dia a dia:</strong> eles só funcionam quando o grid é menor que o container.</li>
+            <li>Para ver <code>justify-content</code> e <code>align-content</code> funcionando, imagine um grid com <code>width: 400px</code> dentro de um container de 900px — aí sobra espaço e as opções <code>center</code>, <code>end</code>, <code>space-between</code> passam a ter efeito.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="hl amber">
+        <strong>⚠️ Confusão comum:</strong> se você aplicou <code>justify-content: center</code> e "nada aconteceu", <strong>não é bug</strong> — é porque o grid já ocupa 100% da largura. As opções <code>*-content</code> só distribuem <em>espaço livre</em>. Sem espaço livre, não há o que distribuir. As opções <code>*-items</code> funcionam sempre, porque agem dentro de cada célula.
+      </div>
+
+      <p>Veja o efeito das quatro propriedades em um exemplo completo. O exemplo abaixo fixa o grid em <code>width: 400px</code> para que sobre espaço e você consiga ver <code>justify-content</code> e <code>align-content</code> agindo:</p>
+      <div class="code-wrapper">
+        <div class="code-header">
+          <span class="code-title">alinhamento-grid.html</span>
+          <div class="code-actions">
+            <button type="button" class="btn-copy" data-copiar="alinhamento">📋 Copiar</button>
+            <button type="button" class="btn-oc" data-onecompiler="alinhamento">▶ OneCompiler</button>
+            <button type="button" class="btn-prev" data-preview="alinhamento">🧪 Preview</button>
+          </div>
+        </div>
+        <div class="code-pane" id="codigo-alinhamento">&lt;!DOCTYPE html&gt;
+&lt;html lang="pt-BR"&gt;
+&lt;head&gt;
+&lt;meta charset="UTF-8"&gt;
+&lt;title&gt;Alinhamento no Grid&lt;/title&gt;
+&lt;style&gt;
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; padding: 20px; background: #f8fafc; }
+  h2 { color: #1e3a8a; margin-bottom: 6px; }
+  p.dica { color: #475569; margin-bottom: 16px; font-size: 14px; }
+
+  .container {
+    /* O container ocupa 100% da largura disponível */
+    width: 100%;
+    min-height: 320px;
+    background: #e0e7ff;
+    border: 2px dashed #94a3b8;
+    padding: 8px;
+    margin-bottom: 24px;
+
+    /* O grid tem 300px x 200px — MENOR que o container,
+       então sobra espaço para justify-content / align-content agirem */
+    display: grid;
+    grid-template-columns: repeat(3, 90px);
+    grid-template-rows: repeat(2, 90px);
+    gap: 6px;
+
+    /* As 4 propriedades mágicas */
+    justify-items: center;      /* conteúdo da célula no eixo horizontal */
+    align-items: center;        /* conteúdo da célula no eixo vertical   */
+    justify-content: center;    /* grid inteiro no eixo horizontal       */
+    align-content: center;      /* grid inteiro no eixo vertical         */
+  }
+  .cx {
+    width: 60px;
+    height: 60px;
+    background: #2563eb;
+    color: #fff;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+  }
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h2&gt;Alinhamento no Grid&lt;/h2&gt;
+  &lt;p class="dica"&gt;O container tem 100% de largura. O grid tem 3×90 = 270px de largura. Sobra espaço → justify-content: center funciona. Reduza a janela até o container ficar menor que o grid: justify-content para de ter efeito.&lt;/p&gt;
+
+  &lt;div class="container"&gt;
+    &lt;div class="cx"&gt;1&lt;/div&gt;
+    &lt;div class="cx"&gt;2&lt;/div&gt;
+    &lt;div class="cx"&gt;3&lt;/div&gt;
+    &lt;div class="cx"&gt;4&lt;/div&gt;
+    &lt;div class="cx"&gt;5&lt;/div&gt;
+    &lt;div class="cx"&gt;6&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;h2&gt;Mesmo grid, sem os alinhamentos&lt;/h2&gt;
+  &lt;p class="dica"&gt;Aqui só trocamos os valores para "start" — veja a diferença.&lt;/p&gt;
+  &lt;div class="container" style="justify-items: start; align-items: start; justify-content: start; align-content: start;"&gt;
+    &lt;div class="cx"&gt;1&lt;/div&gt;
+    &lt;div class="cx"&gt;2&lt;/div&gt;
+    &lt;div class="cx"&gt;3&lt;/div&gt;
+    &lt;div class="cx"&gt;4&lt;/div&gt;
+    &lt;div class="cx"&gt;5&lt;/div&gt;
+    &lt;div class="cx"&gt;6&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</div>
+      </div>
+      <div id="preview-alinhamento"></div>
+
+      <h3>💻 Rodando no VSCode</h3>
+      <div class="vscode-card">
+        <h4>📁 Estrutura da pasta do projeto</h4>
+        <div class="estrutura-pasta"><span class="pasta">meu-projeto-grid/</span>
+├── <span class="arq">index.html</span>       <span class="com">← estrutura da página</span>
+└── <span class="arq">estilo.css</span>       <span class="com">← regras de layout</span></div>
+        <h4>🛠 Passo a passo</h4>
+        <ol>
+          <li>Abra o VSCode. Instale a extensão <strong>Live Server</strong> (autor: Ritwick Dey).</li>
+          <li>Crie uma pasta <code>meu-projeto-grid</code> em qualquer lugar do computador.</li>
+          <li>Dentro dela, crie <code>index.html</code> e <code>estilo.css</code>.</li>
+          <li>No <code>index.html</code>, adicione <code>&lt;link rel="stylesheet" href="estilo.css"&gt;</code> dentro do <code>&lt;head&gt;</code>.</li>
+          <li>Clique com o botão direito no <code>index.html</code> e escolha <strong>Open with Live Server</strong>.</li>
+          <li>O navegador abre em <code>http://127.0.0.1:5500</code>. Cada vez que você salvar, a página recarrega sozinha.</li>
+        </ol>
+        <p style="font-size:.84rem;color:#1e3a8a;margin:8px 0 0;">Para testar responsividade: pressione <strong>F12</strong> → ícone de celular (Ctrl+Shift+M) → escolha 360 / 768 / 1024 / 1440.</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- ========== ABA 4 — MISSÕES GRID ========== -->
+  <div id="aba-04" class="tab-content" role="tabpanel">
+    <section class="card">
+      <h2>🧪 Missões Grid — do zero ao layout completo</h2>
+      <p>Cada missão é <strong>curta</strong> e ensina <strong>uma coisa por vez</strong>. Faça na ordem. Leva cerca de 5-10 minutos cada. Se travar, abra a dica.</p>
+
+      <div class="prog-missoes" id="prog-grid">
+        <span>Grid: <strong id="txt-prog-grid">0 de 5</strong></span>
+        <div class="barra"><span id="barra-prog-grid" style="width: 0%;"></span></div>
+      </div>
+
+      <div class="hl blue">
+        <strong>Como funciona:</strong> marque <em>Concluída ✓</em> só depois de <strong>ver o resultado na tela</strong>. O progresso fica salvo no navegador.
+      </div>
+
+      <!-- MISSÃO G1 -->
+      <div class="missao" data-nivel="MISSÃO G1 · 5 MIN" data-num="1" data-missao="g1">
+        <h3>Primeiro Grid: duas colunas iguais</h3>
+        <p>Objetivo: transformar uma lista vertical em uma grade de 2 colunas.</p>
+
+        <div class="fazer">
+          <h5>O que fazer</h5>
+          <ol>
+            <li>Crie <code>index.html</code> com uma <code>div class="grade"</code> contendo 4 <code>div class="caixa"</code>.</li>
+            <li>No CSS, aplique <code>display: grid</code> em <code>.grade</code>.</li>
+            <li>Adicione <code>grid-template-columns: 1fr 1fr</code>.</li>
+            <li>Adicione <code>gap: 12px</code>.</li>
+            <li>Dê a cada caixa um fundo colorido e um texto (1, 2, 3, 4).</li>
+          </ol>
+        </div>
+
+        <div class="validar">
+          <h5>Como saber que acertou</h5>
+          <ul>
+            <li>Aparecem <strong>2 caixas por linha</strong> e 2 linhas no total.</li>
+            <li>Há um espaço visível entre as caixas.</li>
+            <li>Se você inspecionar <code>.grade</code> no DevTools, vê <code>display: grid</code>.</li>
+          </ul>
+        </div>
+
+        <details class="dica">
+          <summary>Se travar, clique para abrir a dica</summary>
+          <p>O esqueleto mínimo é:</p>
+          <p><code>.grade { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }</code></p>
+          <p>Não esqueça: <code>display: grid</code> vai no <strong>pai</strong>, não nas caixas.</p>
+        </details>
+
+        <div class="btn-grupo">
+          <button type="button" class="btn btn-missao" data-missao="g1">Marcar como concluída</button>
+        </div>
+      </div>
+
+      <!-- MISSÃO G2 -->
+      <div class="missao" data-nivel="MISSÃO G2 · 5 MIN" data-num="2" data-missao="g2">
+        <h3>Mudar proporções: 1fr 2fr</h3>
+        <p>Objetivo: entender que a unidade <code>fr</code> distribui o espaço em frações.</p>
+
+        <div class="fazer">
+          <h5>O que fazer</h5>
+          <ol>
+            <li>Parta do código da missão G1.</li>
+            <li>Troque <code>grid-template-columns: 1fr 1fr</code> por <code>grid-template-columns: 1fr 2fr</code>.</li>
+            <li><strong>Antes de salvar</strong>, escreva no papel: o que deve acontecer com a 2ª coluna?</li>
+            <li>Salve e confira sua previsão.</li>
+          </ol>
+        </div>
+
+        <div class="validar">
+          <h5>Como saber que acertou</h5>
+          <ul>
+            <li>A 2ª coluna fica visivelmente <strong>mais larga</strong> que a 1ª.</li>
+            <li>Você consegue explicar que o espaço total é <code>3fr</code> (1 + 2).</li>
+          </ul>
+        </div>
+
+        <details class="dica">
+          <summary>Se travar</summary>
+          <p>Com <code>1fr 2fr</code>: a 1ª coluna ocupa 1/3 da largura; a 2ª ocupa 2/3.</p>
+        </details>
+
+        <div class="btn-grupo">
+          <button type="button" class="btn btn-missao" data-missao="g2">Marcar como concluída</button>
+        </div>
+      </div>
+
+      <!-- MISSÃO G3 -->
+      <div class="missao" data-nivel="MISSÃO G3 · 8 MIN" data-num="3" data-missao="g3">
+        <h3>Página com cabeçalho, conteúdo e rodapé</h3>
+        <p>Objetivo: usar Grid para montar a estrutura de uma página real (3 áreas).</p>
+
+        <div class="fazer">
+          <h5>O que fazer</h5>
+          <ol>
+            <li>HTML: uma <code>div class="pagina"</code> com 3 filhos: <code>header</code>, <code>main</code>, <code>footer</code>.</li>
+            <li>No CSS: <code>.pagina { display: grid; grid-template-rows: auto 1fr auto; gap: 12px; min-height: 100vh; }</code></li>
+            <li>Dê uma cor diferente para cada área (cabeçalho azul, conteúdo claro, rodapé escuro).</li>
+            <li>Coloque padding nas áreas para o texto respirar.</li>
+          </ol>
+        </div>
+
+        <div class="validar">
+          <h5>Como saber que acertou</h5>
+          <ul>
+            <li>O <code>main</code> ocupa <strong>toda a altura restante</strong> entre header e footer.</li>
+            <li>Ao reduzir o zoom ou a janela, a proporção se mantém.</li>
+            <li>Não há rolagem vertical desnecessária.</li>
+          </ul>
+        </div>
+
+        <details class="dica">
+          <summary>Se travar</summary>
+          <p>O <code>1fr</code> na linha do meio faz o <code>main</code> crescer para preencher o espaço restante. Se ele não crescer, verifique se o <code>.pagina</code> tem altura definida (o <code>min-height: 100vh</code> resolve).</p>
+        </details>
+
+        <div class="btn-grupo">
+          <button type="button" class="btn btn-missao" data-missao="g3">Marcar como concluída</button>
+        </div>
+      </div>
+
+      <!-- MISSÃO G4 -->
+      <div class="missao" data-nivel="MISSÃO G4 · 10 MIN" data-num="4" data-missao="g4">
+        <h3>Grade de cartões responsiva (3 → 2 → 1 coluna)</h3>
+        <p>Objetivo: combinar Grid com media queries para reorganizar cartões em telas diferentes.</p>
+
+        <div class="fazer">
+          <h5>O que fazer</h5>
+          <ol>
+            <li>HTML: uma <code>div class="grade"</code> com 6 <code>div class="cartao"</code> (título + texto curto).</li>
+            <li>Sem media query: <code>grid-template-columns: 1fr</code> (1 coluna — celular).</li>
+            <li>Adicione <code>@media (min-width: 600px) { .grade { grid-template-columns: 1fr 1fr; } }</code> (2 colunas).</li>
+            <li>Adicione <code>@media (min-width: 1000px) { .grade { grid-template-columns: repeat(3, 1fr); } }</code> (3 colunas).</li>
+            <li>Use <code>gap: 16px</code> e teste em 360, 768, 1024 e 1440px.</li>
+          </ol>
+        </div>
+
+        <div class="validar">
+          <h5>Como saber que acertou</h5>
+          <ul>
+            <li>Em 360px: <strong>1 cartão por linha</strong>.</li>
+            <li>Em 768px: <strong>2 cartões por linha</strong>.</li>
+            <li>Em 1024px: <strong>3 cartões por linha</strong>.</li>
+            <li>Nenhum cartão estoura a tela em nenhuma largura.</li>
+          </ul>
+        </div>
+
+        <details class="dica">
+          <summary>Se travar</summary>
+          <p>Ordem das media queries importa: comece pela menor largura (mobile-first) e vá <strong>adicionando</strong> as maiores. As regras da maior sobrescrevem as da menor quando a tela é maior.</p>
+          <p>Se quiser, use só uma linha e deixe o Grid fazer o trabalho:</p>
+          <p><code>grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));</code> — testa e compara com a versão com media queries.</p>
+        </details>
+
+        <div class="btn-grupo">
+          <button type="button" class="btn btn-missao" data-missao="g4">Marcar como concluída</button>
+        </div>
+      </div>
+
+      <!-- MISSÃO G5 -->
+      <div class="missao" data-nivel="MISSÃO G5 · 10 MIN" data-num="5" data-missao="g5">
+        <h3>Layout com áreas nomeadas (grid-template-areas)</h3>
+        <p>Objetivo: desenhar o layout como um mapa — muito mais legível que decorar posições.</p>
+
+        <div class="fazer">
+          <h5>O que fazer</h5>
+          <ol>
+            <li>HTML: <code>header</code>, <code>nav</code>, <code>main</code>, <code>aside</code>, <code>footer</code> dentro de <code>.pagina</code>.</li>
+            <li>No CSS, defina <code>grid-template-areas</code> assim:
+              <div class="estrutura-pasta" style="margin-top:8px;">"cab cab cab"
+"menu main lado"
+"pe   pe   pe"</div>
+            </li>
+            <li>Aplique <code>grid-area: cab;</code> no header, e assim por diante (<code>menu</code>, <code>main</code>, <code>lado</code>, <code>pe</code>).</li>
+            <li>Use <code>gap: 10px</code> e cores diferentes por área.</li>
+          </ol>
+        </div>
+
+        <div class="validar">
+          <h5>Como saber que acertou</h5>
+          <ul>
+            <li>O cabeçalho ocupa as <strong>3 colunas</strong> em cima.</li>
+            <li>Na linha do meio há 3 blocos: menu, conteúdo, lateral.</li>
+            <li>O rodapé ocupa as 3 colunas embaixo.</li>
+            <li>Você consegue ler o CSS e "ver" o layout.</li>
+          </ul>
+        </div>
+
+        <details class="dica">
+          <summary>Se travar</summary>
+          <p>Cada string dentro de <code>grid-template-areas</code> é uma linha. Cada palavra é uma coluna. Nomes repetidos fazem a área ocupar mais de uma célula.</p>
+          <p>Não esqueça: cada elemento filho precisa de <code>grid-area: nome</code> correspondente.</p>
+        </details>
+
+        <div class="btn-grupo">
+          <button type="button" class="btn btn-missao" data-missao="g5">Marcar como concluída</button>
+        </div>
+      </div>
+
+      <div class="hl green">
+        <strong>✅ Terminou as 5 missões?</strong> Você já sabe o essencial de Grid: colunas, frações, gaps, linhas, media queries e áreas nomeadas. Agora teste no Flexbox (aba 6) e depois volte para o desafio final.
+      </div>
+    </section>
+  </div>
+
+  <!-- ========== ABA 5 ========== -->
+  <div id="aba-05" class="tab-content" role="tabpanel">
+    <section class="card">
+      <h2>🟠 Flexbox: distribuir elementos em grupos</h2>
+      <p>Flexbox organiza itens em <strong>uma direção</strong> (linha ou coluna) e distribui o espaço entre eles. É ideal para menus, cartões lado a lado, grupos de botões.</p>
+
+      <h3>Flex container e flex items</h3>
+      <p><code>display: flex</code> no pai torna os filhos <strong>flex items</strong>. Por padrão, eles se alinham em uma linha.</p>
+
+      <h3>Eixo principal e eixo transversal</h3>
+      <div class="hl blue">
+        <strong>Dois eixos:</strong> o <strong>principal</strong> é a direção em que os itens ficam organizados (linha por padrão). O <strong>transversal</strong> é perpendicular a ele. As propriedades <code>justify-*</code> atuam no principal; <code>align-*</code> no transversal.
+      </div>
+
+      <h3>Demonstração interativa</h3>
+      <div class="lab">
+        <div class="lab-controles">
+          <label for="sel-dir">flex-direction</label>
+          <select id="sel-dir">
+            <option value="row">row (padrão, da esquerda para a direita)</option>
+            <option value="row-reverse">row-reverse</option>
+            <option value="column">column (de cima para baixo)</option>
+            <option value="column-reverse">column-reverse</option>
+          </select>
+
+          <label for="sel-just">justify-content</label>
+          <select id="sel-just">
+            <option value="flex-start">flex-start</option>
+            <option value="center">center</option>
+            <option value="flex-end">flex-end</option>
+            <option value="space-between">space-between</option>
+            <option value="space-around">space-around</option>
+            <option value="space-evenly">space-evenly</option>
+          </select>
+
+          <label for="sel-align">align-items</label>
+          <select id="sel-align">
+            <option value="stretch">stretch</option>
+            <option value="flex-start">flex-start</option>
+            <option value="center">center</option>
+            <option value="flex-end">flex-end</option>
+          </select>
+
+          <label for="sel-wrap">flex-wrap</label>
+          <select id="sel-wrap">
+            <option value="nowrap">nowrap</option>
+            <option value="wrap">wrap</option>
+            <option value="wrap-reverse">wrap-reverse</option>
+          </select>
+
+          <label for="range-gap-f">gap <span class="valor" id="val-gap-f">8px</span></label>
+          <input type="range" id="range-gap-f" min="0" max="40" value="8" step="4">
+        </div>
+        <div class="lab-palco flex">
+          <div class="alvo" id="alvo-flex" style="display: flex; flex-flow: row; justify-content: flex-start; align-items: stretch; gap: 8px; min-height: 160px;">
+            <div class="item" style="background:#ffedd5;border-color:#c2410c;color:#7c2d12;">1</div>
+            <div class="item" style="background:#ffedd5;border-color:#c2410c;color:#7c2d12;">2</div>
+            <div class="item" style="background:#ffedd5;border-color:#c2410c;color:#7c2d12;">3</div>
+            <div class="item" style="background:#ffedd5;border-color:#c2410c;color:#7c2d12;">4</div>
+          </div>
+        </div>
+      </div>
+      <div class="lab-codigo" id="codigo-flex-gerado">.container { display: flex; flex-direction: row; justify-content: flex-start; align-items: stretch; flex-wrap: nowrap; gap: 8px; }</div>
+
+      <h3>flex-grow, flex-shrink, flex-basis</h3>
+      <p>Controlam como cada item se expande/encolhe no espaço disponível.</p>
+      <ul>
+        <li><code>flex-grow</code>: fator de crescimento. <code>0</code> = não cresce (padrão).</li>
+        <li><code>flex-shrink</code>: fator de encolhimento. <code>1</code> = encolhe (padrão).</li>
+        <li><code>flex-basis</code>: tamanho inicial antes de crescer/encolher.</li>
+        <li>Atalho <code>flex: 1</code> = <code>flex-grow:1; flex-shrink:1; flex-basis:0</code>.</li>
+      </ul>
+      <div class="hl blue">
+        <strong>Exemplo concreto:</strong> <code>flex: 1 1 220px</code> em cartões = cresce (1), encolhe (1), base 220px. Em um container com 4 cartões e <code>flex-wrap: wrap</code>, cada um tenta ter 220px; se não couber, quebra linha. Em telas grandes: 3 ou 4 por linha. Em celular: 1 por linha.
+      </div>
+
+      <h3>order e flex-flow</h3>
+      <ul>
+        <li><code>order</code> muda a posição visual sem alterar a ordem do HTML. Use com cautela: leitores de tela leem na ordem do HTML.</li>
+        <li><code>flex-flow: row wrap</code> é atalho para <code>flex-direction: row; flex-wrap: wrap</code>.</li>
+      </ul>
+
+      <!-- ========== EXEMPLOS COMPLETOS FLEXBOX ========== -->
+      <h3>🧪 Três componentes completos — teste no OneCompiler</h3>
+      <p>Cada exemplo abaixo é uma página <strong>inteira</strong>, pronta para colar no OneCompiler (ou no VSCode). Clique em <strong>▶ OneCompiler</strong> para abrir o editor e <strong>🧪 Preview</strong> para ver o resultado aqui mesmo, sem sair da página.</p>
+
+      <h4>Exemplo 1 · Menu com logo à esquerda e links à direita</h4>
+      <p>Usa <code>display: flex</code> no header e <code>justify-content: space-between</code> para separar os dois grupos. É o mesmo padrão da missão <strong>F2</strong>.</p>
+      <div class="code-wrapper">
+        <div class="code-header">
+          <span class="code-title">menu-flex.html</span>
+          <div class="code-actions">
+            <button type="button" class="btn-copy" data-copiar="lf1">📋 Copiar</button>
+            <button type="button" class="btn-oc" data-onecompiler="lf1">▶ OneCompiler</button>
+            <button type="button" class="btn-prev" data-preview="lf1">🧪 Preview</button>
+          </div>
+        </div>
+        <div class="code-pane" id="codigo-lf1">&lt;!DOCTYPE html&gt;
+&lt;html lang="pt-BR"&gt;
+&lt;head&gt;
+&lt;meta charset="UTF-8"&gt;
+&lt;title&gt;Menu com Flexbox&lt;/title&gt;
+&lt;style&gt;
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; }
+  .topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #111827;
+    color: #fff;
+    padding: 12px 20px;
+  }
+  .topo .logo { font-weight: 800; }
+  .topo nav { display: flex; gap: 16px; }
+  .topo nav a { color: #93c5fd; text-decoration: none; font-size: 14px; }
+  .topo nav a:hover { color: #fff; }
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;header class="topo"&gt;
+    &lt;span class="logo"&gt;MinhaLoja&lt;/span&gt;
+    &lt;nav&gt;
+      &lt;a href="#"&gt;Início&lt;/a&gt;
+      &lt;a href="#"&gt;Produtos&lt;/a&gt;
+      &lt;a href="#"&gt;Contato&lt;/a&gt;
+    &lt;/nav&gt;
+  &lt;/header&gt;
+&lt;/body&gt;
+&lt;/html&gt;</div>
+      </div>
+      <div id="preview-lf1"></div>
+      <div class="hl blue">
+        <strong>Experimente:</strong> troque <code>justify-content: space-between</code> por <code>center</code>, depois por <code>space-around</code>, depois por <code>flex-end</code>. Qual valor coloca logo e links nos extremos opostos?
+      </div>
+
+      <h4>Exemplo 2 · Cartões de produtos com quebra automática</h4>
+      <p>Usa <code>flex-wrap: wrap</code> + <code>flex: 1 1 200px</code> para os cartões caírem para a linha de baixo sozinhos. É a base da missão <strong>F3</strong>.</p>
+      <div class="code-wrapper">
+        <div class="code-header">
+          <span class="code-title">cartoes-flex.html</span>
+          <div class="code-actions">
+            <button type="button" class="btn-copy" data-copiar="lf2">📋 Copiar</button>
+            <button type="button" class="btn-oc" data-onecompiler="lf2">▶ OneCompiler</button>
+            <button type="button" class="btn-prev" data-preview="lf2">🧪 Preview</button>
+          </div>
+        </div>
+        <div class="code-pane" id="codigo-lf2">&lt;!DOCTYPE html&gt;
+&lt;html lang="pt-BR"&gt;
+&lt;head&gt;
+&lt;meta charset="UTF-8"&gt;
+&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+&lt;title&gt;Cartões com Flexbox&lt;/title&gt;
+&lt;style&gt;
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; padding: 20px; background: #f8fafc; }
+  .lista {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .cartao {
+    flex: 1 1 200px;
+    background: #fff;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .cartao h3 { color: #1e3a8a; font-size: 15px; }
+  .cartao .preco { color: #ea580c; font-weight: 800; }
+  .cartao .acoes { display: flex; gap: 8px; margin-top: auto; }
+  .cartao button {
+    flex: 1;
+    padding: 6px; border: 0; border-radius: 6px;
+    background: #2563eb; color: #fff; font-weight: 700; cursor: pointer;
+  }
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class="lista"&gt;
+    &lt;div class="cartao"&gt;&lt;h3&gt;Camiseta&lt;/h3&gt;&lt;span class="preco"&gt;R$ 49&lt;/span&gt;&lt;div class="acoes"&gt;&lt;button&gt;Comprar&lt;/button&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cartao"&gt;&lt;h3&gt;Boné&lt;/h3&gt;&lt;span class="preco"&gt;R$ 29&lt;/span&gt;&lt;div class="acoes"&gt;&lt;button&gt;Comprar&lt;/button&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cartao"&gt;&lt;h3&gt;Moletom&lt;/h3&gt;&lt;span class="preco"&gt;R$ 89&lt;/span&gt;&lt;div class="acoes"&gt;&lt;button&gt;Comprar&lt;/button&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cartao"&gt;&lt;h3&gt;Caneca&lt;/h3&gt;&lt;span class="preco"&gt;R$ 19&lt;/span&gt;&lt;div class="acoes"&gt;&lt;button&gt;Comprar&lt;/button&gt;&lt;/div&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</div>
+      </div>
+      <div id="preview-lf2"></div>
+      <div class="hl blue">
+        <strong>Experimente:</strong> troque <code>flex: 1 1 200px</code> por <code>flex: 0 0 200px</code>. Os cartões param de crescer para preencher a linha. Depois volte para <code>1 1 200px</code> e veja a diferença. Também teste remover o <code>flex-wrap: wrap</code> — os cartões tentarão caber todos em uma linha só.
+      </div>
+
+      <h4>Exemplo 3 · Grupo de botões centralizado</h4>
+      <p>Usa <code>justify-content: center</code> + <code>align-items: center</code> + <code>gap</code> para alinhar botões. É a base da missão <strong>F5</strong>.</p>
+      <div class="code-wrapper">
+        <div class="code-header">
+          <span class="code-title">botoes-flex.html</span>
+          <div class="code-actions">
+            <button type="button" class="btn-copy" data-copiar="lf3">📋 Copiar</button>
+            <button type="button" class="btn-oc" data-onecompiler="lf3">▶ OneCompiler</button>
+            <button type="button" class="btn-prev" data-preview="lf3">🧪 Preview</button>
+          </div>
+        </div>
+        <div class="code-pane" id="codigo-lf3">&lt;!DOCTYPE html&gt;
+&lt;html lang="pt-BR"&gt;
+&lt;head&gt;
+&lt;meta charset="UTF-8"&gt;
+&lt;title&gt;Grupo de Botões com Flexbox&lt;/title&gt;
+&lt;style&gt;
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; padding: 20px; }
+  .grupo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    background: #f1f5f9;
+    padding: 16px;
+    border-radius: 12px;
+  }
+  .grupo button {
+    padding: 10px 18px;
+    border: 0;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 700;
+    font-family: inherit;
+    background: #2563eb;
+    color: #fff;
+  }
+  .grupo button.secundario { background: #64748b; }
+  .grupo button.perigo { background: #dc2626; }
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class="grupo"&gt;
+    &lt;button&gt;Confirmar&lt;/button&gt;
+    &lt;button class="secundario"&gt;Cancelar&lt;/button&gt;
+    &lt;button class="perigo"&gt;Excluir&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</div>
+      </div>
+      <div id="preview-lf3"></div>
+      <div class="hl blue">
+        <strong>Experimente:</strong> troque <code>justify-content: center</code> por <code>space-between</code> e depois por <code>flex-end</code>. Veja como os botões se distribuem no espaço. Depois troque <code>align-items: center</code> por <code>stretch</code> — os botões ficam da mesma altura.
+      </div>
+
+      <div class="hl green">
+        <strong>✅ Ligação com as missões:</strong> os três exemplos acima são a base das missões <strong>F2</strong> (menu), <strong>F3</strong> (cartões com wrap) e <strong>F5</strong> (botões). Se você entendeu os exemplos, já tem metade do caminho das missões.
+      </div>
+    </section>
+  </div>
+
+  <!-- ========== ABA 6 — MISSÕES FLEXBOX ========== -->
+  <div id="aba-06" class="tab-content" role="tabpanel">
+    <section class="card">
+      <h2>🛠 Missões Flexbox — componentes do dia a dia</h2>
+      <p>Mesmo formato da aba 4: curto, uma coisa por vez. Se travar, abra a dica.</p>
+
+      <div class="prog-missoes" id="prog-flex">
+        <span>Flexbox: <strong id="txt-prog-flex">0 de 5</strong></span>
+        <div class="barra"><span id="barra-prog-flex" style="width: 0%;"></span></div>
+      </div>
+
+      <!-- MISSÃO F1 -->
+      <div class="missao" data-nivel="MISSÃO F1 · 5 MIN" data-num="1" data-missao="f1">
+        <h3>Alinhar itens em uma linha</h3>
+        <p>Objetivo: colocar 3 elementos lado a lado (o uso mais comum do Flexbox).</p>
+
+        <div class="fazer">
+          <h5>O que fazer</h5>
+          <ol>
+            <li>HTML: uma <code>div class="linha"</code> com 3 <code>div</code> (A, B, C).</li>
+            <li>CSS: <code>.linha { display: flex; gap: 10px; }</code></li>
+            <li>Dê a cada filho um fundo colorido e padding para visualizar.</li>
+          </ol>
+        </div>
+
+        <div class="validar">
+          <h5>Como saber que acertou</h5>
+          <ul>
+            <li>Os 3 elementos ficam <strong>lado a lado</strong>.</li>
+            <li>Há um espaço de 10px entre eles.</li>
+          </ul>
+        </div>
+
+        <details class="dica">
+          <summary>Se travar</summary>
+          <p><code>display: flex</code> vai no <strong>pai</strong> (<code>.linha</code>), nunca nos filhos.</p>
+        </details>
+
+        <div class="btn-grupo">
+          <button type="button" class="btn btn-missao" data-missao="f1">Marcar como concluída</button>
+        </div>
+      </div>
+
+      <!-- MISSÃO F2 -->
+      <div class="missao" data-nivel="MISSÃO F2 · 5 MIN" data-num="2" data-missao="f2">
+        <h3>Menu com logo à esquerda e links à direita</h3>
+        <p>Objetivo: usar <code>justify-content</code> para distribuir elementos nos extremos.</p>
+
+        <div class="fazer">
+          <h5>O que fazer</h5>
+          <ol>
+            <li>HTML: <code>header.topo</code> com <code>span.logo</code> e <code>nav.links</code> (com 3 links dentro).</li>
+            <li>CSS: <code>.topo { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; }</code></li>
+            <li>Dê cor de fundo escura e texto claro.</li>
+          </ol>
+        </div>
+
+        <div class="validar">
+          <h5>Como saber que acertou</h5>
+          <ul>
+            <li>O logo fica <strong>colado à esquerda</strong>.</li>
+            <li>Os links ficam <strong>colados à direita</strong>.</li>
+            <li>O texto de ambos fica alinhado verticalmente ao centro da barra.</li>
+          </ul>
+        </div>
+
+        <details class="dica">
+          <summary>Se travar</summary>
+          <p><code>justify-content: space-between</code> empurra os dois grupos para os extremos. Se "não acontecer nada", verifique se o <code>.topo</code> tem largura suficiente (não é o caso típico).</p>
+        </details>
+
+        <div class="btn-grupo">
+          <button type="button" class="btn btn-missao" data-missao="f2">Marcar como concluída</button>
+        </div>
+      </div>
+
+      <!-- MISSÃO F3 -->
+      <div class="missao" data-nivel="MISSÃO F3 · 8 MIN" data-num="3" data-missao="f3">
+        <h3>Cartões que quebram linha automaticamente</h3>
+        <p>Objetivo: usar <code>flex-wrap: wrap</code> para que cartões caiam para a linha de baixo sozinhos.</p>
+
+        <div class="fazer">
+          <h5>O que fazer</h5>
+          <ol>
+            <li>HTML: uma <code>div class="lista"</code> com 4 <code>div class="cartao"</code>.</li>
+            <li>CSS do container: <code>display: flex; flex-wrap: wrap; gap: 16px;</code></li>
+            <li>CSS do cartão: <code>flex: 1 1 220px; padding: 16px; border: 1px solid #ccc; border-radius: 8px;</code></li>
+            <li>Coloque um título e um texto curto em cada cartão.</li>
+          </ol>
+        </div>
+
+        <div class="validar">
+          <h5>Como saber que acertou</h5>
+          <ul>
+            <li>Em tela cheia: vários cartões por linha.</li>
+            <li>Ao reduzir a janela: os cartões <strong>caem para baixo</strong> sozinhos (sem media query).</li>
+            <li>Em 360px: 1 cartão por linha.</li>
+          </ul>
+        </div>
+
+        <details class="dica">
+          <summary>Se travar</summary>
+          <p><code>flex: 1 1 220px</code> significa: cresce (1), encolhe (1), tamanho-base 220px. Quando a linha não cabe todos, o <code>wrap</code> joga os que sobram para a próxima.</p>
+          <p>Sem <code>flex-wrap: wrap</code>, eles tentariam caber todos em uma linha só — e ficariam apertados.</p>
+        </details>
+
+        <div class="btn-grupo">
+          <button type="button" class="btn btn-missao" data-missao="f3">Marcar como concluída</button>
+        </div>
+      </div>
+
+      <!-- MISSÃO F4 -->
+      <div class="missao" data-nivel="MISSÃO F4 · 8 MIN" data-num="4" data-missao="f4">
+        <h3>Cartão com botão sempre no rodapé</h3>
+        <p>Objetivo: usar <code>margin-top: auto</code> para empurrar o botão para o fundo do cartão.</p>
+
+        <div class="fazer">
+          <h5>O que fazer</h5>
+          <ol>
+            <li>HTML: um <code>div.cartao</code> com <code>h3</code>, <code>p</code> e <code>button</code>.</li>
+            <li>CSS do cartão: <code>display: flex; flex-direction: column; min-height: 220px; padding: 16px; border: 1px solid #ccc;</code></li>
+            <li>CSS do botão: <code>margin-top: auto;</code></li>
+          </ol>
+        </div>
+
+        <div class="validar">
+          <h5>Como saber que acertou</h5>
+          <ul>
+            <li>O botão fica <strong>colado no fundo</strong> do cartão, mesmo com pouco texto.</li>
+            <li>Se você aumentar o <code>min-height</code>, o botão desce junto.</li>
+          </ul>
+        </div>
+
+        <details class="dica">
+          <summary>Se travar</summary>
+          <p>O <code>margin-top: auto</code> funciona porque o container é flex em coluna. Ele absorve todo o espaço livre acima do botão.</p>
+        </details>
+
+        <div class="btn-grupo">
+          <button type="button" class="btn btn-missao" data-missao="f4">Marcar como concluída</button>
+        </div>
+      </div>
+
+      <!-- MISSÃO F5 -->
+      <div class="missao" data-nivel="MISSÃO F5 · 10 MIN" data-num="5" data-missao="f5">
+        <h3>Grupo de botões centralizados</h3>
+        <p>Objetivo: combinar <code>justify-content</code> + <code>align-items</code> + <code>gap</code> para centralizar botões.</p>
+
+        <div class="fazer">
+          <h5>O que fazer</h5>
+          <ol>
+            <li>HTML: <code>div.grupo</code> com 3 <code>button</code> (Confirmar, Cancelar, Excluir).</li>
+            <li>CSS: <code>.grupo { display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: wrap; padding: 24px; }</code></li>
+            <li>Dê cores diferentes a cada botão.</li>
+          </ol>
+        </div>
+
+        <div class="validar">
+          <h5>Como saber que acertou</h5>
+          <ul>
+            <li>Os 3 botões ficam <strong>centralizados</strong> horizontalmente.</li>
+            <li>Se a tela ficar muito estreita, eles quebram para a próxima linha (<code>wrap</code>).</li>
+            <li>Se você mudar <code>align-items</code> para <code>stretch</code>, os botões ficam da mesma altura — teste!</li>
+          </ul>
+        </div>
+
+        <details class="dica">
+          <summary>Se travar</summary>
+          <p><code>justify-content: center</code> centraliza no eixo principal (horizontal). <code>align-items: center</code> centraliza no eixo transversal (vertical). Com <code>gap</code>, o espaçamento é uniforme.</p>
+        </details>
+
+        <div class="btn-grupo">
+          <button type="button" class="btn btn-missao" data-missao="f5">Marcar como concluída</button>
+        </div>
+      </div>
+
+      <h3>Grid x Flexbox: quando usar cada um</h3>
+      <table class="tabela">
+        <thead><tr><th>Situação</th><th>Grid</th><th>Flexbox</th></tr></thead>
+        <tbody>
+          <tr><td>Layout de página inteira</td><td>✅ Ideal</td><td>Possível, mas mais trabalhoso</td></tr>
+          <tr><td>Menu com itens lado a lado</td><td>Funciona</td><td>✅ Ideal</td></tr>
+          <tr><td>Grade de cartões em colunas fixas</td><td>✅ Ideal</td><td>Possível com wrap+calc</td></tr>
+          <tr><td>Cartões que quebram linha automaticamente</td><td>Possível com auto-fit</td><td>✅ Simples com wrap</td></tr>
+          <tr><td>Distribuir botões horizontalmente</td><td>Funciona</td><td>✅ Ideal</td></tr>
+        </tbody>
+      </table>
+      <div class="hl blue">
+        <strong>Regra prática:</strong> Grid para a <em>estrutura</em> (linhas e colunas da página); Flexbox para <em>componentes</em> (menus, cartões, botões). É comum usar os dois na mesma página.
+      </div>
+    </section>
+  </div>
+
+  <!-- ========== ABA 7 ========== -->
+  <div id="aba-07" class="tab-content" role="tabpanel">
+    <section class="card">
+      <h2>📐 Responsividade com @media</h2>
+      <p>Uma media query aplica CSS apenas quando a tela atende a uma condição (geralmente largura mínima ou máxima).</p>
+
+      <h3>Sintaxe básica</h3>
+      <div class="code-wrapper">
+        <div class="code-header">
+          <span class="code-title">media-sintaxe.css</span>
+          <div class="code-actions">
+            <button type="button" class="btn-copy" data-copiar="media1">📋 Copiar</button>
+          </div>
+        </div>
+        <div class="code-pane" id="codigo-media1">/* Mobile-first: estilo base para telas pequenas */
+.pagina {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+/* A partir de 600px, uma tela um pouco maior */
+@media (min-width: 600px) {
+  .pagina {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* A partir de 1000px, desktop */
+@media (min-width: 1000px) {
+  .pagina {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+/* Também é possível usar max-width (desktop-first) */
+@media (max-width: 480px) {
+  body {
+    font-size: 15px;
+  }
+}</div>
+      </div>
+
+      <h3>Breakpoints comuns</h3>
+      <table class="tabela">
+        <thead><tr><th>Largura</th><th>Dispositivo típico</th></tr></thead>
+        <tbody>
+          <tr><td>até 480px</td><td>Celulares pequenos</td></tr>
+          <tr><td>481px – 768px</td><td>Celulares grandes / tablet retrato</td></tr>
+          <tr><td>769px – 1024px</td><td>Tablet paisagem / laptops pequenos</td></tr>
+          <tr><td>1025px em diante</td><td>Desktops</td></tr>
+        </tbody>
+      </table>
+      <div class="hl amber">
+        <strong>⚠️ Não copie breakpoints de outros projetos.</strong> Defina breakpoints onde o seu layout <em>quebra</em>: se a 800px os cartões ainda cabem lado a lado, não force mudança só porque "um tutorial usou 768px".
+      </div>
+
+      <h3>Exemplo completo: layout que muda</h3>
+      <p>Abaixo, um layout de três colunas que vira uma coluna em celular e duas em tablet. Os valores 600px e 1000px são <strong>apenas um exemplo</strong> — o seu projeto deve usar os valores em que <em>o seu</em> layout quebra.</p>
+      <div class="code-wrapper">
+        <div class="code-header">
+          <span class="code-title">responsivo.html</span>
+          <div class="code-actions">
+            <button type="button" class="btn-copy" data-copiar="resp">📋 Copiar</button>
+            <button type="button" class="btn-oc" data-onecompiler="resp">▶ OneCompiler</button>
+            <button type="button" class="btn-prev" data-preview="resp">🧪 Preview</button>
+          </div>
+        </div>
+        <div class="code-pane" id="codigo-resp">&lt;!DOCTYPE html&gt;
+&lt;html lang="pt-BR"&gt;
+&lt;head&gt;
+&lt;meta charset="UTF-8"&gt;
+&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+&lt;title&gt;Layout Responsivo&lt;/title&gt;
+&lt;style&gt;
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; padding: 16px; background: #f8fafc; }
+  .pagina {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .bloco {
+    background: #2563eb;
+    color: #fff;
+    padding: 24px;
+    border-radius: 10px;
+    text-align: center;
+    font-weight: 800;
+  }
+
+  @media (min-width: 600px) {
+    .pagina { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (min-width: 1000px) {
+    .pagina { grid-template-columns: 1fr 1fr 1fr; }
+    .bloco { padding: 36px; }
+  }
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class="pagina"&gt;
+    &lt;div class="bloco"&gt;Bloco 1&lt;/div&gt;
+    &lt;div class="bloco"&gt;Bloco 2&lt;/div&gt;
+    &lt;div class="bloco"&gt;Bloco 3&lt;/div&gt;
+    &lt;div class="bloco"&gt;Bloco 4&lt;/div&gt;
+    &lt;div class="bloco"&gt;Bloco 5&lt;/div&gt;
+    &lt;div class="bloco"&gt;Bloco 6&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</div>
+      </div>
+      <div id="preview-resp"></div>
+
+      <h3>Evitando rolagem horizontal</h3>
+      <ul>
+        <li>Nunca fixe <code>width</code> maior que a viewport em elementos de página (use <code>max-width: 100%</code> em imagens).</li>
+        <li>Prefira <code>min-width</code> em vez de <code>width</code> quando não for essencial ter tamanho fixo.</li>
+        <li>Em tabelas largas, envolva em um <code>div</code> com <code>overflow-x: auto</code> — assim a rolagem fica só na tabela.</li>
+        <li>Teste no DevTools em 320px — o mínimo comum entre celulares modernos.</li>
+      </ul>
+
+      <div class="hl green">
+        <strong>✅ Teste rápido:</strong> redimensione a janela do navegador de 1200px até 320px. Se a página nunca gerar uma barra horizontal, o layout básico está responsivo.
+      </div>
+
+      <h3>🔬 Seletor de dispositivo — veja o layout mudar</h3>
+      <p>Este seletor redimensiona o <code>iframe</code> ao vivo. O conteúdo abaixo é uma página real com Grid + Flexbox + media queries.</p>
+
+      <div class="device-picker" id="device-picker">
+        <button type="button" class="device-btn ativo" data-device="desktop" data-width="100%">🖥 Desktop</button>
+        <button type="button" class="device-btn" data-device="tablet" data-width="768px">📱 Tablet (768px)</button>
+        <button type="button" class="device-btn" data-device="mobile" data-width="360px">📱 Celular (360px)</button>
+      </div>
+
+      <div class="device-stage">
+        <div class="device-frame" id="device-frame" style="width: 100%;">
+          <div class="device-bar">
+            <span id="device-label">🖥 Desktop — 100%</span>
+            <span id="device-size">≥1024px</span>
+          </div>
+          <div class="device-viewport">
+            <iframe id="device-iframe" title="Demonstração responsiva" loading="lazy" src="./TEMA 08 • Layout Responsivo, CSS Grid e Flexbox_files/saved_resource.html"></iframe>
+          </div>
+        </div>
+      </div>
+      <div class="device-info">
+        💡 <strong>Dica:</strong> alterne entre os botões e observe como o menu, os cartões e o rodapé mudam. É o mesmo HTML em todos os casos.
+      </div>
+    </section>
+  </div>
+
+  <!-- ========== ABA 8 ========== -->
+  <div id="aba-08" class="tab-content active" role="tabpanel">
+    <section class="card">
+      <h2>🎯 Consolidação</h2>
+
+      <h3>🧠 Quiz — revisão de Box Model (com 2 questões de Grid/Flex)</h3>
+      <p>Responda e receba feedback imediato. Seu progresso é <strong>salvo automaticamente</strong>.</p>
+
+      <div class="quiz-header">
+        <span class="progresso-texto">Progresso: <strong id="txt-prog-quiz">10 de 10</strong></span>
+        <div class="barra-quiz"><div class="barra-quiz-preenchimento" id="fill-prog-quiz" style="width: 100%;"></div></div>
+      </div>
+      <div id="container-quiz"><div class="question" id="quiz-q1"><div class="question-header"><span class="question-number">1</span><div>Qual propriedade transforma um elemento em container Grid?</div></div><div class="options"><div class="option disabled correct" data-letra="a"><span><strong>a)</strong> display: grid</span></div><div class="option disabled" data-letra="b"><span><strong>b)</strong> grid: auto</span></div><div class="option disabled" data-letra="c"><span><strong>c)</strong> display: block-grid</span></div><div class="option disabled" data-letra="d"><span><strong>d)</strong> layout: grid</span></div></div><div class="feedback-imediato mostrar ok" id="feed-q1">✅ <strong>Correto!</strong> display: grid é a única forma correta. As outras opções não existem no CSS.</div></div><div class="question" id="quiz-q2"><div class="question-header"><span class="question-number">2</span><div>Na regra grid-template-columns: 1fr 2fr 1fr, qual fração do espaço a segunda coluna ocupa?</div></div><div class="options"><div class="option disabled" data-letra="a"><span><strong>a)</strong> 1/4</span></div><div class="option disabled" data-letra="b"><span><strong>b)</strong> 1/3</span></div><div class="option disabled" data-letra="c"><span><strong>c)</strong> 1/2</span></div><div class="option disabled correct" data-letra="d"><span><strong>d)</strong> 2/4</span></div></div><div class="feedback-imediato mostrar ok" id="feed-q2">✅ <strong>Correto!</strong> A soma é 4fr. A segunda coluna tem 2fr, então ocupa 2/4 do espaço disponível.</div></div><div class="question" id="quiz-q3"><div class="question-header"><span class="question-number">3</span><div>Para quais direções a propriedade gap adiciona espaçamento em um Grid?</div></div><div class="options"><div class="option disabled" data-letra="a"><span><strong>a)</strong> Somente entre colunas</span></div><div class="option disabled" data-letra="b"><span><strong>b)</strong> Somente entre linhas</span></div><div class="option disabled correct" data-letra="c"><span><strong>c)</strong> Entre linhas e colunas (ambos)</span></div><div class="option disabled" data-letra="d"><span><strong>d)</strong> Apenas em volta do container</span></div></div><div class="feedback-imediato mostrar ok" id="feed-q3">✅ <strong>Correto!</strong> gap aplica o mesmo espaçamento entre linhas e colunas. Para diferenciar, use gap: row col; ou row-gap e column-gap.</div></div><div class="question" id="quiz-q4"><div class="question-header"><span class="question-number">4</span><div>Em Flexbox, o que justify-content controla?</div></div><div class="options"><div class="option disabled" data-letra="a"><span><strong>a)</strong> O alinhamento vertical dos itens</span></div><div class="option disabled correct" data-letra="b"><span><strong>b)</strong> A distribuição no eixo principal</span></div><div class="option disabled" data-letra="c"><span><strong>c)</strong> A cor de fundo</span></div><div class="option disabled" data-letra="d"><span><strong>d)</strong> A quebra de linha dos itens</span></div></div><div class="feedback-imediato mostrar ok" id="feed-q4">✅ <strong>Correto!</strong> justify-content trabalha no eixo principal (row por padrão = horizontal). O eixo transversal é responsabilidade de align-items.</div></div><div class="question" id="quiz-q5"><div class="question-header"><span class="question-number">5</span><div>Qual combinação faz cartões com largura mínima de 200px quebrem linha automaticamente?</div></div><div class="options"><div class="option disabled" data-letra="a"><span><strong>a)</strong> display: flex; flex-direction: column</span></div><div class="option disabled correct" data-letra="b"><span><strong>b)</strong> display: flex; flex-wrap: wrap; flex: 1 1 200px</span></div><div class="option disabled" data-letra="c"><span><strong>c)</strong> display: grid; gap: 0</span></div><div class="option disabled" data-letra="d"><span><strong>d)</strong> display: inline</span></div></div><div class="feedback-imediato mostrar ok" id="feed-q5">✅ <strong>Correto!</strong> flex-wrap: wrap permite quebra. flex: 1 1 200px define tamanho-base de 200px e permite crescer/encolher proporcionalmente.</div></div><div class="question" id="quiz-q6"><div class="question-header"><span class="question-number">6</span><div>Qual é o efeito de align-items: center em um Flexbox com flex-direction: row?</div></div><div class="options"><div class="option disabled" data-letra="a"><span><strong>a)</strong> Centraliza os itens horizontalmente</span></div><div class="option disabled correct" data-letra="b"><span><strong>b)</strong> Centraliza os itens verticalmente</span></div><div class="option disabled" data-letra="c"><span><strong>c)</strong> Afasta os itens igualmente</span></div><div class="option disabled" data-letra="d"><span><strong>d)</strong> Empilha os itens</span></div></div><div class="feedback-imediato mostrar ok" id="feed-q6">✅ <strong>Correto!</strong> Com flex-direction: row, o eixo transversal é vertical — então align-items centraliza verticalmente.</div></div><div class="question" id="quiz-q7"><div class="question-header"><span class="question-number">7</span><div>Sobre @media (max-width: 600px), o que é correto afirmar?</div></div><div class="options"><div class="option disabled" data-letra="a"><span><strong>a)</strong> Aplica CSS quando a viewport é maior que 600px</span></div><div class="option disabled correct" data-letra="b"><span><strong>b)</strong> Aplica CSS quando a viewport é menor ou igual a 600px</span></div><div class="option disabled" data-letra="c"><span><strong>c)</strong> Aplica CSS apenas em celulares</span></div><div class="option disabled" data-letra="d"><span><strong>d)</strong> Substitui todo o CSS anterior</span></div></div><div class="feedback-imediato mostrar ok" id="feed-q7">✅ <strong>Correto!</strong> max-width: 600px significa "até 600px". Não tem relação com tipo de dispositivo — só com a largura da viewport.</div></div><div class="question" id="quiz-q8"><div class="question-header"><span class="question-number">8</span><div>O que * { box-sizing: border-box; } faz com o padding de um elemento?</div></div><div class="options"><div class="option disabled" data-letra="a"><span><strong>a)</strong> Remove o padding</span></div><div class="option disabled" data-letra="b"><span><strong>b)</strong> Soma o padding ao width declarado</span></div><div class="option disabled correct" data-letra="c"><span><strong>c)</strong> Conta o padding dentro do width declarado</span></div><div class="option disabled" data-letra="d"><span><strong>d)</strong> Transforma padding em margin</span></div></div><div class="feedback-imediato mostrar ok" id="feed-q8">✅ <strong>Correto!</strong> Com border-box, o width declarado já inclui padding e border. Evita que caixas "estourem" o layout.</div></div><div class="question" id="quiz-q9"><div class="question-header"><span class="question-number">9</span><div>Uma caixa tem width: 300px; padding: 20px; border: 2px; box-sizing: border-box. Qual é a largura do conteúdo útil?</div></div><div class="options"><div class="option disabled" data-letra="a"><span><strong>a)</strong> 300px</span></div><div class="option disabled correct" data-letra="b"><span><strong>b)</strong> 256px</span></div><div class="option disabled" data-letra="c"><span><strong>c)</strong> 260px</span></div><div class="option disabled" data-letra="d"><span><strong>d)</strong> 340px</span></div></div><div class="feedback-imediato mostrar ok" id="feed-q9">✅ <strong>Correto!</strong> Com border-box, o conteúdo útil é width − padding×2 − border×2 = 300 − 40 − 4 = 256px.</div></div><div class="question" id="quiz-q10"><div class="question-header"><span class="question-number">10</span><div>Na mesma caixa (width: 300px; padding: 20px; border: 2px) SEM box-sizing, qual seria a largura renderizada?</div></div><div class="options"><div class="option disabled" data-letra="a"><span><strong>a)</strong> 300px</span></div><div class="option disabled" data-letra="b"><span><strong>b)</strong> 320px</span></div><div class="option disabled correct" data-letra="c"><span><strong>c)</strong> 344px</span></div><div class="option disabled" data-letra="d"><span><strong>d)</strong> 360px</span></div></div><div class="feedback-imediato mostrar ok" id="feed-q10">✅ <strong>Correto!</strong> Sem border-box: 300 + 20 + 20 + 2 + 2 = 344px.</div></div></div>
+
+      <div class="btn-grupo">
+        <button type="button" class="btn" id="btn-ver-placar">✅ Ver placar</button>
+        <button type="button" class="btn btn-sec" id="btn-limpar-quiz">🔄 Recomeçar</button>
+      </div>
+
+      <div class="results mostrar" id="resultado-quiz">
+        <h4 style="color:#1d4ed8;margin-bottom:8px;">📊 Seu placar</h4>
+        <div id="resultado-quiz-conteudo"><div style="text-align:center;padding:14px;background:#f0fdf4;border-radius:9px;margin-bottom:10px;"><div style="font-size:1.5rem;font-weight:900;color:#15803d;">10 / 10</div><div style="color:#166534;font-weight:700;">Aproveitamento: 100% — 🏆 Excelente domínio!</div></div><div style="padding:7px 0;border-bottom:1px solid #e2e8f0;color:#15803d;font-size:.85rem;">✅ Q1 — Correta</div><div style="padding:7px 0;border-bottom:1px solid #e2e8f0;color:#15803d;font-size:.85rem;">✅ Q2 — Correta</div><div style="padding:7px 0;border-bottom:1px solid #e2e8f0;color:#15803d;font-size:.85rem;">✅ Q3 — Correta</div><div style="padding:7px 0;border-bottom:1px solid #e2e8f0;color:#15803d;font-size:.85rem;">✅ Q4 — Correta</div><div style="padding:7px 0;border-bottom:1px solid #e2e8f0;color:#15803d;font-size:.85rem;">✅ Q5 — Correta</div><div style="padding:7px 0;border-bottom:1px solid #e2e8f0;color:#15803d;font-size:.85rem;">✅ Q6 — Correta</div><div style="padding:7px 0;border-bottom:1px solid #e2e8f0;color:#15803d;font-size:.85rem;">✅ Q7 — Correta</div><div style="padding:7px 0;border-bottom:1px solid #e2e8f0;color:#15803d;font-size:.85rem;">✅ Q8 — Correta</div><div style="padding:7px 0;border-bottom:1px solid #e2e8f0;color:#15803d;font-size:.85rem;">✅ Q9 — Correta</div><div style="padding:7px 0;border-bottom:1px solid #e2e8f0;color:#15803d;font-size:.85rem;">✅ Q10 — Correta</div></div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ========== ABA 9 ========== -->
+  <div id="aba-09" class="tab-content" role="tabpanel">
+    <section class="card">
+      <h2>🚀 Desafio final — em três níveis</h2>
+      <p>Você <strong>não precisa entregar tudo</strong>. O objetivo é entregar o que conseguir, sem pressão. Cada nível vale uma nota simbólica e o professor vai avaliar até onde você chegou.</p>
+
+      <div class="hl blue">
+        <strong>Regra do jogo:</strong> comece pelo <strong>bronze</strong>. Se terminar e quiser mais, avance para <strong>prata</strong>. Se ainda sobrar tempo, tente o <strong>ouro</strong>. Nada de pular etapa.
+      </div>
+
+      <div class="entrega-nivel bronze" data-nivel="🥉 BRONZE — NOTA BASE">
+        <h4>Tema e estrutura mínima</h4>
+        <p>Escolha um tema (loja, portfólio, receitas, banda, biblioteca, jogo, etc.) e monte:</p>
+        <ul>
+          <li>Um <code>index.html</code> com <code>header</code>, <code>main</code>, <code>footer</code>.</li>
+          <li>Um <code>estilo.css</code> <strong>separado</strong>, ligado por <code>&lt;link&gt;</code>.</li>
+          <li>No <code>main</code>: <strong>4 cartões</strong> com título e texto curto.</li>
+          <li>Cores e fontes da sua escolha (não use o padrão do navegador).</li>
+          <li>Aplique <code>* { box-sizing: border-box; }</code> no topo do CSS.</li>
+        </ul>
+        <p><strong>Critério de aceite:</strong> abrir no navegador mostra uma página com cabeçalho, 4 cartões e rodapé, sem rolagem horizontal em 1024px.</p>
+      </div>
+
+      <div class="entrega-nivel prata" data-nivel="🥈 PRATA — NOTA INTERMEDIÁRIA">
+        <h4>Grid no layout + Flexbox em dois componentes</h4>
+        <p>Continue do bronze e adicione:</p>
+        <ul>
+          <li><strong>Grid na estrutura principal</strong>: <code>main</code> com <code>display: grid</code> e <code>repeat(3, 1fr)</code> em telas grandes.</li>
+          <li><strong>Flexbox no header</strong>: logo à esquerda, links à direita (<code>justify-content: space-between</code>).</li>
+          <li><strong>Flexbox dentro dos cartões</strong>: título e preço na mesma linha (<code>justify-content: space-between</code>) OU botão empurrado para o fundo (<code>margin-top: auto</code>).</li>
+          <li>Rodapé com <code>display: flex</code> e conteúdo centralizado.</li>
+        </ul>
+        <p><strong>Critério de aceite:</strong> inspecionando no DevTools, você vê <code>display: grid</code> no <code>main</code> e <code>display: flex</code> em pelo menos 2 componentes internos.</p>
+      </div>
+
+      <div class="entrega-nivel ouro" data-nivel="🥇 OURO — NOTA MÁXIMA">
+        <h4>Responsivo de verdade + polimento visual</h4>
+        <p>Continue do prata e adicione:</p>
+        <ul>
+          <li><strong>Media query</strong>: em telas menores, os cartões passam a 2 colunas; em celular, 1 coluna.</li>
+          <li><strong>Menu adaptativo</strong>: links viram empilhados em telas pequenas (só com CSS, sem JS).</li>
+          <li><strong>Sem rolagem horizontal em 360px</strong>: teste no DevTools.</li>
+          <li><strong>Identidade visual coerente</strong>: 2-3 cores consistentes, fonte legível, espaçamentos regulares.</li>
+          <li><strong>Alvos de toque</strong>: botões com pelo menos 44px de altura em mobile.</li>
+        </ul>
+        <p><strong>Critério de aceite:</strong> em 360, 768 e 1024px o layout reorganiza claramente e não há rolagem horizontal em nenhuma largura.</p>
+      </div>
+
+      <h3>✅ Checklist de autoavaliação</h3>
+      <p>Marque cada item apenas quando <strong>verificar no seu código</strong> que ele está correto. O progresso é <strong>salvo automaticamente</strong>.</p>
+
+      <div class="progresso-check">
+        <span>Consigo sozinho: <strong id="txt-prog-check">3 de 8</strong></span>
+        <div class="barra"><span id="barra-check" style="width: 37.5%;"></span></div>
+      </div>
+
+      <div id="container-check"><div class="check-item marcado" data-idx="0"><div class="check-box">✓</div><div class="check-texto">Consigo criar um container Grid com display: grid e definir colunas com grid-template-columns.</div></div><div class="check-item" data-idx="1"><div class="check-box">✓</div><div class="check-texto">Consigo usar a unidade fr para distribuir colunas proporcionalmente.</div></div><div class="check-item" data-idx="2"><div class="check-box">✓</div><div class="check-texto">Consigo aplicar grid-template-areas para organizar cabeçalho, menu, conteúdo e rodapé.</div></div><div class="check-item" data-idx="3"><div class="check-box">✓</div><div class="check-texto">Consigo transformar um menu horizontal com display: flex, gap e justify-content.</div></div><div class="check-item" data-idx="4"><div class="check-box">✓</div><div class="check-texto">Consigo fazer cartões com flex-wrap: wrap para quebrarem linha em telas menores.</div></div><div class="check-item marcado" data-idx="5"><div class="check-box">✓</div><div class="check-texto">Consigo escrever uma media query com breakpoint definido a partir do meu próprio layout.</div></div><div class="check-item" data-idx="6"><div class="check-box">✓</div><div class="check-texto">Consigo testar a página em 360px e confirmar que não há rolagem horizontal.</div></div><div class="check-item marcado" data-idx="7"><div class="check-box">✓</div><div class="check-texto">Consigo explicar quando usar Grid (estrutura) e quando usar Flexbox (componentes internos).</div></div></div>
+
+      <div class="hl green" id="msg-check" style="display: block;"><strong>Bom começo!</strong> Com esse nível você consegue entregar o <strong>bronze</strong>. Marque mais alguns itens para tentar o prata.</div>
+
+      <div class="btn-grupo">
+        <button type="button" class="btn btn-sec" id="btn-limpar-check">🧹 Limpar marcações</button>
+      </div>
+    </section>
+  </div>
+
+  <footer style="text-align:center;color:#93c5fd;font-size:.76rem;padding:20px 0;">
+    🧩 Programação Front-End • Tema 08: Layout Responsivo, Grid e Flexbox • 2026
+  </footer>
+</div>
+
+<div class="toast" id="toast">✅ Feito!</div>
+<button type="button" class="btn-top" id="btn-topo" aria-label="Voltar ao topo">⬆️ Topo</button>
+
+<script>
+/* ============================================================
+   UTILITÁRIOS
+   ============================================================ */
+function $(id){ return document.getElementById(id); }
+function esc(t){
+  return String(t == null ? '' : t)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+var toastTimer = null;
+function toast(msg){
+  var t = $('toast');
+  if (!t) return;
+  t.textContent = msg;
+  t.classList.add('show');
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ t.classList.remove('show'); }, 3000);
+}
+function copiarFallback(texto){
+  var ta = document.createElement('textarea');
+  ta.value = texto;
+  ta.setAttribute('readonly','');
+  ta.style.position = 'fixed';
+  ta.style.top = '-1000px';
+  document.body.appendChild(ta);
+  ta.select();
+  var ok = false;
+  try { ok = document.execCommand('copy'); } catch(e){ ok = false; }
+  document.body.removeChild(ta);
+  return ok;
+}
+function copiarTexto(texto, botao){
+  if (!texto){ toast('⚠️ Código não disponível nesta versão.'); return; }
+  function fim(ok){
+    if (ok){
+      toast('✅ Copiado!');
+      if (botao){
+        if (!botao.dataset.original) botao.dataset.original = botao.textContent;
+        botao.textContent = '✅ Copiado!';
+        clearTimeout(botao._timer);
+        botao._timer = setTimeout(function(){
+          botao.textContent = botao.dataset.original;
+        }, 1500);
+      }
+    } else toast('⚠️ Selecione e copie manualmente.');
+  }
+  if (navigator.clipboard && window.isSecureContext){
+    navigator.clipboard.writeText(texto).then(function(){ fim(true); }).catch(function(){ fim(copiarFallback(texto)); });
+  } else fim(copiarFallback(texto));
+}
+
+/* ============================================================
+   DECLARAÇÕES GLOBAIS
+   ============================================================ */
+var STORAGE_KEY = 't8-progresso';
+var SCHEMA_VERSION = 1;
+var ABAS_CONHECIDAS = ['aba-01','aba-02','aba-03','aba-04','aba-05','aba-06','aba-07','aba-08','aba-09'];
+
+var QUESTOES = [
+  { p:'Qual propriedade transforma um elemento em container Grid?', o:[{l:'a',t:'display: grid'},{l:'b',t:'grid: auto'},{l:'c',t:'display: block-grid'},{l:'d',t:'layout: grid'}], c:'a', e:'display: grid é a única forma correta. As outras opções não existem no CSS.' },
+  { p:'Na regra grid-template-columns: 1fr 2fr 1fr, qual fração do espaço a segunda coluna ocupa?', o:[{l:'a',t:'1/4'},{l:'b',t:'1/3'},{l:'c',t:'1/2'},{l:'d',t:'2/4'}], c:'d', e:'A soma é 4fr. A segunda coluna tem 2fr, então ocupa 2/4 do espaço disponível.' },
+  { p:'Para quais direções a propriedade gap adiciona espaçamento em um Grid?', o:[{l:'a',t:'Somente entre colunas'},{l:'b',t:'Somente entre linhas'},{l:'c',t:'Entre linhas e colunas (ambos)'},{l:'d',t:'Apenas em volta do container'}], c:'c', e:'gap aplica o mesmo espaçamento entre linhas e colunas. Para diferenciar, use gap: row col; ou row-gap e column-gap.' },
+  { p:'Em Flexbox, o que justify-content controla?', o:[{l:'a',t:'O alinhamento vertical dos itens'},{l:'b',t:'A distribuição no eixo principal'},{l:'c',t:'A cor de fundo'},{l:'d',t:'A quebra de linha dos itens'}], c:'b', e:'justify-content trabalha no eixo principal (row por padrão = horizontal). O eixo transversal é responsabilidade de align-items.' },
+  { p:'Qual combinação faz cartões com largura mínima de 200px quebrem linha automaticamente?', o:[{l:'a',t:'display: flex; flex-direction: column'},{l:'b',t:'display: flex; flex-wrap: wrap; flex: 1 1 200px'},{l:'c',t:'display: grid; gap: 0'},{l:'d',t:'display: inline'}], c:'b', e:'flex-wrap: wrap permite quebra. flex: 1 1 200px define tamanho-base de 200px e permite crescer/encolher proporcionalmente.' },
+  { p:'Qual é o efeito de align-items: center em um Flexbox com flex-direction: row?', o:[{l:'a',t:'Centraliza os itens horizontalmente'},{l:'b',t:'Centraliza os itens verticalmente'},{l:'c',t:'Afasta os itens igualmente'},{l:'d',t:'Empilha os itens'}], c:'b', e:'Com flex-direction: row, o eixo transversal é vertical — então align-items centraliza verticalmente.' },
+  { p:'Sobre @media (max-width: 600px), o que é correto afirmar?', o:[{l:'a',t:'Aplica CSS quando a viewport é maior que 600px'},{l:'b',t:'Aplica CSS quando a viewport é menor ou igual a 600px'},{l:'c',t:'Aplica CSS apenas em celulares'},{l:'d',t:'Substitui todo o CSS anterior'}], c:'b', e:'max-width: 600px significa "até 600px". Não tem relação com tipo de dispositivo — só com a largura da viewport.' },
+  { p:'O que * { box-sizing: border-box; } faz com o padding de um elemento?', o:[{l:'a',t:'Remove o padding'},{l:'b',t:'Soma o padding ao width declarado'},{l:'c',t:'Conta o padding dentro do width declarado'},{l:'d',t:'Transforma padding em margin'}], c:'c', e:'Com border-box, o width declarado já inclui padding e border. Evita que caixas "estourem" o layout.' },
+  { p:'Uma caixa tem width: 300px; padding: 20px; border: 2px; box-sizing: border-box. Qual é a largura do conteúdo útil?', o:[{l:'a',t:'300px'},{l:'b',t:'256px'},{l:'c',t:'260px'},{l:'d',t:'340px'}], c:'b', e:'Com border-box, o conteúdo útil é width − padding×2 − border×2 = 300 − 40 − 4 = 256px.' },
+  { p:'Na mesma caixa (width: 300px; padding: 20px; border: 2px) SEM box-sizing, qual seria a largura renderizada?', o:[{l:'a',t:'300px'},{l:'b',t:'320px'},{l:'c',t:'344px'},{l:'d',t:'360px'}], c:'c', e:'Sem border-box: 300 + 20 + 20 + 2 + 2 = 344px.' }
+];
+
+var ITENS_CHECK = [
+  'Consigo criar um container Grid com display: grid e definir colunas com grid-template-columns.',
+  'Consigo usar a unidade fr para distribuir colunas proporcionalmente.',
+  'Consigo aplicar grid-template-areas para organizar cabeçalho, menu, conteúdo e rodapé.',
+  'Consigo transformar um menu horizontal com display: flex, gap e justify-content.',
+  'Consigo fazer cartões com flex-wrap: wrap para quebrarem linha em telas menores.',
+  'Consigo escrever uma media query com breakpoint definido a partir do meu próprio layout.',
+  'Consigo testar a página em 360px e confirmar que não há rolagem horizontal.',
+  'Consigo explicar quando usar Grid (estrutura) e quando usar Flexbox (componentes internos).'
+];
+
+var MISSOES_GRID = ['g1','g2','g3','g4','g5'];
+var MISSOES_FLEX = ['f1','f2','f3','f4','f5'];
+
+var estadoPersistente = {
+  schemaVersion: SCHEMA_VERSION,
+  quiz: {},
+  check: {},
+  missoesGrid: {},
+  missoesFlex: {},
+  aba: 'aba-01'
+};
+var pendenciaSchemaFuturo = false;
+var respostas = {};
+var marcadosCheck = {};
+
+/* ============================================================
+   CÓDIGOS DOS EXEMPLOS
+   ============================================================ */
+var COD_CLASSES =
+'<!DOCTYPE html>\n' +
+'<html lang="pt-BR">\n' +
+'<head>\n' +
+'  <meta charset="UTF-8">\n' +
+'  <title>Classes e Seletores</title>\n' +
+'  <style>\n' +
+'    * { box-sizing: border-box; margin: 0; padding: 0; }\n' +
+'    body { font-family: Arial, sans-serif; padding: 20px; }\n' +
+'    .cartao {\n' +
+'      background: #dbeafe;\n' +
+'      border: 2px solid #2563eb;\n' +
+'      border-radius: 12px;\n' +
+'      padding: 16px;\n' +
+'      margin-bottom: 12px;\n' +
+'    }\n' +
+'    .cartao.destaque {\n' +
+'      background: #ffedd5;\n' +
+'      border-color: #ea580c;\n' +
+'      font-weight: 700;\n' +
+'    }\n' +
+'  </style>\n' +
+'</head>\n' +
+'<body>\n' +
+'  <div class="cartao">Cartão normal</div>\n' +
+'  <div class="cartao destaque">Cartão em destaque</div>\n' +
+'</body>\n' +
+'</html>';
+
+var COD_AREAS =
+'<!DOCTYPE html>\n' +
+'<html lang="pt-BR">\n' +
+'<head>\n' +
+'<meta charset="UTF-8">\n' +
+'<title>Grid Template Areas</title>\n' +
+'<style>\n' +
+'  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }\n' +
+'  body { font-family: Arial, sans-serif; padding: 16px; }\n' +
+'  .pagina {\n' +
+'    display: grid;\n' +
+'    gap: 10px;\n' +
+'    grid-template-columns: 180px 1fr;\n' +
+'    grid-template-rows: auto 1fr auto;\n' +
+'    grid-template-areas:\n' +
+'      "cabecalho cabecalho"\n' +
+'      "menu      conteudo"\n' +
+'      "rodape    rodape";\n' +
+'    min-height: 320px;\n' +
+'  }\n' +
+'  .cabecalho { grid-area: cabecalho; background: #1e3a8a; color: #fff; padding: 14px; border-radius: 8px; }\n' +
+'  .menu      { grid-area: menu;      background: #93c5fd; padding: 14px; border-radius: 8px; }\n' +
+'  .conteudo  { grid-area: conteudo;  background: #e0e7ff; padding: 14px; border-radius: 8px; }\n' +
+'  .rodape    { grid-area: rodape;    background: #334155; color: #fff; padding: 14px; border-radius: 8px; }\n' +
+'</style>\n' +
+'</head>\n' +
+'<body>\n' +
+'  <div class="pagina">\n' +
+'    <header class="cabecalho">Cabeçalho</header>\n' +
+'    <nav class="menu">Menu</nav>\n' +
+'    <main class="conteudo">Conteúdo principal</main>\n' +
+'    <footer class="rodape">Rodapé</footer>\n' +
+'  </div>\n' +
+'</body>\n' +
+'</html>';
+
+/* NOVO: exemplo de alinhamento Grid — fixa width:400px para sobrar espaço
+   e permitir ver justify-content / align-content funcionando. */
+var COD_ALINHAMENTO =
+'<!DOCTYPE html>\n' +
+'<html lang="pt-BR">\n' +
+'<head>\n' +
+'<meta charset="UTF-8">\n' +
+'<title>Alinhamento no Grid</title>\n' +
+'<style>\n' +
+'  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }\n' +
+'  body { font-family: Arial, sans-serif; padding: 20px; background: #f8fafc; }\n' +
+'  h2 { color: #1e3a8a; margin-bottom: 6px; }\n' +
+'  p.dica { color: #475569; margin-bottom: 16px; font-size: 14px; }\n' +
+'\n' +
+'  .container {\n' +
+'    /* O container ocupa 100% da largura disponível */\n' +
+'    width: 100%;\n' +
+'    min-height: 320px;\n' +
+'    background: #e0e7ff;\n' +
+'    border: 2px dashed #94a3b8;\n' +
+'    padding: 8px;\n' +
+'    margin-bottom: 24px;\n' +
+'\n' +
+'    /* O grid tem 300px x 200px — MENOR que o container,\n' +
+'       então sobra espaço para justify-content / align-content agirem */\n' +
+'    display: grid;\n' +
+'    grid-template-columns: repeat(3, 90px);\n' +
+'    grid-template-rows: repeat(2, 90px);\n' +
+'    gap: 6px;\n' +
+'\n' +
+'    /* As 4 propriedades mágicas */\n' +
+'    justify-items: center;      /* conteúdo da célula no eixo horizontal */\n' +
+'    align-items: center;        /* conteúdo da célula no eixo vertical   */\n' +
+'    justify-content: center;    /* grid inteiro no eixo horizontal       */\n' +
+'    align-content: center;      /* grid inteiro no eixo vertical         */\n' +
+'  }\n' +
+'  .cx {\n' +
+'    width: 60px;\n' +
+'    height: 60px;\n' +
+'    background: #2563eb;\n' +
+'    color: #fff;\n' +
+'    border-radius: 6px;\n' +
+'    display: flex;\n' +
+'    align-items: center;\n' +
+'    justify-content: center;\n' +
+'    font-weight: 800;\n' +
+'  }\n' +
+'</style>\n' +
+'</head>\n' +
+'<body>\n' +
+'  <h2>Alinhamento no Grid</h2>\n' +
+'  <p class="dica">O container tem 100% de largura. O grid tem 3×90 = 270px de largura. Sobra espaço → justify-content: center funciona. Reduza a janela até o container ficar menor que o grid: justify-content para de ter efeito.</p>\n' +
+'\n' +
+'  <div class="container">\n' +
+'    <div class="cx">1</div>\n' +
+'    <div class="cx">2</div>\n' +
+'    <div class="cx">3</div>\n' +
+'    <div class="cx">4</div>\n' +
+'    <div class="cx">5</div>\n' +
+'    <div class="cx">6</div>\n' +
+'  </div>\n' +
+'\n' +
+'  <h2>Mesmo grid, sem os alinhamentos</h2>\n' +
+'  <p class="dica">Aqui só trocamos os valores para "start" — veja a diferença.</p>\n' +
+'  <div class="container" style="justify-items: start; align-items: start; justify-content: start; align-content: start;">\n' +
+'    <div class="cx">1</div>\n' +
+'    <div class="cx">2</div>\n' +
+'    <div class="cx">3</div>\n' +
+'    <div class="cx">4</div>\n' +
+'    <div class="cx">5</div>\n' +
+'    <div class="cx">6</div>\n' +
+'  </div>\n' +
+'</body>\n' +
+'</html>';
+
+var COD_LF1 =
+'<!DOCTYPE html>\n' +
+'<html lang="pt-BR">\n' +
+'<head>\n' +
+'<meta charset="UTF-8">\n' +
+'<title>Menu com Flexbox</title>\n' +
+'<style>\n' +
+'  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }\n' +
+'  body { font-family: Arial, sans-serif; }\n' +
+'  .topo {\n' +
+'    display: flex;\n' +
+'    justify-content: space-between;\n' +
+'    align-items: center;\n' +
+'    background: #111827;\n' +
+'    color: #fff;\n' +
+'    padding: 12px 20px;\n' +
+'  }\n' +
+'  .topo .logo { font-weight: 800; }\n' +
+'  .topo nav { display: flex; gap: 16px; }\n' +
+'  .topo nav a { color: #93c5fd; text-decoration: none; font-size: 14px; }\n' +
+'  .topo nav a:hover { color: #fff; }\n' +
+'</style>\n' +
+'</head>\n' +
+'<body>\n' +
+'  <header class="topo">\n' +
+'    <span class="logo">MinhaLoja</span>\n' +
+'    <nav>\n' +
+'      <a href="#">Início</a>\n' +
+'      <a href="#">Produtos</a>\n' +
+'      <a href="#">Contato</a>\n' +
+'    </nav>\n' +
+'  </header>\n' +
+'</body>\n' +
+'</html>';
+
+var COD_LF2 =
+'<!DOCTYPE html>\n' +
+'<html lang="pt-BR">\n' +
+'<head>\n' +
+'<meta charset="UTF-8">\n' +
+'<meta name="viewport" content="width=device-width, initial-scale=1.0">\n' +
+'<title>Cartões com Flexbox</title>\n' +
+'<style>\n' +
+'  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }\n' +
+'  body { font-family: Arial, sans-serif; padding: 20px; background: #f8fafc; }\n' +
+'  .lista {\n' +
+'    display: flex;\n' +
+'    flex-wrap: wrap;\n' +
+'    gap: 16px;\n' +
+'  }\n' +
+'  .cartao {\n' +
+'    flex: 1 1 200px;\n' +
+'    background: #fff;\n' +
+'    border: 1px solid #cbd5e1;\n' +
+'    border-radius: 10px;\n' +
+'    padding: 16px;\n' +
+'    display: flex;\n' +
+'    flex-direction: column;\n' +
+'    gap: 8px;\n' +
+'  }\n' +
+'  .cartao h3 { color: #1e3a8a; font-size: 15px; }\n' +
+'  .cartao .preco { color: #ea580c; font-weight: 800; }\n' +
+'  .cartao .acoes { display: flex; gap: 8px; margin-top: auto; }\n' +
+'  .cartao button {\n' +
+'    flex: 1;\n' +
+'    padding: 6px; border: 0; border-radius: 6px;\n' +
+'    background: #2563eb; color: #fff; font-weight: 700; cursor: pointer;\n' +
+'  }\n' +
+'</style>\n' +
+'</head>\n' +
+'<body>\n' +
+'  <div class="lista">\n' +
+'    <div class="cartao"><h3>Camiseta</h3><span class="preco">R$ 49</span><div class="acoes"><button>Comprar</button></div></div>\n' +
+'    <div class="cartao"><h3>Boné</h3><span class="preco">R$ 29</span><div class="acoes"><button>Comprar</button></div></div>\n' +
+'    <div class="cartao"><h3>Moletom</h3><span class="preco">R$ 89</span><div class="acoes"><button>Comprar</button></div></div>\n' +
+'    <div class="cartao"><h3>Caneca</h3><span class="preco">R$ 19</span><div class="acoes"><button>Comprar</button></div></div>\n' +
+'  </div>\n' +
+'</body>\n' +
+'</html>';
+
+var COD_LF3 =
+'<!DOCTYPE html>\n' +
+'<html lang="pt-BR">\n' +
+'<head>\n' +
+'<meta charset="UTF-8">\n' +
+'<title>Grupo de Botões com Flexbox</title>\n' +
+'<style>\n' +
+'  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }\n' +
+'  body { font-family: Arial, sans-serif; padding: 20px; }\n' +
+'  .grupo {\n' +
+'    display: flex;\n' +
+'    justify-content: center;\n' +
+'    align-items: center;\n' +
+'    gap: 10px;\n' +
+'    flex-wrap: wrap;\n' +
+'    background: #f1f5f9;\n' +
+'    padding: 16px;\n' +
+'    border-radius: 12px;\n' +
+'  }\n' +
+'  .grupo button {\n' +
+'    padding: 10px 18px;\n' +
+'    border: 0;\n' +
+'    border-radius: 8px;\n' +
+'    cursor: pointer;\n' +
+'    font-weight: 700;\n' +
+'    font-family: inherit;\n' +
+'    background: #2563eb;\n' +
+'    color: #fff;\n' +
+'  }\n' +
+'  .grupo button.secundario { background: #64748b; }\n' +
+'  .grupo button.perigo { background: #dc2626; }\n' +
+'</style>\n' +
+'</head>\n' +
+'<body>\n' +
+'  <div class="grupo">\n' +
+'    <button>Confirmar</button>\n' +
+'    <button class="secundario">Cancelar</button>\n' +
+'    <button class="perigo">Excluir</button>\n' +
+'  </div>\n' +
+'</body>\n' +
+'</html>';
+
+var COD_MEDIA1 =
+'/* Mobile-first: estilo base para telas pequenas */\n' +
+'.pagina {\n' +
+'  display: grid;\n' +
+'  grid-template-columns: 1fr;\n' +
+'  gap: 12px;\n' +
+'}\n' +
+'\n' +
+'/* A partir de 600px, uma tela um pouco maior */\n' +
+'@media (min-width: 600px) {\n' +
+'  .pagina {\n' +
+'    grid-template-columns: 1fr 1fr;\n' +
+'  }\n' +
+'}\n' +
+'\n' +
+'/* A partir de 1000px, desktop */\n' +
+'@media (min-width: 1000px) {\n' +
+'  .pagina {\n' +
+'    grid-template-columns: 1fr 1fr 1fr;\n' +
+'  }\n' +
+'}\n' +
+'\n' +
+'/* Também é possível usar max-width (desktop-first) */\n' +
+'@media (max-width: 480px) {\n' +
+'  body {\n' +
+'    font-size: 15px;\n' +
+'  }\n' +
+'}';
+
+var COD_RESP =
+'<!DOCTYPE html>\n' +
+'<html lang="pt-BR">\n' +
+'<head>\n' +
+'<meta charset="UTF-8">\n' +
+'<meta name="viewport" content="width=device-width, initial-scale=1.0">\n' +
+'<title>Layout Responsivo</title>\n' +
+'<style>\n' +
+'  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }\n' +
+'  body { font-family: Arial, sans-serif; padding: 16px; background: #f8fafc; }\n' +
+'  .pagina {\n' +
+'    display: grid;\n' +
+'    grid-template-columns: 1fr;\n' +
+'    gap: 12px;\n' +
+'  }\n' +
+'  .bloco {\n' +
+'    background: #2563eb;\n' +
+'    color: #fff;\n' +
+'    padding: 24px;\n' +
+'    border-radius: 10px;\n' +
+'    text-align: center;\n' +
+'    font-weight: 800;\n' +
+'  }\n' +
+'\n' +
+'  @media (min-width: 600px) {\n' +
+'    .pagina { grid-template-columns: 1fr 1fr; }\n' +
+'  }\n' +
+'\n' +
+'  @media (min-width: 1000px) {\n' +
+'    .pagina { grid-template-columns: 1fr 1fr 1fr; }\n' +
+'    .bloco { padding: 36px; }\n' +
+'  }\n' +
+'</style>\n' +
+'</head>\n' +
+'<body>\n' +
+'  <div class="pagina">\n' +
+'    <div class="bloco">Bloco 1</div>\n' +
+'    <div class="bloco">Bloco 2</div>\n' +
+'    <div class="bloco">Bloco 3</div>\n' +
+'    <div class="bloco">Bloco 4</div>\n' +
+'    <div class="bloco">Bloco 5</div>\n' +
+'    <div class="bloco">Bloco 6</div>\n' +
+'  </div>\n' +
+'</body>\n' +
+'</html>';
+
+var CODIGOS = {
+  classes: COD_CLASSES,
+  areas: COD_AREAS,
+  alinhamento: COD_ALINHAMENTO,
+  lg1: COD_LG1_PLACEHOLDER,
+  lg2: COD_LG2_PLACEHOLDER,
+  lg3: COD_LG3_PLACEHOLDER,
+  lf1: COD_LF1,
+  lf2: COD_LF2,
+  lf3: COD_LF3,
+  media1: COD_MEDIA1,
+  resp: COD_RESP
+};
+
+/* Placeholders para compatibilidade (não usados no HTML atual) */
+var COD_LG1_PLACEHOLDER = '';
+var COD_LG2_PLACEHOLDER = '';
+var COD_LG3_PLACEHOLDER = '';
+
+/* ============================================================
+   PERSISTÊNCIA
+   ============================================================ */
+function lerLocalStorageSeguro(chave){
+  try { var raw = localStorage.getItem(chave); return raw ? JSON.parse(raw) : null; }
+  catch(e){ return null; }
+}
+function gravarLocalStorageSeguro(chave, obj){
+  try { localStorage.setItem(chave, JSON.stringify(obj)); return true; }
+  catch(e){ return false; }
+}
+
+function carregarProgresso(){
+  var bruto = lerLocalStorageSeguro(STORAGE_KEY);
+  if (!bruto || typeof bruto !== 'object') return;
+  var versao = Number(bruto.schemaVersion);
+  if (!isFinite(versao) || versao < 0){ toast('⚠️ Progresso em formato desconhecido. Começando do zero.'); return; }
+  if (versao > SCHEMA_VERSION){ pendenciaSchemaFuturo = true; return; }
+  if (versao === 1){
+    if (bruto.quiz && typeof bruto.quiz === 'object'){
+      Object.keys(bruto.quiz).forEach(function(k){
+        var num = parseInt(k,10);
+        if (isFinite(num) && num >= 1 && num <= QUESTOES.length){
+          var letra = bruto.quiz[k];
+          if (typeof letra === 'string' && /^[a-d]$/.test(letra)) estadoPersistente.quiz[num] = letra;
+        }
+      });
+    }
+    if (bruto.check && typeof bruto.check === 'object'){
+      Object.keys(bruto.check).forEach(function(k){
+        var idx = parseInt(k,10);
+        if (isFinite(idx) && idx >= 0 && idx < ITENS_CHECK.length && bruto.check[k] === true) estadoPersistente.check[idx] = true;
+      });
+    }
+    if (bruto.missoesGrid && typeof bruto.missoesGrid === 'object'){
+      MISSOES_GRID.forEach(function(id){ if (bruto.missoesGrid[id] === true) estadoPersistente.missoesGrid[id] = true; });
+    }
+    if (bruto.missoesFlex && typeof bruto.missoesFlex === 'object'){
+      MISSOES_FLEX.forEach(function(id){ if (bruto.missoesFlex[id] === true) estadoPersistente.missoesFlex[id] = true; });
+    }
+    if (typeof bruto.aba === 'string' && ABAS_CONHECIDAS.indexOf(bruto.aba) !== -1) estadoPersistente.aba = bruto.aba;
+  }
+}
+function salvarProgresso(){
+  var ok = gravarLocalStorageSeguro(STORAGE_KEY, estadoPersistente);
+  if (!ok) toast('⚠️ Não foi possível salvar progresso neste navegador.');
+  return ok;
+}
+
+/* ============================================================
+   MISSÕES
+   ============================================================ */
+function atualizarBotaoMissao(btn, concluida){
+  if (!btn) return;
+  if (concluida){
+    btn.textContent = '✓ Concluída (clique para desmarcar)';
+    btn.style.background = '#16a34a';
+  } else {
+    btn.textContent = 'Marcar como concluída';
+    btn.style.background = '';
+  }
+}
+
+function atualizarProgressoMissoes(tipo){
+  var lista, txt, barra;
+  if (tipo === 'grid'){ lista = MISSOES_GRID; txt = $('txt-prog-grid'); barra = $('barra-prog-grid'); }
+  else { lista = MISSOES_FLEX; txt = $('txt-prog-flex'); barra = $('barra-prog-flex'); }
+  if (!lista) return;
+  var feitas = lista.filter(function(id){
+    return (tipo === 'grid' ? estadoPersistente.missoesGrid[id] : estadoPersistente.missoesFlex[id]) === true;
+  }).length;
+  if (txt) txt.textContent = feitas + ' de ' + lista.length;
+  if (barra) barra.style.width = ((feitas / lista.length) * 100) + '%';
+}
+
+function toggleMissao(id, tipo, btn){
+  var store = (tipo === 'grid') ? estadoPersistente.missoesGrid : estadoPersistente.missoesFlex;
+  if (store[id]){
+    delete store[id];
+    atualizarBotaoMissao(btn, false);
+    toast('Missão desmarcada.');
+  } else {
+    store[id] = true;
+    atualizarBotaoMissao(btn, true);
+    toast('✅ Missão concluída!');
+  }
+  salvarProgresso();
+  atualizarProgressoMissoes(tipo);
+}
+
+function restaurarMissoesNoDOM(){
+  document.querySelectorAll('.btn-missao').forEach(function(btn){
+    var id = btn.getAttribute('data-missao');
+    var tipo = id.charAt(0) === 'g' ? 'grid' : 'flex';
+    var store = (tipo === 'grid') ? estadoPersistente.missoesGrid : estadoPersistente.missoesFlex;
+    atualizarBotaoMissao(btn, store[id] === true);
+  });
+  atualizarProgressoMissoes('grid');
+  atualizarProgressoMissoes('flex');
+}
+
+/* ============================================================
+   PREVIEW
+   ============================================================ */
+function abrirPreview(html, alvoId){
+  var alvo = $(alvoId);
+  if (!alvo) return;
+  var antigo = alvo.querySelector('.preview-inline');
+  if (antigo) antigo.remove();
+  var caixa = document.createElement('div');
+  caixa.className = 'preview-inline';
+  var header = document.createElement('div');
+  header.className = 'preview-header';
+  header.innerHTML = '<span>🧪 Preview</span>';
+  var fechar = document.createElement('button');
+  fechar.type = 'button';
+  fechar.className = 'preview-close';
+  fechar.textContent = '✕ Fechar';
+  header.appendChild(fechar);
+  var iframe = document.createElement('iframe');
+  iframe.setAttribute('sandbox','allow-scripts');
+  iframe.setAttribute('title','Preview');
+  iframe.srcdoc = html;
+  caixa.appendChild(header);
+  caixa.appendChild(iframe);
+  alvo.appendChild(caixa);
+  fechar.addEventListener('click', function(){ caixa.remove(); });
+  caixa.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+/* ============================================================
+   LAB GRID (demonstração de colunas)
+   ============================================================ */
+function atualizarLabGrid(){
+  var cols = $('sel-cols-g').value;
+  var gap = $('sel-gap-g').value;
+  var alvo = $('alvo-grid');
+  if (!alvo) return;
+  alvo.style.gridTemplateColumns = cols;
+  alvo.style.gap = gap + 'px';
+  $('val-cols-g').textContent = cols;
+  $('val-gap-g').textContent = gap + 'px';
+  $('codigo-grid-gerado').textContent =
+    '.container { display: grid; grid-template-columns: ' + cols + '; gap: ' + gap + 'px; }';
+}
+
+/* ============================================================
+   LAB ALINHAMENTO GRID (NOVO)
+   ============================================================ */
+function atualizarLabAlin(){
+  var ji = $('alin-ji').value;
+  var ai = $('alin-ai').value;
+  var jc = $('alin-jc').value;
+  var ac = $('alin-ac').value;
+  var alvo = $('alvo-alin');
+  if (!alvo) return;
+  alvo.style.justifyItems = ji;
+  alvo.style.alignItems = ai;
+  alvo.style.justifyContent = jc === 'normal' ? 'normal' : jc;
+  alvo.style.alignContent = ac === 'normal' ? 'normal' : ac;
+  var txt = '.container { display: grid; grid-template-columns: repeat(3, 90px); gap: 8px; ' +
+    'justify-items: ' + ji + '; align-items: ' + ai + '; ' +
+    'justify-content: ' + jc + '; align-content: ' + ac + '; }';
+  $('codigo-alin-gerado').textContent = txt;
+}
+
+/* ============================================================
+   LAB FLEX
+   ============================================================ */
+function atualizarLabFlex(){
+  var dir = $('sel-dir').value;
+  var just = $('sel-just').value;
+  var align = $('sel-align').value;
+  var wrap = $('sel-wrap').value;
+  var gap = $('range-gap-f').value;
+  var alvo = $('alvo-flex');
+  if (!alvo) return;
+  alvo.style.display = 'flex';
+  alvo.style.flexDirection = dir;
+  alvo.style.justifyContent = just;
+  alvo.style.alignItems = align;
+  alvo.style.flexWrap = wrap;
+  alvo.style.gap = gap + 'px';
+  alvo.style.minHeight = '160px';
+  $('val-gap-f').textContent = gap + 'px';
+  $('codigo-flex-gerado').textContent =
+    '.container { display: flex; flex-direction: ' + dir + '; justify-content: ' + just +
+    '; align-items: ' + align + '; flex-wrap: ' + wrap + '; gap: ' + gap + 'px; }';
+}
+
+/* ============================================================
+   DEVICE PICKER
+   ============================================================ */
+var COD_DEVICE_DEMO =
+'<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><style>' +
+'*{box-sizing:border-box;margin:0;padding:0} html,body{height:100%} body{font-family:Arial,sans-serif;background:#f1f5f9;line-height:1.5}' +
+'.site{display:grid;grid-template-columns:220px 1fr;grid-template-rows:auto 1fr auto;grid-template-areas:"topo topo" "menu conteudo" "rodape rodape";min-height:100%;gap:12px;padding:12px}' +
+'.topo{grid-area:topo;background:#1e3a8a;color:#fff;padding:14px 18px;border-radius:8px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}' +
+'.topo .logo{font-weight:800;font-size:1rem}' +
+'.topo nav{display:flex;gap:14px;font-size:.85rem}' +
+'.topo nav a{color:#93c5fd;text-decoration:none}' +
+'.menu{grid-area:menu;background:#fff;border:1px solid #cbd5e1;border-radius:8px;padding:14px;font-size:.88rem}' +
+'.menu h3{font-size:.75rem;text-transform:uppercase;color:#64748b;margin-bottom:8px}' +
+'.menu ul{list-style:none;display:flex;flex-direction:column;gap:6px}' +
+'.menu li{padding:4px 0;color:#334155}' +
+'.conteudo{grid-area:conteudo;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;align-content:start}' +
+'.cartao{background:#fff;border:1px solid #cbd5e1;border-radius:8px;padding:14px;display:flex;flex-direction:column;gap:6px;min-height:100px}' +
+'.cartao h4{font-size:.9rem;color:#1e3a8a}.cartao p{font-size:.78rem;color:#475569}.cartao span{font-size:.75rem;font-weight:700;color:#ea580c;margin-top:auto}' +
+'.rodape{grid-area:rodape;background:#1f2937;color:#cbd5e1;padding:10px 16px;border-radius:8px;font-size:.8rem;text-align:center}' +
+'@media(max-width:900px){.site{grid-template-columns:1fr;grid-template-areas:"topo" "menu" "conteudo" "rodape"}.conteudo{grid-template-columns:repeat(2,1fr)}.menu ul{flex-direction:row;flex-wrap:wrap;gap:10px}.menu li{padding:2px 8px;background:#f1f5f9;border-radius:4px}}' +
+'@media(max-width:500px){.conteudo{grid-template-columns:1fr}.topo{flex-direction:column;align-items:flex-start}}' +
+'</style></head><body><div class="site">' +
+'<header class="topo"><span class="logo">📚 MinhaLoja</span><nav><a href="#">Início</a><a href="#">Produtos</a><a href="#">Sobre</a></nav></header>' +
+'<aside class="menu"><h3>Categorias</h3><ul><li>Livros</li><li>Jogos</li><li>Papelaria</li><li>Presentes</li></ul></aside>' +
+'<main class="conteudo">' +
+'<div class="cartao"><h4>Ficção</h4><p>Histórias que viajam longe.</p><span>R$ 39</span></div>' +
+'<div class="cartao"><h4>Educação</h4><p>Para aprender sem pressa.</p><span>R$ 49</span></div>' +
+'<div class="cartao"><h4>Infantil</h4><p>Aventuras para pequenos.</p><span>R$ 29</span></div>' +
+'<div class="cartao"><h4>Quadrinhos</h4><p>Super-heróis e mangás.</p><span>R$ 26</span></div>' +
+'<div class="cartao"><h4>Arte</h4><p>Técnica e inspiração.</p><span>R$ 55</span></div>' +
+'<div class="cartao"><h4>Culinária</h4><p>Receitas do dia a dia.</p><span>R$ 42</span></div>' +
+'</main>' +
+'<footer class="rodape">© 2026 MinhaLoja · exemplos didáticos</footer>' +
+'</div></body></html>';
+
+function inicializarDevicePicker(){
+  var iframe = $('device-iframe');
+  if (!iframe) return;
+  iframe.setAttribute('loading','lazy');
+  iframe.srcdoc = COD_DEVICE_DEMO;
+  var frame = $('device-frame');
+  var label = $('device-label');
+  var size = $('device-size');
+  var botoes = document.querySelectorAll('.device-btn');
+  function aplicar(device, width){
+    botoes.forEach(function(b){
+      b.classList.remove('ativo');
+      if (b.getAttribute('data-device') === device) b.classList.add('ativo');
+    });
+    if (width === '100%'){
+      frame.style.width = '100%';
+      if (label) label.textContent = '🖥 Desktop — 100%';
+      if (size) size.textContent = '≥1024px';
+    } else {
+      frame.style.width = width;
+      if (width === '768px'){ if (label) label.textContent = '📱 Tablet — 768px'; if (size) size.textContent = '768 × 1024'; }
+      else if (width === '360px'){ if (label) label.textContent = '📱 Celular — 360px'; if (size) size.textContent = '360 × 640'; }
+      else { if (label) label.textContent = device + ' — ' + width; if (size) size.textContent = width; }
+    }
+  }
+  botoes.forEach(function(btn){
+    btn.addEventListener('click', function(){ aplicar(btn.getAttribute('data-device'), btn.getAttribute('data-width')); });
+  });
+  aplicar('desktop', '100%');
+}
+
+/* ============================================================
+   ABAS
+   ============================================================ */
+function ativarAba(idAba){
+  if (ABAS_CONHECIDAS.indexOf(idAba) === -1) idAba = 'aba-01';
+  document.querySelectorAll('.tab-btn').forEach(function(b){
+    b.classList.remove('active');
+    b.setAttribute('aria-selected','false');
+    if (b.dataset.aba === idAba){ b.classList.add('active'); b.setAttribute('aria-selected','true'); }
+  });
+  document.querySelectorAll('.tab-content').forEach(function(c){ c.classList.remove('active'); });
+  var alvo = $(idAba); if (alvo) alvo.classList.add('active');
+}
+
+/* ============================================================
+   QUIZ
+   ============================================================ */
+function renderQuiz(){
+  var c = $('container-quiz'); if (!c) return;
+  c.innerHTML = '';
+  QUESTOES.forEach(function(q, idx){
+    var n = idx + 1;
+    var div = document.createElement('div');
+    div.className = 'question'; div.id = 'quiz-q' + n;
+    var h = document.createElement('div');
+    h.className = 'question-header';
+    h.innerHTML = '<span class="question-number">' + n + '</span><div>' + esc(q.p) + '</div>';
+    div.appendChild(h);
+    var opts = document.createElement('div'); opts.className = 'options';
+    q.o.forEach(function(op){
+      var opt = document.createElement('div');
+      opt.className = 'option'; opt.dataset.letra = op.l;
+      var lbl = document.createElement('span');
+      lbl.innerHTML = '<strong>' + op.l + ')</strong> ' + esc(op.t);
+      opt.appendChild(lbl);
+      opt.addEventListener('click', function(){ marcarQuiz(n, op.l, opt); });
+      opts.appendChild(opt);
+    });
+    div.appendChild(opts);
+    var feed = document.createElement('div');
+    feed.className = 'feedback-imediato'; feed.id = 'feed-q' + n;
+    div.appendChild(feed);
+    c.appendChild(div);
+  });
+}
+function restaurarRespostasNoDOM(){
+  Object.keys(estadoPersistente.quiz).forEach(function(k){
+    var num = parseInt(k,10); var letra = estadoPersistente.quiz[k];
+    if (!isFinite(num) || !letra) return;
+    var q = QUESTOES[num - 1]; if (!q) return;
+    var div = $('quiz-q' + num); if (!div) return;
+    var opt = div.querySelector('.option[data-letra="' + letra + '"]'); if (!opt) return;
+    div.querySelectorAll('.option').forEach(function(o){ o.classList.add('disabled'); });
+    var feed = $('feed-q' + num);
+    if (letra === q.c){
+      opt.classList.add('correct');
+      if (feed){ feed.classList.add('mostrar','ok'); feed.innerHTML = '✅ <strong>Correto!</strong> ' + esc(q.e); }
+    } else {
+      opt.classList.add('wrong');
+      var correta = div.querySelector('.option[data-letra="' + q.c + '"]');
+      if (correta) correta.classList.add('correct');
+      if (feed){ feed.classList.add('mostrar','no'); feed.innerHTML = '❌ <strong>Ainda não.</strong> ' + esc(q.e); }
+    }
+    respostas[num] = letra;
+  });
+  atualizarProgressoQuiz();
+}
+function marcarQuiz(num, letra, opt){
+  if (respostas[num]) return;
+  var div = $('quiz-q' + num); if (!div) return;
+  div.querySelectorAll('.option').forEach(function(o){ o.classList.add('disabled'); });
+  var q = QUESTOES[num - 1];
+  var feed = $('feed-q' + num);
+  if (letra === q.c){
+    opt.classList.add('correct');
+    if (feed){ feed.classList.add('mostrar','ok'); feed.innerHTML = '✅ <strong>Correto!</strong> ' + esc(q.e); }
+  } else {
+    opt.classList.add('wrong');
+    var correta = div.querySelector('.option[data-letra="' + q.c + '"]');
+    if (correta) correta.classList.add('correct');
+    if (feed){ feed.classList.add('mostrar','no'); feed.innerHTML = '❌ <strong>Ainda não.</strong> ' + esc(q.e); }
+  }
+  respostas[num] = letra;
+  estadoPersistente.quiz[num] = letra;
+  salvarProgresso();
+  atualizarProgressoQuiz();
+}
+function atualizarProgressoQuiz(){
+  var total = QUESTOES.length;
+  var feitas = Object.keys(respostas).length;
+  var txt = $('txt-prog-quiz');
+  var bar = $('fill-prog-quiz');
+  var btn = $('btn-ver-placar');
+  if (txt) txt.textContent = feitas + ' de ' + total;
+  if (bar) bar.style.width = ((feitas / total) * 100) + '%';
+  if (btn) btn.disabled = (feitas < total);
+}
+function verPlacarQuiz(){
+  var acertos = 0;
+  QUESTOES.forEach(function(q, idx){ if (respostas[idx + 1] === q.c) acertos++; });
+  var pct = Math.round((acertos / QUESTOES.length) * 100);
+  var diag = pct >= 80 ? '🏆 Excelente domínio!'
+           : pct >= 60 ? '👏 Bom resultado. Revise o que errou.'
+           : '📖 Releia as abas 3, 4, 5 e 6 e refaça as missões.';
+  var html = '<div style="text-align:center;padding:14px;background:#f0fdf4;border-radius:9px;margin-bottom:10px;">' +
+               '<div style="font-size:1.5rem;font-weight:900;color:#15803d;">' + acertos + ' / ' + QUESTOES.length + '</div>' +
+               '<div style="color:#166534;font-weight:700;">Aproveitamento: ' + pct + '% — ' + diag + '</div>' +
+             '</div>';
+  QUESTOES.forEach(function(q, idx){
+    var n = idx + 1; var resp = respostas[n] || '—'; var ok = (resp === q.c);
+    html += '<div style="padding:7px 0;border-bottom:1px solid #e2e8f0;color:' + (ok ? '#15803d' : '#b91c1c') + ';font-size:.85rem;">' +
+              (ok ? '✅' : '❌') + ' Q' + n + ' — ' + (ok ? 'Correta' : 'Marcou (' + resp + '), gabarito (' + q.c + ')') +
+            '</div>';
+  });
+  var cont = $('resultado-quiz-conteudo'); if (cont) cont.innerHTML = html;
+  var res = $('resultado-quiz');
+  if (res){ res.classList.add('mostrar'); res.scrollIntoView({behavior:'smooth',block:'start'}); }
+}
+function limparQuiz(){
+  respostas = {}; estadoPersistente.quiz = {}; salvarProgresso();
+  document.querySelectorAll('#container-quiz .option').forEach(function(o){ o.classList.remove('correct','wrong','disabled'); });
+  document.querySelectorAll('#container-quiz .feedback-imediato').forEach(function(f){ f.classList.remove('mostrar','ok','no'); f.innerHTML = ''; });
+  $('resultado-quiz').classList.remove('mostrar');
+  atualizarProgressoQuiz();
+}
+
+/* ============================================================
+   CHECKLIST
+   ============================================================ */
+function renderCheck(){
+  var c = $('container-check'); if (!c) return;
+  c.innerHTML = '';
+  ITENS_CHECK.forEach(function(txt, idx){
+    var div = document.createElement('div');
+    div.className = 'check-item'; div.dataset.idx = idx;
+    div.innerHTML = '<div class="check-box">✓</div><div class="check-texto">' + esc(txt) + '</div>';
+    div.addEventListener('click', function(){ toggleCheck(idx, div); });
+    c.appendChild(div);
+  });
+}
+function restaurarCheckNoDOM(){
+  Object.keys(estadoPersistente.check).forEach(function(k){
+    var idx = parseInt(k,10); if (!isFinite(idx)) return;
+    var div = document.querySelector('.check-item[data-idx="' + idx + '"]');
+    if (!div) return;
+    div.classList.add('marcado'); marcadosCheck[idx] = true;
+  });
+  atualizarCheck();
+}
+function toggleCheck(idx, div){
+  if (marcadosCheck[idx]){ delete marcadosCheck[idx]; delete estadoPersistente.check[idx]; div.classList.remove('marcado'); }
+  else { marcadosCheck[idx] = true; estadoPersistente.check[idx] = true; div.classList.add('marcado'); }
+  salvarProgresso(); atualizarCheck();
+}
+function atualizarCheck(){
+  var total = ITENS_CHECK.length;
+  var feitos = Object.keys(marcadosCheck).length;
+  var txt = $('txt-prog-check'); var bar = $('barra-check'); var msg = $('msg-check');
+  if (txt) txt.textContent = feitos + ' de ' + total;
+  if (bar) bar.style.width = ((feitos / total) * 100) + '%';
+  if (msg){
+    if (feitos >= 6){
+      msg.style.display = 'block';
+      msg.innerHTML = '<strong>Muito bem!</strong> Você tem base para tentar o nível <strong>prata</strong> ou <strong>ouro</strong> do desafio. Se marcou tudo, está pronto para o ouro.';
+    } else if (feitos >= 3){
+      msg.style.display = 'block';
+      msg.innerHTML = '<strong>Bom começo!</strong> Com esse nível você consegue entregar o <strong>bronze</strong>. Marque mais alguns itens para tentar o prata.';
+    } else {
+      msg.style.display = 'none';
+    }
+  }
+}
+function limparChecklistUI(){
+  marcadosCheck = {}; estadoPersistente.check = {}; salvarProgresso();
+  document.querySelectorAll('.check-item').forEach(function(d){ d.classList.remove('marcado'); });
+  atualizarCheck();
+}
+
+/* ============================================================
+   INICIALIZAÇÃO
+   ============================================================ */
+document.addEventListener('DOMContentLoaded', function(){
+
+  // 1. Preenche blocos de código
+  Object.keys(CODIGOS).forEach(function(k){
+    var pre = $('codigo-' + k);
+    if (pre) pre.textContent = CODIGOS[k];
+  });
+
+  // 2. Carrega progresso
+  carregarProgresso();
+  if (pendenciaSchemaFuturo){
+    toast('⚠️ Progresso salvo por uma versão mais nova. Não será carregado nesta versão.');
+    pendenciaSchemaFuturo = false;
+  }
+  ativarAba(estadoPersistente.aba || 'aba-01');
+
+  // 3. Abas
+  document.querySelectorAll('.tab-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var idAba = btn.dataset.aba;
+      ativarAba(idAba);
+      estadoPersistente.aba = idAba;
+      salvarProgresso();
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+  });
+
+  // 4. Botões de copiar / OneCompiler / Preview
+  document.querySelectorAll('[data-copiar]').forEach(function(b){
+    b.addEventListener('click', function(){
+      var cod = CODIGOS[b.dataset.copiar];
+      if (!cod){ toast('⚠️ Código não disponível nesta versão.'); return; }
+      copiarTexto(cod, b);
+    });
+  });
+  document.querySelectorAll('[data-onecompiler]').forEach(function(b){
+    b.addEventListener('click', function(){
+      var cod = CODIGOS[b.dataset.onecompiler];
+      if (!cod){ toast('⚠️ Código não disponível.'); return; }
+      copiarFallback(cod);
+      toast('✅ Código copiado! Cole no OneCompiler que vai abrir.');
+      window.open('https://onecompiler.com/html', '_blank', 'noopener');
+    });
+  });
+  document.querySelectorAll('[data-preview]').forEach(function(b){
+    b.addEventListener('click', function(){
+      var cod = CODIGOS[b.dataset.preview];
+      if (!cod){ toast('⚠️ Código não disponível.'); return; }
+      abrirPreview(cod, 'preview-' + b.dataset.preview);
+    });
+  });
+
+  // 5. Missões
+  document.querySelectorAll('.btn-missao').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var id = btn.getAttribute('data-missao');
+      var tipo = id.charAt(0) === 'g' ? 'grid' : 'flex';
+      toggleMissao(id, tipo, btn);
+    });
+  });
+  restaurarMissoesNoDOM();
+
+  // 6. Lab Grid (colunas)
+  var selCols = $('sel-cols-g'); var selGap = $('sel-gap-g');
+  if (selCols) selCols.addEventListener('change', atualizarLabGrid);
+  if (selGap) selGap.addEventListener('input', atualizarLabGrid);
+  atualizarLabGrid();
+
+  // 6b. Lab Alinhamento Grid (NOVO)
+  ['alin-ji','alin-ai','alin-jc','alin-ac'].forEach(function(id){
+    var el = $(id); if (el) el.addEventListener('change', atualizarLabAlin);
+  });
+  atualizarLabAlin();
+
+  // 7. Lab Flex
+  ['sel-dir','sel-just','sel-align','sel-wrap'].forEach(function(id){
+    var el = $(id); if (el) el.addEventListener('change', atualizarLabFlex);
+  });
+  var rangeGap = $('range-gap-f');
+  if (rangeGap) rangeGap.addEventListener('input', atualizarLabFlex);
+  atualizarLabFlex();
+
+  // 8. Device picker
+  inicializarDevicePicker();
+
+  // 9. Quiz
+  renderQuiz();
+  restaurarRespostasNoDOM();
+  var btnVer = $('btn-ver-placar'); if (btnVer) btnVer.addEventListener('click', verPlacarQuiz);
+  var btnLimpar = $('btn-limpar-quiz'); if (btnLimpar) btnLimpar.addEventListener('click', limparQuiz);
+
+  // 10. Checklist
+  renderCheck();
+  restaurarCheckNoDOM();
+  var btnLimparCheck = $('btn-limpar-check'); if (btnLimparCheck) btnLimparCheck.addEventListener('click', limparChecklistUI);
+
+  // 11. Topo
+  var btnTopo = $('btn-topo'); if (btnTopo) btnTopo.addEventListener('click', function(){ window.scrollTo({top:0,behavior:'smooth'}); });
+});
+</script>
+
+</body></html>

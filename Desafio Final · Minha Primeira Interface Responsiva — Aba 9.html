@@ -1,0 +1,2196 @@
+<!DOCTYPE html>
+<!-- saved from url=(0058)https://almeida-cma.github.io/fe08/desafio-final-aba9.html -->
+<html lang="pt-BR"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Desafio Final · Minha Primeira Interface Responsiva — Aba 9</title>
+<style>
+:root{
+  --surface-dark:#111827;
+  --surface-hover:#1f2937;
+  --card-white:#ffffff;
+  --flex:#ea580c;
+  --flex-border:#c2410c;
+  --grid:#2563eb;
+  --grid-border:#1d4ed8;
+  --ok:#16a34a;
+  --ok-soft:#dcfce7;
+  --no:#dc2626;
+  --no-soft:#fee2e2;
+  --warn:#d97706;
+  --warn-soft:#fef3c7;
+  --violet:#7c3aed;
+  --violet-soft:#ede9fe;
+  --text-dark:#0f172a;
+  --border-light:#e2e8f0;
+  --border-dark:#334155;
+  --radius:18px;
+  --trans:all .22s ease;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
+  background:radial-gradient(circle at 12% 8%,#7c2d12 0%,#0b1120 60%);
+  color:var(--text-dark);
+  min-height:100vh;
+  padding:22px 12px 90px;
+  line-height:1.6;
+  overflow-x:hidden;
+}
+.container{max-width:1200px;margin:0 auto;}
+
+.header{
+  background:linear-gradient(135deg,#9a3412 0%,#ea580c 45%,#7c3aed 100%);
+  border-radius:var(--radius);
+  padding:34px 22px;
+  margin-bottom:22px;
+  text-align:center;
+  color:#fff;
+  box-shadow:0 12px 34px rgba(234,88,12,.38);
+}
+.header h1{
+  font-size:clamp(1.35rem,3.4vw,2rem);
+  margin-bottom:8px;
+  letter-spacing:-.5px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.header h1 span{color:#fed7aa;}
+.header p{opacity:.96;font-size:.98rem;max-width:860px;margin:0 auto;}
+.badge-group{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:16px;}
+.badge{
+  background:rgba(255,255,255,.18);
+  border:1px solid rgba(255,255,255,.32);
+  padding:5px 13px;
+  border-radius:30px;
+  font-size:.72rem;
+  font-weight:700;
+  color:#fff;
+}
+
+.tabs-nav{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding-bottom:8px;
+  margin-bottom:20px;
+  -webkit-overflow-scrolling:touch;
+}
+.tab-btn{
+  background:var(--surface-dark);
+  color:#fdba74;
+  border:1px solid var(--border-dark);
+  padding:11px 16px;
+  border-radius:30px;
+  font-size:.8rem;
+  font-weight:700;
+  cursor:pointer;
+  white-space:nowrap;
+  transition:var(--trans);
+  font-family:inherit;
+}
+.tab-btn:hover{color:#fff;background:var(--surface-hover);}
+.tab-btn.active{
+  background:linear-gradient(135deg,#ea580c,#7c3aed);
+  color:#fff;
+  border-color:#fdba74;
+  box-shadow:0 0 14px rgba(234,88,12,.5);
+}
+.tab-btn:focus-visible{outline:3px solid #fbbf24;outline-offset:2px;}
+.tab-content{display:none;}
+.tab-content.active{display:block;animation:fadeIn .28s ease-out;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:translateY(0);}}
+
+.card{
+  background:var(--card-white);
+  border-radius:var(--radius);
+  padding:26px;
+  margin-bottom:22px;
+  box-shadow:0 10px 28px rgba(0,0,0,.16);
+}
+.card h2{
+  color:var(--flex-border);
+  margin-bottom:14px;
+  border-left:5px solid var(--flex);
+  padding-left:12px;
+  font-size:clamp(1.12rem,2.2vw,1.42rem);
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.card h3{
+  color:#0f172a;
+  margin:22px 0 10px;
+  font-size:1.1rem;
+  border-bottom:2px dashed #cbd5e1;
+  padding-bottom:6px;
+}
+.card h4{color:#1e293b;margin:16px 0 8px;font-size:1rem;}
+.card p{color:#334155;margin-bottom:12px;font-size:.95rem;}
+.card ul,.card ol{color:#334155;line-height:1.8;margin:8px 0 14px 24px;font-size:.94rem;}
+.card li{margin-bottom:4px;}
+
+code{
+  background:#f1f5f9;
+  color:var(--flex-border);
+  padding:2px 6px;
+  border-radius:4px;
+  font-family:'Courier New',monospace;
+  font-weight:700;
+  font-size:.88em;
+  border:1px solid var(--border-light);
+}
+
+.hl{padding:14px 18px;border-radius:11px;margin:14px 0;font-size:.92rem;line-height:1.68;}
+.hl.blue{background:#e0f2fe;border-left:5px solid #0284c7;color:#0c4a6e;}
+.hl.amber{background:var(--warn-soft);border-left:5px solid var(--warn);color:#78350f;}
+.hl.rose{background:#ffe4e6;border-left:5px solid #e11d48;color:#881337;}
+.hl.green{background:var(--ok-soft);border-left:5px solid var(--ok);color:#14532d;}
+.hl.violet{background:var(--violet-soft);border-left:5px solid var(--violet);color:#4c1d95;}
+.hl code{background:rgba(255,255,255,.85);border:1px solid rgba(0,0,0,.16);color:#0f172a;}
+
+table.tabela{
+  width:100%;
+  border-collapse:collapse;
+  font-size:.86rem;
+  margin:14px 0;
+  background:#fff;
+  border-radius:8px;
+  overflow:hidden;
+  box-shadow:0 2px 10px rgba(0,0,0,.06);
+}
+table.tabela thead tr{background:linear-gradient(135deg,#9a3412,#7c3aed);color:#fff;}
+table.tabela th{padding:11px 12px;text-align:left;font-weight:800;font-size:.8rem;}
+table.tabela td{padding:9px 12px;border-bottom:1px solid var(--border-light);color:#334155;vertical-align:top;}
+table.tabela tbody tr:hover{background:#f8fafc;}
+table.tabela tbody tr:last-child td{border-bottom:none;}
+
+.code-wrapper{
+  margin:16px 0;
+  border-radius:12px;
+  overflow:hidden;
+  border:1px solid var(--border-dark);
+  background:#0b1220;
+}
+.code-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:#111827;
+  padding:9px 14px;
+  border-bottom:1px solid var(--border-dark);
+  flex-wrap:wrap;
+  gap:8px;
+}
+.code-title{color:#fdba74;font-size:.8rem;font-weight:700;font-family:monospace;}
+.code-actions{display:flex;gap:6px;flex-wrap:wrap;}
+.code-actions button{
+  border:none;padding:5px 12px;border-radius:6px;cursor:pointer;
+  font-size:.72rem;font-weight:700;transition:var(--trans);font-family:inherit;color:#fff;
+}
+.btn-copy{background:#10b981;}
+.btn-copy:hover{background:#059669;}
+.btn-prev{background:#c026d3;}
+.btn-prev:hover{background:#a21caf;}
+.code-pane{
+  padding:14px 18px;
+  color:#e2e8f0;
+  font-family:'Courier New',monospace;
+  font-size:.79rem;
+  line-height:1.6;
+  overflow-x:auto;
+  white-space:pre;
+  max-height:520px;
+  overflow-y:auto;
+}
+
+.estrutura-diagrama{
+  background:#f8fafc;
+  border:2px solid var(--border-light);
+  border-radius:12px;
+  padding:16px;
+  margin:16px 0;
+}
+.estrutura-diagrama .bloco{
+  background:#fff;
+  border:2px solid var(--border-light);
+  border-radius:8px;
+  padding:10px 14px;
+  margin-bottom:8px;
+  font-family:monospace;
+  font-size:.82rem;
+  color:#334155;
+}
+.estrutura-diagrama .bloco.tag{
+  background:#ede9fe;
+  border-color:#a78bfa;
+  color:#4c1d95;
+  font-weight:900;
+}
+.estrutura-diagrama .aninhado{
+  margin-left:20px;
+  padding-left:12px;
+  border-left:3px solid #cbd5e1;
+  margin-top:8px;
+}
+.estrutura-diagrama .badge-inline{
+  display:inline-block;
+  padding:1px 8px;
+  border-radius:10px;
+  font-size:.7rem;
+  font-weight:800;
+  margin-left:6px;
+}
+.estrutura-diagrama .bi-grid{background:#dbeafe;color:#1e40af;}
+.estrutura-diagrama .bi-flex{background:#ffedd5;color:#9a3412;}
+
+/* RUBRICA */
+.rubrica{
+  background:#fff;
+  border:2px solid var(--border-light);
+  border-radius:12px;
+  padding:0;
+  margin:16px 0;
+  overflow:hidden;
+}
+.rubrica table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:.85rem;
+}
+.rubrica thead tr{background:linear-gradient(135deg,#9a3412,#7c3aed);color:#fff;}
+.rubrica thead th{
+  padding:12px 14px;
+  text-align:left;
+  font-weight:800;
+  font-size:.8rem;
+}
+.rubrica tbody td{
+  padding:12px 14px;
+  border-bottom:1px solid var(--border-light);
+  color:#334155;
+  vertical-align:top;
+}
+.rubrica tbody tr:last-child td{border-bottom:none;}
+.rubrica .peso{
+  display:inline-block;
+  background:#111827;
+  color:#fff;
+  font-weight:900;
+  padding:3px 10px;
+  border-radius:20px;
+  font-size:.78rem;
+  min-width:34px;
+  text-align:center;
+}
+.rubrica .peso.p2{background:#c2410c;}
+.rubrica .peso.p1{background:#0ea5e9;}
+.rubrica .verificacao{
+  font-family:monospace;
+  font-size:.78rem;
+  color:#0c4a6e;
+  background:#e0f2fe;
+  padding:6px 10px;
+  border-radius:6px;
+  display:block;
+  margin-top:6px;
+  line-height:1.5;
+}
+
+/* LABORATÓRIO */
+.lab{
+  display:grid;
+  grid-template-columns:340px 1fr;
+  gap:16px;
+  margin:16px 0;
+  background:#f8fafc;
+  border:2px solid var(--border-light);
+  border-radius:12px;
+  padding:16px;
+}
+@media (max-width:820px){ .lab{grid-template-columns:1fr;} }
+.lab-controles label{
+  display:block;
+  font-size:.78rem;
+  font-weight:700;
+  color:#334155;
+  margin-bottom:4px;
+  margin-top:12px;
+}
+.lab-controles input[type="range"]{
+  width:100%;
+  font-family:inherit;
+  font-size:.82rem;
+  padding:0;
+  height:26px;
+}
+.lab-controles .valor{
+  display:inline-block;
+  background:var(--flex);
+  color:#fff;
+  font-size:.7rem;
+  padding:1px 8px;
+  border-radius:10px;
+  margin-left:6px;
+  font-family:monospace;
+}
+.lab-controles .preset-btn{
+  display:inline-block;
+  background:#fff7ed;
+  color:#7c2d12;
+  border:1px solid #fdba74;
+  padding:3px 9px;
+  border-radius:12px;
+  font-size:.7rem;
+  font-weight:700;
+  cursor:pointer;
+  margin:3px 3px 0 0;
+  font-family:inherit;
+}
+.lab-controles .preset-btn:hover{background:#ffedd5;}
+
+.lab-palco{
+  background:#fff;
+  border:2px dashed #94a3b8;
+  border-radius:8px;
+  padding:16px;
+  min-height:400px;
+  overflow-x:auto;
+}
+.lab-sim{
+  max-width:100%;
+  margin:0 auto;
+  transition:width .25s ease;
+  border-radius:8px;
+  overflow:hidden;
+  box-shadow:0 4px 14px rgba(0,0,0,.12);
+}
+.lab-sim .cab-sim{
+  background:#0f172a;
+  color:#fff;
+  padding:14px 18px;
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:12px;
+}
+.lab-sim .cab-sim .tit{
+  font-weight:900;
+  letter-spacing:-.5px;
+}
+.lab-sim .cab-sim .subt{
+  font-size:.78rem;
+  opacity:.7;
+}
+.lab-sim .nav-sim{
+  background:#1e293b;
+  padding:10px 18px;
+  display:flex;
+  gap:16px;
+  flex-wrap:wrap;
+}
+.lab-sim .nav-sim a{
+  color:#93c5fd;
+  text-decoration:none;
+  font-size:.78rem;
+  font-weight:700;
+}
+.lab-sim .grid-sim{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  padding:18px;
+  background:#f1f5f9;
+}
+.lab-sim .card-sim{
+  background:#fff;
+  border-radius:8px;
+  padding:12px;
+  border:1px solid #e2e8f0;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.lab-sim .card-sim .img-sim{
+  background:#dbeafe;
+  border-radius:6px;
+  height:60px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#1e40af;
+  font-weight:800;
+  font-size:.75rem;
+}
+.lab-sim .card-sim .txt{font-size:.72rem;color:#475569;}
+.lab-sim .card-sim .meta{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:auto;
+  font-size:.72rem;
+}
+.lab-sim .card-sim .preco{color:#c2410c;font-weight:800;}
+.lab-sim .card-sim button{
+  background:#1d4ed8;
+  color:#fff;
+  border:0;
+  border-radius:5px;
+  padding:4px 8px;
+  font-size:.68rem;
+  font-weight:700;
+  cursor:pointer;
+}
+.lab-sim .rodape-sim{
+  background:#0f172a;
+  color:#94a3b8;
+  padding:12px 18px;
+  font-size:.72rem;
+  text-align:center;
+}
+.lab-info{
+  margin-top:12px;
+  padding:10px 14px;
+  background:#e0f2fe;
+  border-radius:8px;
+  font-size:.82rem;
+  color:#0c4a6e;
+  line-height:1.65;
+  font-family:monospace;
+  white-space:pre-wrap;
+}
+.lab-estado-txt{
+  background:#111827;
+  color:#fff;
+  padding:10px 14px;
+  border-radius:8px;
+  font-family:monospace;
+  font-size:.82rem;
+  margin-top:12px;
+}
+.lab-estado-txt strong{color:#fdba74;}
+
+/* CHECKLIST */
+.check-item{
+  display:flex;align-items:flex-start;gap:12px;padding:12px 15px;
+  background:#f8fafc;border:2px solid var(--border-light);border-radius:9px;
+  margin-bottom:9px;cursor:pointer;transition:var(--trans);user-select:none;
+}
+.check-item:hover{background:#f1f5f9;border-color:#cbd5e1;}
+.check-item.marcado{background:#f0fdf4;border-color:var(--ok);}
+.check-item .check-box{
+  flex-shrink:0;width:22px;height:22px;border:2px solid #94a3b8;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;font-size:.85rem;
+  color:transparent;font-weight:900;margin-top:1px;
+}
+.check-item.marcado .check-box{background:var(--ok);border-color:var(--ok);color:#fff;}
+.check-item .check-texto{flex:1;font-size:.9rem;color:#334155;line-height:1.5;}
+.check-item.marcado .check-texto{color:#14532d;}
+.progresso-check{
+  background:#111827;color:#fff;padding:13px 18px;border-radius:11px;margin-bottom:16px;
+  display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;
+}
+.progresso-check strong{color:#fed7aa;font-size:1.05rem;}
+.progresso-check .barra{flex:1;min-width:120px;height:9px;background:#334155;border-radius:5px;overflow:hidden;}
+.progresso-check .barra span{display:block;height:100%;width:0%;background:linear-gradient(90deg,#fdba74,#c4b5fd);transition:width .3s;}
+
+/* QUIZ */
+.quiz-header{
+  display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;
+  background:#111827;color:#fff;padding:12px 18px;border-radius:11px;margin-bottom:16px;
+}
+.barra-quiz{flex:1;min-width:120px;height:9px;background:#334155;border-radius:5px;overflow:hidden;}
+.barra-quiz-preenchimento{height:100%;width:0%;background:linear-gradient(90deg,#fdba74,#c4b5fd);transition:width .3s;}
+.question{
+  background:#f8fafc;border-radius:11px;padding:16px 18px;margin-bottom:14px;
+  border-left:4px solid var(--flex);border-top:1px solid var(--border-light);
+  border-right:1px solid var(--border-light);border-bottom:1px solid var(--border-light);
+}
+.question-header{
+  font-weight:700;color:#0f172a;margin-bottom:10px;
+  display:flex;align-items:flex-start;gap:10px;font-size:.93rem;line-height:1.5;
+}
+.question-number{
+  background:var(--flex);color:#fff;width:24px;height:24px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:bold;flex-shrink:0;margin-top:2px;
+}
+.options{display:flex;flex-direction:column;gap:7px;}
+.option{
+  display:flex;align-items:center;gap:9px;padding:9px 13px;background:#fff;
+  border-radius:7px;border:2px solid var(--border-light);cursor:pointer;
+  transition:var(--trans);font-size:.87rem;color:#334155;
+}
+.option:hover:not(.disabled){border-color:var(--flex);background:#fff7ed;transform:translateX(2px);}
+.option.correct{border-color:var(--ok)!important;background:var(--ok-soft)!important;}
+.option.wrong{border-color:var(--no)!important;background:var(--no-soft)!important;}
+.option.disabled{cursor:default;opacity:.94;}
+.feedback-imediato{display:none;margin-top:10px;padding:10px 14px;border-radius:7px;font-size:.85rem;line-height:1.55;}
+.feedback-imediato.mostrar{display:block;}
+.feedback-imediato.ok{background:var(--ok-soft);color:#14532d;border-left:4px solid var(--ok);}
+.feedback-imediato.no{background:var(--no-soft);color:#881337;border-left:4px solid var(--no);}
+.results{background:#fff;border:2px solid #0ea5e9;border-radius:11px;padding:16px 20px;margin-top:16px;display:none;}
+.results.mostrar{display:block;}
+
+.btn-grupo{display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap;}
+.btn{
+  background:linear-gradient(135deg,var(--flex),var(--violet));
+  color:#fff;border:none;padding:10px 22px;border-radius:30px;cursor:pointer;
+  font-size:.88rem;font-weight:700;transition:var(--trans);font-family:inherit;
+  display:inline-flex;align-items:center;gap:6px;
+}
+.btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 6px 16px rgba(234,88,12,.38);}
+.btn:disabled{opacity:.5;cursor:not-allowed;}
+.btn-sec{background:#64748b;}
+.btn-sec:hover:not(:disabled){box-shadow:0 6px 16px rgba(100,116,139,.4);}
+
+.toast{
+  position:fixed;bottom:22px;right:22px;background:var(--flex);color:#fff;
+  padding:11px 18px;border-radius:9px;font-weight:bold;font-size:.83rem;
+  box-shadow:0 10px 24px rgba(0,0,0,.32);display:none;z-index:9999;
+  max-width:320px;line-height:1.5;
+}
+.toast.show{display:block;animation:slideUp .28s ease;}
+@keyframes slideUp{from{transform:translateY(16px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+.btn-top{
+  position:fixed;bottom:18px;left:18px;background:var(--flex);color:#fff;border:none;
+  padding:9px 16px;border-radius:50px;cursor:pointer;font-size:12px;font-weight:700;
+  box-shadow:0 4px 14px rgba(0,0,0,.28);z-index:100;
+}
+
+.preview-inline{
+  margin:12px 0;border:1px solid var(--border-dark);border-radius:10px;
+  overflow:hidden;background:#0b1220;
+}
+.preview-inline .preview-header{
+  display:flex;justify-content:space-between;align-items:center;padding:7px 12px;
+  background:#111827;border-bottom:1px solid #1e293b;color:#fdba74;
+  font-size:.75rem;font-weight:700;font-family:monospace;gap:8px;flex-wrap:wrap;
+}
+.preview-inline .preview-close{
+  background:transparent;border:1px solid #334155;color:#f87171;padding:2px 9px;
+  border-radius:5px;cursor:pointer;font-size:.7rem;font-weight:700;font-family:inherit;
+}
+.preview-inline iframe{width:100%;height:640px;border:none;background:#fff;display:block;}
+
+@media (max-width:768px){
+  .card{padding:16px 13px;}
+  .header{padding:24px 14px;}
+  .tab-btn{padding:9px 12px;font-size:.74rem;}
+  .code-pane{font-size:.72rem;padding:12px;}
+  .header h1{gap:6px;}
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header class="header">
+    <h1>🏆 Desafio Final • <span>Minha Primeira Interface Responsiva</span></h1>
+    <p>Uma página temática completa com <strong>CSS Grid na estrutura</strong>, <strong>Flexbox em componentes internos</strong>, <strong>media query real</strong> e <strong>identidade visual própria</strong>. Entrega em <code>index.html</code> + <code>estilo.css</code>.</p>
+    <div class="badge-group">
+      <span class="badge">🎯 Grid + Flex juntos</span>
+      <span class="badge">📱 360px sem overflow</span>
+      <span class="badge">🎨 Identidade visual</span>
+      <span class="badge">📦 2 arquivos</span>
+      <span class="badge">🔬 Laboratório de teste</span>
+      <span class="badge">📊 Rubrica decomposta</span>
+    </div>
+  </header>
+
+  <nav class="tabs-nav" role="tablist" aria-label="Navegação do desafio">
+    <button type="button" class="tab-btn" role="tab" aria-selected="false" data-aba="aba-01">📄 1. Enunciado</button>
+    <button type="button" class="tab-btn" role="tab" aria-selected="false" data-aba="aba-02">🏗️ 2. Arquitetura</button>
+    <button type="button" class="tab-btn" role="tab" aria-selected="false" data-aba="aba-03">🧩 3. Código (index.html)</button>
+    <button type="button" class="tab-btn" role="tab" aria-selected="false" data-aba="aba-04">🎨 4. Código (estilo.css)</button>
+    <button type="button" class="tab-btn" role="tab" aria-selected="false" data-aba="aba-05">🔬 5. Laboratório</button>
+    <button type="button" class="tab-btn" role="tab" aria-selected="false" data-aba="aba-06">📊 6. Rubrica</button>
+    <button type="button" class="tab-btn active" role="tab" aria-selected="true" data-aba="aba-07">🧪 7. Fixação</button>
+  </nav>
+
+  <!-- ========== ABA 1 — ENUNCIADO ========== -->
+  <div id="aba-01" class="tab-content" role="tabpanel">
+    <section class="card">
+      <h2>📄 Enunciado do Desafio Final</h2>
+
+      <div class="hl blue">
+        <strong>Situação-problema:</strong> você vai criar uma página temática de sua escolha (loja, portfólio, receitas, banda, biblioteca, jogo, etc.) aplicando tudo o que aprendemos.
+      </div>
+
+      <h3>Requisitos obrigatórios</h3>
+      <ul>
+        <li>Cabeçalho com <strong>título e subtítulo</strong>.</li>
+        <li>Área de <strong>navegação</strong> (pode ser menu horizontal em desktop, empilhado em mobile).</li>
+        <li>Conteúdo organizado em <strong>pelo menos 4 cartões</strong>.</li>
+        <li><strong>Rodapé</strong> com informações.</li>
+        <li>Uso de <strong>CSS Grid na estrutura principal</strong>.</li>
+        <li>Uso de <strong>Flexbox em pelo menos dois componentes internos</strong>.</li>
+        <li>Pelo menos <strong>uma media query real</strong> (mudança visível no layout).</li>
+        <li>A página funciona em <strong>360px sem rolagem horizontal</strong>.</li>
+        <li><strong>Identidade visual própria</strong> (cores, tipografia, espaçamentos coerentes).</li>
+        <li>Entrega em <strong>dois arquivos separados</strong>: <code>index.html</code> e <code>estilo.css</code> na mesma pasta, ligados por <code>&lt;link rel="stylesheet" href="estilo.css"&gt;</code>.</li>
+      </ul>
+
+      <h3>Critérios de avaliação</h3>
+      <div class="rubrica">
+        <table>
+          <thead>
+            <tr><th>Critério</th><th style="text-align:center;">Peso</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Estrutura HTML semântica (header, nav, main, footer)</td><td style="text-align:center;"><span class="peso p1">1</span></td></tr>
+            <tr><td>Grid aplicado corretamente na estrutura</td><td style="text-align:center;"><span class="peso p2">2</span></td></tr>
+            <tr><td>Flexbox aplicado em componentes internos</td><td style="text-align:center;"><span class="peso p2">2</span></td></tr>
+            <tr><td>Media query com mudança real de layout</td><td style="text-align:center;"><span class="peso p2">2</span></td></tr>
+            <tr><td>Sem rolagem horizontal em 360px</td><td style="text-align:center;"><span class="peso p1">1</span></td></tr>
+            <tr><td>Identidade visual coerente</td><td style="text-align:center;"><span class="peso p1">1</span></td></tr>
+            <tr><td>CSS em arquivo externo (não inline)</td><td style="text-align:center;"><span class="peso p1">1</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="hl amber">
+        <strong>⚠️ Regra do jogo:</strong> o CSS <em>não pode</em> estar dentro do HTML. O arquivo <code>estilo.css</code> é o único lugar para estilos. Isso vale nota isolada (peso 1) e é o hábito profissional que a aba 4 insistiu desde o início.
+      </div>
+
+      <h3>Como o professor corrige</h3>
+      <p>Os 10 pontos da rubrica são distribuídos em 7 critérios. A aba 6 deste material decompõe cada um em <strong>verificações concretas</strong> — o aluno pode simular a correção antes de entregar, e o professor tem um roteiro de inspeção item por item.</p>
+    </section>
+  </div>
+
+  <!-- ========== ABA 2 — ARQUITETURA ========== -->
+  <div id="aba-02" class="tab-content" role="tabpanel">
+    <section class="card">
+      <h2>🏗️ Arquitetura da página</h2>
+      <p>A página que serve de referência temática é uma <strong>loja de café artesanal</strong>. A escolha não é arbitrária: um e-commerce exercita Grid (grade de produtos) e Flexbox (cabeçalho, navegação, chip de preço + botão) nos dois papéis mais comuns.</p>
+
+      <h3>HTML semântico — a espinha dorsal</h3>
+
+      <div class="estrutura-diagrama">
+        <div class="bloco tag">&lt;header&gt; — título + subtítulo <span class="badge-inline bi-flex">Flexbox</span></div>
+        <div class="bloco tag">&lt;nav&gt; — menu horizontal <span class="badge-inline bi-flex">Flexbox</span></div>
+        <div class="bloco tag">&lt;main&gt; <span class="badge-inline bi-grid">Grid</span></div>
+        <div class="aninhado">
+          <div class="bloco">&lt;section class="grade-produtos"&gt; <span class="badge-inline bi-grid">Grid</span></div>
+          <div class="aninhado">
+            <div class="bloco">&lt;article class="cartao"&gt; <span class="badge-inline bi-flex">Flexbox</span></div>
+            <div class="aninhado">
+              <div class="bloco">└─ .cartao-rodape <span class="badge-inline bi-flex">Flexbox</span> (preço + botão)</div>
+              <div class="bloco">└─ .cartao-acoes <span class="badge-inline bi-flex">Flexbox</span> (grupo de botões)</div>
+            </div>
+          </div>
+        </div>
+        <div class="bloco tag">&lt;footer&gt; — informações <span class="badge-inline bi-flex">Flexbox</span></div>
+      </div>
+
+      <div class="hl blue">
+        <strong>Onde Grid atua:</strong> a <strong>estrutura</strong> da página (main e a grade de produtos). <strong>Onde Flexbox atua:</strong> os <strong>componentes internos</strong> (header, nav, cartão, rodapé, grupo de botões). Essa divisão atende literalmente a rubrica — e é a divisão que a Missão 5 da aba 8 defende.
+      </div>
+
+      <h3>Contagem de Flexbox</h3>
+      <p>A rubrica pede "Flexbox em pelo menos dois componentes internos". A página de referência usa <strong>cinco</strong>:</p>
+      <table class="tabela">
+        <thead><tr><th>#</th><th>Componente</th><th>O que justifica usar Flex</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td><code>.cabecalho</code></td><td>Título e subtítulo empilhados, com o badge "artesanal" ao lado do título — alinhamento vertical entre elementos de tamanhos diferentes.</td></tr>
+          <tr><td>2</td><td><code>.navegacao</code></td><td>Menu horizontal de larguras variáveis, sem largura fixa — distribuição flexível no eixo principal.</td></tr>
+          <tr><td>3</td><td><code>.cartao</code></td><td>Conteúdo interno em coluna; rodapé do cartão empurrado com <code>margin-top: auto</code>.</td></tr>
+          <tr><td>4</td><td><code>.cartao-acoes</code></td><td>Preço e botão lado a lado, com o botão absorvendo o espaço (<code>flex: 1</code>).</td></tr>
+          <tr><td>5</td><td><code>.rodape</code></td><td>Texto de rodapé + links sociais numa linha, alinhados verticalmente.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="hl green">
+        <strong>✅ Cinco componentes com Flexbox &gt; "pelo menos dois".</strong> Não copie o número — use-o como referência de proporção. Se você escolher para o seu tema colocar Flexbox em dois e Grid no resto, cumpre a rubrica; com cinco, é folgado.
+      </div>
+
+      <h3>Onde a media query atua</h3>
+      <p>A página de referência tem <strong>uma media query</strong> em <code>768px</code> que faz <strong>três mudanças estruturais simultâneas</strong>:</p>
+      <ol>
+        <li>A grade de produtos passa de <strong>3 colunas → 1 coluna</strong>.</li>
+        <li>A navegação passa de <strong>linha horizontal → empilhada verticalmente</strong>.</li>
+        <li>O cabeçalho passa de <strong>linha (título à esquerda, badge à direita) → coluna (título, depois badge)</strong>.</li>
+      </ol>
+      <p>É uma mudança <strong>real</strong>, não cosmética. O critério "mudança visível no layout" (peso 2) exige exatamente isso: as três mudanças são detectáveis a olho nu.</p>
+
+      <div class="hl amber">
+        <strong>⚠️ Por que 768px e não 600?</strong> A grade de 3 colunas começa a apertar quando a coluna cai abaixo de ~200px de largura. Com <code>minmax()</code>, a quebra natural aconteceria em torno de 640px. Escolher 768px é uma media query por conveniência pedagógica (alinhada com a aba 4 e a aba 6) — mas a página funciona mesmo sem ela, porque a grade usa <code>repeat(auto-fit, minmax(200px, 1fr))</code>. A media query existe para a rubrica, e é o que o aluno aprende: <em>declarar o breakpoint quando precisa de mudança estrutural, não de ajuste de coluna</em>.
+      </div>
+    </section>
+  </div>
+
+  <!-- ========== ABA 3 — INDEX.HTML ========== -->
+  <div id="aba-03" class="tab-content" role="tabpanel">
+    <section class="card">
+      <h2>🧩 index.html</h2>
+      <p>HTML semântico com <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code> e <code>&lt;footer&gt;</code>. Nenhum estilo inline.</p>
+
+      <div class="code-wrapper">
+        <div class="code-header">
+          <span class="code-title">index.html</span>
+          <div class="code-actions">
+            <button type="button" class="btn-copy" id="btn-copiar-html">📋 Copiar HTML</button>
+          </div>
+        </div>
+        <div class="code-pane" id="code-pane-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="pt-BR"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;Café da Serra — Torra Artesanal&lt;/title&gt;
+  &lt;link rel="stylesheet" href="estilo.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;header class="cabecalho"&gt;
+    &lt;div class="cabecalho-texto"&gt;
+      &lt;h1&gt;Café da Serra&lt;/h1&gt;
+      &lt;p class="subtitulo"&gt;Torra artesanal de Minas Gerais&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;span class="selo"&gt;Artesanal&lt;/span&gt;
+  &lt;/header&gt;
+
+  &lt;nav class="navegacao"&gt;
+    &lt;a href="#"&gt;Início&lt;/a&gt;
+    &lt;a href="#"&gt;Produtos&lt;/a&gt;
+    &lt;a href="#"&gt;Sobre&lt;/a&gt;
+    &lt;a href="#"&gt;Contato&lt;/a&gt;
+  &lt;/nav&gt;
+
+  &lt;main class="conteudo"&gt;
+    &lt;section class="grade-produtos" aria-label="Produtos"&gt;
+      &lt;article class="cartao"&gt;
+        &lt;div class="cartao-imagem"&gt;Torra Média&lt;/div&gt;
+        &lt;h2 class="cartao-titulo"&gt;Torra Média&lt;/h2&gt;
+        &lt;p class="cartao-descricao"&gt;Notas de chocolate e caramelo.&lt;/p&gt;
+        &lt;div class="cartao-rodape"&gt;
+          &lt;span class="preco"&gt;R$ 42&lt;/span&gt;
+          &lt;button class="botao"&gt;Comprar&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/article&gt;
+
+      &lt;article class="cartao"&gt;
+        &lt;div class="cartao-imagem"&gt;Torra Clara&lt;/div&gt;
+        &lt;h2 class="cartao-titulo"&gt;Torra Clara&lt;/h2&gt;
+        &lt;p class="cartao-descricao"&gt;Cítrica, floral, acidez delicada.&lt;/p&gt;
+        &lt;div class="cartao-rodape"&gt;
+          &lt;span class="preco"&gt;R$ 48&lt;/span&gt;
+          &lt;button class="botao"&gt;Comprar&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/article&gt;
+
+      &lt;article class="cartao"&gt;
+        &lt;div class="cartao-imagem"&gt;Torra Escura&lt;/div&gt;
+        &lt;h2 class="cartao-titulo"&gt;Torra Escura&lt;/h2&gt;
+        &lt;p class="cartao-descricao"&gt;Intensa, cacau amargo, final longo.&lt;/p&gt;
+        &lt;div class="cartao-rodape"&gt;
+          &lt;span class="preco"&gt;R$ 46&lt;/span&gt;
+          &lt;button class="botao"&gt;Comprar&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/article&gt;
+
+      &lt;article class="cartao"&gt;
+        &lt;div class="cartao-imagem"&gt;Descafeinado&lt;/div&gt;
+        &lt;h2 class="cartao-titulo"&gt;Descafeinado&lt;/h2&gt;
+        &lt;p class="cartao-descricao"&gt;Suave e equilibrado.&lt;/p&gt;
+        &lt;div class="cartao-rodape"&gt;
+          &lt;span class="preco"&gt;R$ 52&lt;/span&gt;
+          &lt;button class="botao"&gt;Comprar&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/article&gt;
+
+      &lt;article class="cartao"&gt;
+        &lt;div class="cartao-imagem"&gt;Blend Casa&lt;/div&gt;
+        &lt;h2 class="cartao-titulo"&gt;Blend Casa&lt;/h2&gt;
+        &lt;p class="cartao-descricao"&gt;O clássico da casa.&lt;/p&gt;
+        &lt;div class="cartao-rodape"&gt;
+          &lt;span class="preco"&gt;R$ 38&lt;/span&gt;
+          &lt;button class="botao"&gt;Comprar&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/article&gt;
+
+      &lt;article class="cartao"&gt;
+        &lt;div class="cartao-imagem"&gt;Edição Especial&lt;/div&gt;
+        &lt;h2 class="cartao-titulo"&gt;Edição Especial&lt;/h2&gt;
+        &lt;p class="cartao-descricao"&gt;Microlote, safra limitada.&lt;/p&gt;
+        &lt;div class="cartao-rodape"&gt;
+          &lt;span class="preco"&gt;R$ 68&lt;/span&gt;
+          &lt;button class="botao"&gt;Comprar&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/article&gt;
+    &lt;/section&gt;
+  &lt;/main&gt;
+
+  &lt;footer class="rodape"&gt;
+    &lt;p&gt;© 2026 Café da Serra · Juiz de Fora, MG&lt;/p&gt;
+    &lt;div class="rodape-links"&gt;
+      &lt;a href="#"&gt;Instagram&lt;/a&gt;
+      &lt;a href="#"&gt;WhatsApp&lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;</div>
+      </div>
+
+      <h3>Checklist do HTML</h3>
+      <table class="tabela">
+        <thead><tr><th>Requisito</th><th>Onde aparece</th></tr></thead>
+        <tbody>
+          <tr><td>Cabeçalho com título e subtítulo</td><td><code>&lt;header class="cabecalho"&gt;</code> com <code>&lt;h1&gt;</code> e <code>&lt;p class="subtitulo"&gt;</code></td></tr>
+          <tr><td>Área de navegação</td><td><code>&lt;nav class="navegacao"&gt;</code> com 4 links</td></tr>
+          <tr><td>4+ cartões</td><td><code>&lt;section class="grade-produtos"&gt;</code> com 6 <code>&lt;article class="cartao"&gt;</code></td></tr>
+          <tr><td>Rodapé</td><td><code>&lt;footer class="rodape"&gt;</code> com copyright + links</td></tr>
+          <tr><td>CSS externo</td><td><code>&lt;link rel="stylesheet" href="estilo.css"&gt;</code> no <code>&lt;head&gt;</code></td></tr>
+        </tbody>
+      </table>
+
+      <div class="hl amber">
+        <strong>⚠️ Cuidado com a semântica:</strong> <code>&lt;div&gt;</code> não substitui <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;footer&gt;</code>. A rubrica cobra a estrutura semântica (peso 1), e ela é verificável abrindo o DevTools → aba Elements. Se o professor vir <code>&lt;div class="header"&gt;</code> em vez de <code>&lt;header&gt;</code>, o critério não é atendido.
+      </div>
+    </section>
+  </div>
+
+  <!-- ========== ABA 4 — ESTILO.CSS ========== -->
+  <div id="aba-04" class="tab-content" role="tabpanel">
+    <section class="card">
+      <h2>🎨 estilo.css</h2>
+      <p>CSS em arquivo separado, com variáveis de identidade visual no <code>:root</code>. Grid na estrutura, Flexbox nos componentes.</p>
+
+      <div class="code-wrapper">
+        <div class="code-header">
+          <span class="code-title">estilo.css</span>
+          <div class="code-actions">
+            <button type="button" class="btn-copy" id="btn-copiar-css">📋 Copiar CSS</button>
+            <button type="button" class="btn-prev" id="btn-preview-final">🧪 Preview completo</button>
+          </div>
+        </div>
+        <div class="code-pane" id="code-pane-css">/* =========================================
+   IDENTIDADE VISUAL
+   ========================================= */
+:root {
+  --cor-primaria: #7c2d12;
+  --cor-primaria-clara: #c2410c;
+  --cor-fundo: #fef9f4;
+  --cor-texto: #1c1917;
+  --cor-neutro: #78716c;
+  --cor-borda: #e7e5e4;
+  --fonte-titulo: Georgia, "Times New Roman", serif;
+  --fonte-corpo: system-ui, -apple-system, sans-serif;
+  --espaco-md: 16px;
+  --espaco-lg: 24px;
+  --raio: 10px;
+}
+
+/* =========================================
+   RESET
+   ========================================= */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* =========================================
+   ESTRUTURA GERAL — CSS GRID
+   ========================================= */
+body {
+  font-family: var(--fonte-corpo);
+  background: var(--cor-fundo);
+  color: var(--cor-texto);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  min-width: 0;
+}
+
+/* =========================================
+   CABEÇALHO — FLEXBOX
+   ========================================= */
+.cabecalho {
+  background: var(--cor-primaria);
+  color: #fff;
+  padding: var(--espaco-lg) var(--espaco-md);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--espaco-md);
+  flex-wrap: wrap;
+}
+
+.cabecalho-texto {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cabecalho h1 {
+  font-family: var(--fonte-titulo);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  letter-spacing: -.5px;
+}
+
+.subtitulo {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.selo {
+  background: var(--cor-primaria-clara);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* =========================================
+   NAVEGAÇÃO — FLEXBOX
+   ========================================= */
+.navegacao {
+  background: var(--cor-primaria-clara);
+  padding: 12px var(--espaco-md);
+  display: flex;
+  gap: var(--espaco-md);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.navegacao a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.navegacao a:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* =========================================
+   CONTEÚDO PRINCIPAL — GRID
+   ========================================= */
+.conteudo {
+  padding: var(--espaco-lg) var(--espaco-md);
+  display: grid;
+  min-width: 0;
+}
+
+.grade-produtos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--espaco-md);
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  min-width: 0;
+}
+
+/* =========================================
+   CARTÃO — FLEXBOX
+   ========================================= */
+.cartao {
+  background: #fff;
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  padding: var(--espaco-md);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.cartao-imagem {
+  background: #fed7aa;
+  border-radius: var(--raio);
+  padding: 20px 12px;
+  text-align: center;
+  font-weight: 800;
+  color: var(--cor-primaria);
+  font-size: 0.85rem;
+}
+
+.cartao-titulo {
+  font-size: 1.05rem;
+  color: var(--cor-primaria);
+}
+
+.cartao-descricao {
+  font-size: 0.85rem;
+  color: var(--cor-neutro);
+  flex-grow: 1;
+}
+
+.cartao-rodape {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.preco {
+  color: var(--cor-primaria-clara);
+  font-weight: 800;
+  font-size: 1rem;
+}
+
+.botao {
+  background: var(--cor-primaria);
+  color: #fff;
+  border: 0;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  flex: 1;
+}
+
+.botao:hover {
+  background: var(--cor-primaria-clara);
+}
+
+/* =========================================
+   RODAPÉ — FLEXBOX
+   ========================================= */
+.rodape {
+  background: var(--cor-primaria);
+  color: rgba(255, 255, 255, 0.8);
+  padding: var(--espaco-md);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--espaco-md);
+  flex-wrap: wrap;
+  font-size: 0.85rem;
+}
+
+.rodape-links {
+  display: flex;
+  gap: var(--espaco-md);
+}
+
+.rodape a {
+  color: #fed7aa;
+  text-decoration: none;
+}
+
+/* =========================================
+   MEDIA QUERY — MUDANÇA REAL DE LAYOUT
+   ========================================= */
+@media (max-width: 768px) {
+
+  /* 1) Grade de produtos: 3 → 1 coluna (via auto-fit a 1fr fixa) */
+  .grade-produtos {
+    grid-template-columns: 1fr;
+  }
+
+  /* 2) Navegação: linha → coluna */
+  .navegacao {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  /* 3) Cabeçalho: linha → coluna */
+  .cabecalho {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  /* 4) Rodapé: linha → coluna */
+  .rodape {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
+</div>
+      </div>
+      <div id="preview-principal"></div>
+
+      <h3>Anatomia do CSS — onde cada técnica aparece</h3>
+
+      <table class="tabela">
+        <thead><tr><th>Técnica</th><th>Seletor</th><th>Função na rubrica</th></tr></thead>
+        <tbody>
+          <tr><td>CSS Grid</td><td><code>body</code> (layout de 3 linhas) e <code>.grade-produtos</code></td><td>Cumpre "Grid aplicado corretamente na estrutura" (peso 2).</td></tr>
+          <tr><td>CSS Grid</td><td><code>.grade-produtos</code> com <code>repeat(auto-fit, minmax(220px, 1fr))</code></td><td>Adaptação automática sem media query — mas a rubrica exige media query real, então ela também está presente.</td></tr>
+          <tr><td>Flexbox</td><td><code>.cabecalho</code>, <code>.navegacao</code>, <code>.cartao</code>, <code>.cartao-acoes</code>, <code>.rodape</code></td><td>Cumpre "Flexbox em pelo menos dois componentes internos" (peso 2).</td></tr>
+          <tr><td>Media query</td><td><code>@media (max-width: 768px)</code></td><td>Cumpre "mudança real de layout" (peso 2).</td></tr>
+          <tr><td>Identidade visual</td><td><code>:root { --cor-primaria; --cor-texto; ... }</code></td><td>Cumpre "identidade visual coerente" (peso 1).</td></tr>
+          <tr><td>Prevenção de overflow</td><td><code>img{max-width:100%;display:block;}</code> + <code>box-sizing: border-box</code> universal</td><td>Cumpre "sem rolagem horizontal em 360px" (peso 1).</td></tr>
+        </tbody>
+      </table>
+
+      <div class="hl green">
+        <strong>✅ Todos os 7 critérios estão mapeados.</strong> Cada um tem pelo menos uma linha de CSS que o cumpre. Nenhuma "mágica" — o CSS é a prova do HTML.
+      </div>
+
+      <h3>Onde está a media query</h3>
+      <p>Ela fica <strong>no final do arquivo</strong>, depois de todo o CSS base. Dentro dela há três mudanças visíveis:</p>
+      <div class="code-wrapper" style="margin:10px 0;">
+        <div class="code-pane" style="padding:12px 16px;max-height:none;"><span class="sel">@media</span> (<span class="prop">max-width</span>: 768px) {
+
+  <span class="com">/* 1) Grade de produtos: 3 → 1 coluna */</span>
+  <span class="sel">.grade-produtos</span> {
+    <span class="prop">grid-template-columns</span>: 1fr;
+  }
+
+  <span class="com">/* 2) Navegação: linha → coluna */</span>
+  <span class="sel">.navegacao</span> {
+    <span class="prop">flex-direction</span>: column;
+    <span class="prop">align-items</span>: flex-start;
+  }
+
+  <span class="com">/* 3) Cabeçalho: linha → coluna */</span>
+  <span class="sel">.cabecalho</span> {
+    <span class="prop">flex-direction</span>: column;
+    <span class="prop">align-items</span>: flex-start;
+  }
+}</div>
+      </div>
+
+      <div class="hl amber">
+        <strong>⚠️ Por que não usar <code>auto-fit</code> só e pular a media query?</strong> Porque <code>auto-fit</code> muda a grade mas <strong>não muda a navegação nem o cabeçalho</strong>. A rubrica exige "mudança visível no layout", e três mudanças são mais convincentes do que uma. Além disso, ensinar uma media query real é o objetivo da aba 9 — o <code>auto-fit</code> é o automatismo que a aba 7 introduziu, mas o exame final exige o passo manual.
+      </div>
+    </section>
+  </div>
+
+  <!-- ========== ABA 5 — LABORATÓRIO ========== -->
+  <div id="aba-05" class="tab-content" role="tabpanel">
+    <section class="card">
+      <h2>🔬 Laboratório: simule a correção</h2>
+      <p>Arraste o slider e observe as três mudanças visuais. O painel de estado mostra em qual faixa você está e o que mudou.</p>
+
+      <div class="lab">
+        <div class="lab-controles">
+          <label for="slider-vp">Largura da viewport <span class="valor" id="lbl-vp">1440px</span></label>
+          <input type="range" id="slider-vp" min="320" max="1600" step="20" value="1440">
+
+          <div style="margin-top:8px;">
+            <button type="button" class="preset-btn" data-vp="1440">1440</button>
+            <button type="button" class="preset-btn" data-vp="1024">1024</button>
+            <button type="button" class="preset-btn" data-vp="768">768</button>
+            <button type="button" class="preset-btn" data-vp="360">360</button>
+          </div>
+
+          <div class="lab-estado-txt">
+            <strong>Estado atual:</strong><br>
+            <span id="lbl-estado">🖥 Desktop — 3 colunas · navegação em linha · cabeçalho em linha</span>
+          </div>
+        </div>
+        <div class="lab-palco">
+          <div class="lab-sim" id="lab-sim" style="width: 1246px;">
+            <div class="cab-sim" id="cab-sim" style="flex-direction: row; align-items: center;">
+              <div class="tit">☕ Café da Serra</div>
+              <div class="subt">Torra artesanal de Minas Gerais</div>
+            </div>
+            <div class="nav-sim" id="nav-sim" style="flex-direction: row; align-items: center;">
+              <a href="https://almeida-cma.github.io/fe08/desafio-final-aba9.html#">Início</a>
+              <a href="https://almeida-cma.github.io/fe08/desafio-final-aba9.html#">Produtos</a>
+              <a href="https://almeida-cma.github.io/fe08/desafio-final-aba9.html#">Sobre</a>
+              <a href="https://almeida-cma.github.io/fe08/desafio-final-aba9.html#">Contato</a>
+            </div>
+            <div class="grid-sim" id="grid-sim" style="grid-template-columns: repeat(3, 1fr);">
+              <div class="card-sim">
+                <div class="img-sim">Torra Média</div>
+                <div class="txt">Notas de chocolate e caramelo.</div>
+                <div class="meta"><span class="preco">R$ 42</span><button>Comprar</button></div>
+              </div>
+              <div class="card-sim">
+                <div class="img-sim">Torra Clara</div>
+                <div class="txt">Cítrica, floral, acidez delicada.</div>
+                <div class="meta"><span class="preco">R$ 48</span><button>Comprar</button></div>
+              </div>
+              <div class="card-sim">
+                <div class="img-sim">Torra Escura</div>
+                <div class="txt">Intensa, cacau amargo, final longo.</div>
+                <div class="meta"><span class="preco">R$ 46</span><button>Comprar</button></div>
+              </div>
+              <div class="card-sim">
+                <div class="img-sim">Descafeinado</div>
+                <div class="txt">Suave e equilibrado.</div>
+                <div class="meta"><span class="preco">R$ 52</span><button>Comprar</button></div>
+              </div>
+              <div class="card-sim">
+                <div class="img-sim">Blend Casa</div>
+                <div class="txt">O clássico da casa.</div>
+                <div class="meta"><span class="preco">R$ 38</span><button>Comprar</button></div>
+              </div>
+              <div class="card-sim">
+                <div class="img-sim">Edição Especial</div>
+                <div class="txt">Microlote, safra limitada.</div>
+                <div class="meta"><span class="preco">R$ 68</span><button>Comprar</button></div>
+              </div>
+            </div>
+            <div class="rodape-sim">© 2026 Café da Serra · Juiz de Fora, MG</div>
+          </div>
+          <div class="lab-info" id="lab-info">Viewport: 1440px
+Breakpoint: 768px
+
+Grade: repeat(auto-fit, minmax(220px, 1fr))
+Colunas visíveis: 5
+Cabeçalho: flex-direction: row
+Navegação: flex-direction: row</div>
+        </div>
+      </div>
+
+      <h3>Roteiro de inspeção</h3>
+      <ol>
+        <li><strong>1440px</strong> — grade com 3 colunas, navegação em linha, cabeçalho título à esquerda e subtítulo à direita.</li>
+        <li><strong>900px</strong> — grade ainda em 3 (a media query ainda não se aplicou). Observe que o <code>auto-fit</code> talvez já tenha reduzido para 2. As duas coisas convivem.</li>
+        <li><strong>768px</strong> — media query dispara: grade em 1 coluna, navegação empilhada, cabeçalho em coluna.</li>
+        <li><strong>360px</strong> — confira que <strong>não há rolagem horizontal</strong>. Se houver, alguma coisa tem <code>min-width</code> ou padding fixo.</li>
+      </ol>
+
+      <div class="hl green">
+        <strong>✅ Esta é a verificação que o professor fará.</strong> Se a sua página replica esses quatro estados, atende a rubrica. Se em 360px aparecer uma barra de rolagem horizontal no palco, o critério "sem rolagem horizontal" não está cumprido.
+      </div>
+    </section>
+  </div>
+
+  <!-- ========== ABA 6 — RUBRICA ========== -->
+  <div id="aba-06" class="tab-content" role="tabpanel">
+    <section class="card">
+      <h2>📊 Rubrica decomposta</h2>
+      <p>Cada critério da prova, com <strong>como verificar objetivamente</strong>. Use isto antes de entregar.</p>
+
+      <div class="rubrica">
+        <table>
+          <thead>
+            <tr>
+              <th>Critério</th>
+              <th style="text-align:center;">Peso</th>
+              <th>Como verificar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>HTML semântico</strong></td>
+              <td style="text-align:center;"><span class="peso p1">1</span></td>
+              <td>
+                Abra o DevTools → Elements. Confirme a presença de <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;footer&gt;</code>. Se qualquer uma for <code>&lt;div&gt;</code>, o critério não é atendido.
+                <span class="verificacao">DevTools → Elements → busca por "header", "nav", "main", "footer"</span>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Grid na estrutura</strong></td>
+              <td style="text-align:center;"><span class="peso p2">2</span></td>
+              <td>
+                Selecione o <code>main</code> ou <code>.grade-produtos</code> no DevTools. O painel "Computed" deve mostrar <code>display: grid</code> e um <code>grid-template-columns</code> que não seja único valor fixo. Se a página inteira for Div com Flexbox, o critério não é atendido.
+                <span class="verificacao">DevTools → Computed → display: grid ✓</span>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Flexbox em ≥ 2 componentes internos</strong></td>
+              <td style="text-align:center;"><span class="peso p2">2</span></td>
+              <td>
+                Selecione <code>.cabecalho</code> e <code>.navegacao</code> (ou <code>.cartao</code>, <code>.cartao-acoes</code>, <code>.rodape</code>). Cada um deve ter <code>display: flex</code>. Não basta ter Flexbox no container pai — precisa ser em elementos internos que cumprem função diferente do Grid.
+                <span class="verificacao">DevTools → Selecione .cabecalho → Computed → display: flex ✓</span>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Media query com mudança real</strong></td>
+              <td style="text-align:center;"><span class="peso p2">2</span></td>
+              <td>
+                Reduza a janela para 768px ou menos. As mudanças precisam ser <strong>visíveis a olho nu</strong>: colunas da grade mudam, navegação fica vertical, cabeçalho fica em coluna. Uma media query que só muda <code>font-size</code> não conta.
+                <span class="verificacao">Reduza a janela e observe 3 mudanças estruturais</span>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Sem rolagem horizontal em 360px</strong></td>
+              <td style="text-align:center;"><span class="peso p1">1</span></td>
+              <td>
+                Reduza a janela para 360px. A barra de rolagem horizontal (na parte inferior da janela ou do palco) deve desaparecer. Se aparecer, alguma coisa está causando <code>min-width</code> maior que a viewport — geralmente <code>img</code>, <code>padding</code> fixo, ou <code>width</code> com valor fixo.
+                <span class="verificacao">DevTools → Console → getComputedStyle(document.body).overflowX = "visible" (padrão) → janela a 360px sem barra inferior</span>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Identidade visual coerente</strong></td>
+              <td style="text-align:center;"><span class="peso p1">1</span></td>
+              <td>
+                A página deve ter <strong>um conjunto de cores</strong> (primária + neutros + acento) e <strong>uma tipografia</strong> consistente. Usar <code>:root</code> com variáveis é a maneira mais fácil de garantir coerência. Título e corpo devem ter tamanhos diferentes, mas escalonados.
+                <span class="verificacao">Inspecione :root → declare variáveis --cor-primaria, --cor-fundo, --cor-texto</span>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>CSS em arquivo externo</strong></td>
+              <td style="text-align:center;"><span class="peso p1">1</span></td>
+              <td>
+                Inspecione o <code>index.html</code>. Não pode haver <code>&lt;style&gt;</code> no <code>&lt;head&gt;</code> nem <code>style="..."</code> nos elementos. Deve haver exatamente <code>&lt;link rel="stylesheet" href="estilo.css"&gt;</code>.
+                <span class="verificacao">Ctrl+F no index.html: buscar "&lt;style" e 'style="' → zero ocorrências</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Erros comuns que custam pontos</h3>
+      <table class="tabela">
+        <thead><tr><th>Erro</th><th>Peso perdido</th><th>Como corrigir</th></tr></thead>
+        <tbody>
+          <tr><td>Usar <code>&lt;div class="header"&gt;</code> em vez de <code>&lt;header&gt;</code></td><td>1</td><td>Trocar a tag. Semântica importa.</td></tr>
+          <tr><td>Ter Grid só no <code>.cartoes</code>, e o <code>main</code>/<code>body</code> em Flexbox</td><td>1 a 2</td><td>Declarar Grid também no <code>main</code> (2 ou 3 linhas de grid para cabeçalho, conteúdo, rodapé).</td></tr>
+          <tr><td>Media query que só muda <code>padding</code> ou <code>font-size</code></td><td>2</td><td>Precisa mudar <code>grid-template-columns</code> ou <code>flex-direction</code>.</td></tr>
+          <tr><td>Esquecer <code>box-sizing: border-box</code></td><td>1</td><td>Adicionar o reset universal no topo do CSS.</td></tr>
+          <tr><td>Imagens com <code>width</code> fixo (ex: <code>width: 400px</code>)</td><td>1</td><td>Trocar para <code>max-width: 100%</code>.</td></tr>
+          <tr><td>Deixar CSS dentro de <code>&lt;style&gt;</code> no HTML</td><td>1</td><td>Mover tudo para <code>estilo.css</code>, deixar só o <code>&lt;link&gt;</code>.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="hl amber">
+        <strong>⚠️ A soma dos pesos é 10.</strong> Se um critério for parcialmente cumprido (ex: Grid no main mas não na grade de produtos), o professor geralmente desconta 0,5 ou 1 do peso. Vale verificar cada item da lista acima <em>antes</em> de entregar — é a diferença entre 9 e 7.
+      </div>
+    </section>
+  </div>
+
+  <!-- ========== ABA 7 — FIXAÇÃO ========== -->
+  <div id="aba-07" class="tab-content active" role="tabpanel">
+    <section class="card">
+      <h2>🧪 Fixação</h2>
+
+      <h3>Quiz — 6 questões</h3>
+
+      <div class="quiz-header">
+        <span>Progresso: <strong id="txt-prog-quiz">6 de 6</strong></span>
+        <div class="barra-quiz"><div class="barra-quiz-preenchimento" id="fill-prog-quiz" style="width: 100%;"></div></div>
+      </div>
+      <div id="container-quiz"><div class="question" id="quiz-q1"><div class="question-header"><span class="question-number">1</span><div>Sobre a divisão de responsabilidades da rubrica (Grid na estrutura, Flexbox nos componentes), qual afirmação está alinhada com o que o desafio pede?</div></div><div class="options"><div class="option disabled" data-letra="a"><strong>a)</strong> Grid deve ser usado só na .grade-produtos, e o resto da página deve ser Flexbox.</div><div class="option disabled correct" data-letra="b"><strong>b)</strong> Grid deve estar tanto no body/main (layout de linhas) quanto na .grade-produtos; Flexbox vai nos componentes internos (cabecalho, navegacao, cartao, rodape).</div><div class="option disabled" data-letra="c"><strong>c)</strong> Flexbox deve ser usado em tudo, e Grid só se o professor exigir.</div><div class="option disabled" data-letra="d"><strong>d)</strong> É indiferente — Grid e Flexbox são intercambiáveis.</div></div><div class="feedback-imediato mostrar ok" id="feed-q1">✅ <strong>Correto!</strong> A rubrica avalia Grid na estrutura principal e Flexbox em componentes internos. A melhor resposta atende às duas partes: Grid no body/main e na grade; Flexbox nos componentes. Usar só Grid no .grade-produtos e Flexbox no resto não cumpre "Grid aplicado corretamente na estrutura".</div></div><div class="question" id="quiz-q2"><div class="question-header"><span class="question-number">2</span><div>O seletor universal *, *::before, *::after { box-sizing: border-box; } é importante porque…</div></div><div class="options"><div class="option disabled" data-letra="a"><strong>a)</strong> Deixa o site mais rápido</div><div class="option disabled correct" data-letra="b"><strong>b)</strong> Evita que padding e border somem à largura e causem rolagem horizontal</div><div class="option disabled" data-letra="c"><strong>c)</strong> Desativa o CSS padrão do navegador</div><div class="option disabled" data-letra="d"><strong>d)</strong> Só serve para deixar as fontes coloridas</div></div><div class="feedback-imediato mostrar ok" id="feed-q2">✅ <strong>Correto!</strong> Com box-sizing: border-box, a largura declarada inclui padding e border. Sem esse reset, elementos com padding fixo em 360px estouram a viewport e geram rolagem horizontal — justamente o critério que perde ponto.</div></div><div class="question" id="quiz-q3"><div class="question-header"><span class="question-number">3</span><div>A rubrica exige "media query com mudança real de layout". Qual das opções abaixo conta como mudança real?</div></div><div class="options"><div class="option disabled" data-letra="a"><strong>a)</strong> @media (max-width: 768px) { h1 { font-size: 1.2rem; } }</div><div class="option disabled correct" data-letra="b"><strong>b)</strong> @media (max-width: 768px) { .grade-produtos { grid-template-columns: 1fr; } .navegacao { flex-direction: column; } }</div><div class="option disabled" data-letra="c"><strong>c)</strong> @media (max-width: 768px) { body { color: #555; } }</div><div class="option disabled" data-letra="d"><strong>d)</strong> @media (max-width: 768px) { button { padding: 6px; } }</div></div><div class="feedback-imediato mostrar ok" id="feed-q3">✅ <strong>Correto!</strong> Mudança real = mudança de layout (colunas, eixos, empilhamento). A opção (b) altera colunas do Grid e direção do Flexbox, o que é visível a olho nu. As demais alteram apenas tamanho de texto, cor ou espaçamento — não contam.</div></div><div class="question" id="quiz-q4"><div class="question-header"><span class="question-number">4</span><div>Como verificar objetivamente que a página NÃO tem rolagem horizontal em 360px?</div></div><div class="options"><div class="option disabled" data-letra="a"><strong>a)</strong> Olhar a página e "achar" que está boa</div><div class="option disabled correct" data-letra="b"><strong>b)</strong> Reduzir a janela a 360px e confirmar que nenhuma barra de rolagem horizontal aparece — se aparecer, inspecionar o elemento que estoura</div><div class="option disabled" data-letra="c"><strong>c)</strong> Contar quantos &lt;div&gt; existem no HTML</div><div class="option disabled" data-letra="d"><strong>d)</strong> Somar as larguras fixas dos elementos</div></div><div class="feedback-imediato mostrar ok" id="feed-q4">✅ <strong>Correto!</strong> A verificação empírica é reduzir a janela e observar. Se a barra aparece, inspecionar no DevTools qual elemento tem width ou min-width maior que a viewport. Os erros de overflow em 360px geralmente vêm de imagens com width fixo, padding não box-sized, ou min-width: max-content.</div></div><div class="question" id="quiz-q5"><div class="question-header"><span class="question-number">5</span><div>Sobre a entrega em dois arquivos, qual afirmação é correta?</div></div><div class="options"><div class="option disabled" data-letra="a"><strong>a)</strong> index.html e estilo.css podem ficar em pastas diferentes desde que o link aponte para o caminho certo.</div><div class="option disabled correct" data-letra="b"><strong>b)</strong> O HTML não pode ter &lt;style&gt; nem style="..."; só &lt;link rel="stylesheet" href="estilo.css"&gt;, e os dois arquivos na mesma pasta.</div><div class="option disabled" data-letra="c"><strong>c)</strong> É aceitável deixar pequenos estilos inline para ajustes finos.</div><div class="option disabled" data-letra="d"><strong>d)</strong> O CSS pode ficar no HTML desde que o arquivo .css exista.</div></div><div class="feedback-imediato mostrar ok" id="feed-q5">✅ <strong>Correto!</strong> O critério "CSS em arquivo externo (peso 1)" é binário: qualquer &lt;style&gt; ou style="..." no HTML tira o ponto. Os dois arquivos precisam estar na mesma pasta e o link com o caminho relativo correto.</div></div><div class="question" id="quiz-q6"><div class="question-header"><span class="question-number">6</span><div>Por que a página de referência aplica flex-wrap: wrap no cabeçalho e no rodapé, mesmo tendo media query que empilha em coluna?</div></div><div class="options"><div class="option disabled" data-letra="a"><strong>a)</strong> Porque flex-wrap: wrap é sempre obrigatório em Flexbox</div><div class="option disabled correct" data-letra="b"><strong>b)</strong> Porque antes de a media query disparar (entre ~769px e ~900px), os itens podem precisar quebrar linha naturalmente, em vez de estourar a viewport</div><div class="option disabled" data-letra="c"><strong>c)</strong> Só por decoração</div><div class="option disabled" data-letra="d"><strong>d)</strong> Para acelerar o render</div></div><div class="feedback-imediato mostrar ok" id="feed-q6">✅ <strong>Correto!</strong> flex-wrap: wrap é a rede de segurança. Antes do breakpoint da media query (768px aqui), os itens precisam poder quebrar sozinhos se apertar. Sem ele, entre 768px e 900px o cabeçalho geraria rolagem horizontal. A media query e o wrap atuam em faixas diferentes, e combinados garantem continuidade.</div></div></div>
+
+      <div class="btn-grupo">
+        <button type="button" class="btn" id="btn-ver-placar">✅ Ver placar</button>
+        <button type="button" class="btn btn-sec" id="btn-limpar-quiz">🔄 Recomeçar</button>
+      </div>
+
+      <div class="results" id="resultado-quiz">
+        <h4 style="color:#9a3412;margin-bottom:8px;">📊 Seu placar</h4>
+        <div id="resultado-quiz-conteudo"></div>
+      </div>
+
+      <h3>✅ Checklist de entrega</h3>
+      <p>Marque cada item somente <strong>após</strong> verificar no navegador. Os 11 itens correspondem aos 7 critérios da rubrica.</p>
+
+      <div class="progresso-check">
+        <span>Verificado: <strong id="txt-prog-check">4 de 11</strong></span>
+        <div class="barra"><span id="barra-check" style="width: 36.3636%;"></span></div>
+      </div>
+      <div id="container-check"><div class="check-item marcado" data-idx="0"><div class="check-box">✓</div><div class="check-texto">O HTML tem exatamente as tags &lt;header&gt;, &lt;nav&gt;, &lt;main&gt; e &lt;footer&gt; (não &lt;div&gt;).</div></div><div class="check-item" data-idx="1"><div class="check-box">✓</div><div class="check-texto">Cabeçalho tem &lt;h1&gt; (título) e &lt;p&gt; (subtítulo).</div></div><div class="check-item" data-idx="2"><div class="check-box">✓</div><div class="check-texto">A navegação tem pelo menos 3 links em &lt;nav&gt;.</div></div><div class="check-item" data-idx="3"><div class="check-box">✓</div><div class="check-texto">Existem pelo menos 4 cartões (articles) na grade de produtos.</div></div><div class="check-item marcado" data-idx="4"><div class="check-box">✓</div><div class="check-texto">O body ou main declara display: grid.</div></div><div class="check-item" data-idx="5"><div class="check-box">✓</div><div class="check-texto">A .grade-produtos declara display: grid com grid-template-columns.</div></div><div class="check-item marcado" data-idx="6"><div class="check-box">✓</div><div class="check-texto">No mínimo 2 componentes internos usam display: flex (cabecalho, navegacao, cartao, rodape...).</div></div><div class="check-item" data-idx="7"><div class="check-box">✓</div><div class="check-texto">Existe pelo menos uma media query que muda grid-template-columns ou flex-direction (não só font-size ou padding).</div></div><div class="check-item" data-idx="8"><div class="check-box">✓</div><div class="check-texto">Em 360px a janela não mostra rolagem horizontal.</div></div><div class="check-item marcado" data-idx="9"><div class="check-box">✓</div><div class="check-texto">CSS está em arquivo separado — index.html não tem &lt;style&gt; nem style="...".</div></div><div class="check-item" data-idx="10"><div class="check-box">✓</div><div class="check-texto">Os dois arquivos (index.html e estilo.css) estão na mesma pasta e o &lt;link&gt; aponta para "estilo.css".</div></div></div>
+
+      <div class="btn-grupo">
+        <button type="button" class="btn btn-sec" id="btn-limpar-check">🧹 Limpar marcações</button>
+      </div>
+
+      <div class="hl green" style="margin-top:16px;">
+        <strong>Entrega concluída</strong> quando: (a) os 11 itens do checklist estão marcados; (b) o pacote tem exatamente 2 arquivos na mesma pasta — <code>index.html</code> e <code>estilo.css</code>; (c) o HTML não tem <code>&lt;style&gt;</code> nem <code>style="..."</code>; (d) em 360px, nenhuma barra de rolagem horizontal aparece.
+      </div>
+    </section>
+  </div>
+
+  <footer style="text-align:center;color:#fdba74;font-size:.76rem;padding:20px 0;">
+    🏆 Desafio Final • Aba 9 • Tema 09 • 2026
+  </footer>
+</div>
+
+<div class="toast" id="toast">✅ Feito!</div>
+<button type="button" class="btn-top" id="btn-topo" aria-label="Voltar ao topo">⬆️ Topo</button>
+
+<script>
+function $(id){ return document.getElementById(id); }
+function esc(t){
+  return String(t == null ? '' : t)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+var toastTimer = null;
+function toast(msg){
+  var t = $('toast');
+  if (!t) return;
+  t.textContent = msg;
+  t.classList.add('show');
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ t.classList.remove('show'); }, 3000);
+}
+function copiarFallback(texto){
+  var ta = document.createElement('textarea');
+  ta.value = texto;
+  ta.setAttribute('readonly','');
+  ta.style.position = 'fixed';
+  ta.style.top = '-1000px';
+  document.body.appendChild(ta);
+  ta.select();
+  var ok = false;
+  try { ok = document.execCommand('copy'); } catch(e){ ok = false; }
+  document.body.removeChild(ta);
+  return ok;
+}
+function copiarTexto(texto, botao){
+  if (!texto) return;
+  function fim(ok){
+    if (ok){
+      toast('✅ Copiado!');
+      if (botao){
+        var orig = botao.textContent;
+        botao.textContent = '✅ Copiado!';
+        setTimeout(function(){ botao.textContent = orig; }, 1500);
+      }
+    } else toast('⚠️ Selecione e copie manualmente.');
+  }
+  if (navigator.clipboard && window.isSecureContext){
+    navigator.clipboard.writeText(texto).then(function(){ fim(true); }).catch(function(){ fim(copiarFallback(texto)); });
+  } else fim(copiarFallback(texto));
+}
+
+/* ============================================================
+   INDEX.HTML
+   ============================================================ */
+var COD_HTML =
+'<!DOCTYPE html>\n' +
+'<html lang="pt-BR">\n' +
+'<head>\n' +
+'  <meta charset="UTF-8">\n' +
+'  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n' +
+'  <title>Café da Serra — Torra Artesanal</title>\n' +
+'  <link rel="stylesheet" href="estilo.css">\n' +
+'</head>\n' +
+'<body>\n' +
+'  <header class="cabecalho">\n' +
+'    <div class="cabecalho-texto">\n' +
+'      <h1>Café da Serra</h1>\n' +
+'      <p class="subtitulo">Torra artesanal de Minas Gerais</p>\n' +
+'    </div>\n' +
+'    <span class="selo">Artesanal</span>\n' +
+'  </header>\n' +
+'\n' +
+'  <nav class="navegacao">\n' +
+'    <a href="#">Início</a>\n' +
+'    <a href="#">Produtos</a>\n' +
+'    <a href="#">Sobre</a>\n' +
+'    <a href="#">Contato</a>\n' +
+'  </nav>\n' +
+'\n' +
+'  <main class="conteudo">\n' +
+'    <section class="grade-produtos" aria-label="Produtos">\n' +
+'      <article class="cartao">\n' +
+'        <div class="cartao-imagem">Torra Média</div>\n' +
+'        <h2 class="cartao-titulo">Torra Média</h2>\n' +
+'        <p class="cartao-descricao">Notas de chocolate e caramelo.</p>\n' +
+'        <div class="cartao-rodape">\n' +
+'          <span class="preco">R$ 42</span>\n' +
+'          <button class="botao">Comprar</button>\n' +
+'        </div>\n' +
+'      </article>\n' +
+'\n' +
+'      <article class="cartao">\n' +
+'        <div class="cartao-imagem">Torra Clara</div>\n' +
+'        <h2 class="cartao-titulo">Torra Clara</h2>\n' +
+'        <p class="cartao-descricao">Cítrica, floral, acidez delicada.</p>\n' +
+'        <div class="cartao-rodape">\n' +
+'          <span class="preco">R$ 48</span>\n' +
+'          <button class="botao">Comprar</button>\n' +
+'        </div>\n' +
+'      </article>\n' +
+'\n' +
+'      <article class="cartao">\n' +
+'        <div class="cartao-imagem">Torra Escura</div>\n' +
+'        <h2 class="cartao-titulo">Torra Escura</h2>\n' +
+'        <p class="cartao-descricao">Intensa, cacau amargo, final longo.</p>\n' +
+'        <div class="cartao-rodape">\n' +
+'          <span class="preco">R$ 46</span>\n' +
+'          <button class="botao">Comprar</button>\n' +
+'        </div>\n' +
+'      </article>\n' +
+'\n' +
+'      <article class="cartao">\n' +
+'        <div class="cartao-imagem">Descafeinado</div>\n' +
+'        <h2 class="cartao-titulo">Descafeinado</h2>\n' +
+'        <p class="cartao-descricao">Suave e equilibrado.</p>\n' +
+'        <div class="cartao-rodape">\n' +
+'          <span class="preco">R$ 52</span>\n' +
+'          <button class="botao">Comprar</button>\n' +
+'        </div>\n' +
+'      </article>\n' +
+'\n' +
+'      <article class="cartao">\n' +
+'        <div class="cartao-imagem">Blend Casa</div>\n' +
+'        <h2 class="cartao-titulo">Blend Casa</h2>\n' +
+'        <p class="cartao-descricao">O clássico da casa.</p>\n' +
+'        <div class="cartao-rodape">\n' +
+'          <span class="preco">R$ 38</span>\n' +
+'          <button class="botao">Comprar</button>\n' +
+'        </div>\n' +
+'      </article>\n' +
+'\n' +
+'      <article class="cartao">\n' +
+'        <div class="cartao-imagem">Edição Especial</div>\n' +
+'        <h2 class="cartao-titulo">Edição Especial</h2>\n' +
+'        <p class="cartao-descricao">Microlote, safra limitada.</p>\n' +
+'        <div class="cartao-rodape">\n' +
+'          <span class="preco">R$ 68</span>\n' +
+'          <button class="botao">Comprar</button>\n' +
+'        </div>\n' +
+'      </article>\n' +
+'    </section>\n' +
+'  </main>\n' +
+'\n' +
+'  <footer class="rodape">\n' +
+'    <p>© 2026 Café da Serra · Juiz de Fora, MG</p>\n' +
+'    <div class="rodape-links">\n' +
+'      <a href="#">Instagram</a>\n' +
+'      <a href="#">WhatsApp</a>\n' +
+'    </div>\n' +
+'  </footer>\n' +
+'</body>\n' +
+'</html>';
+
+/* ============================================================
+   ESTILO.CSS
+   ============================================================ */
+var COD_CSS =
+'/* =========================================\n' +
+'   IDENTIDADE VISUAL\n' +
+'   ========================================= */\n' +
+':root {\n' +
+'  --cor-primaria: #7c2d12;\n' +
+'  --cor-primaria-clara: #c2410c;\n' +
+'  --cor-fundo: #fef9f4;\n' +
+'  --cor-texto: #1c1917;\n' +
+'  --cor-neutro: #78716c;\n' +
+'  --cor-borda: #e7e5e4;\n' +
+'  --fonte-titulo: Georgia, "Times New Roman", serif;\n' +
+'  --fonte-corpo: system-ui, -apple-system, sans-serif;\n' +
+'  --espaco-md: 16px;\n' +
+'  --espaco-lg: 24px;\n' +
+'  --raio: 10px;\n' +
+'}\n' +
+'\n' +
+'/* =========================================\n' +
+'   RESET\n' +
+'   ========================================= */\n' +
+'*, *::before, *::after {\n' +
+'  box-sizing: border-box;\n' +
+'  margin: 0;\n' +
+'  padding: 0;\n' +
+'}\n' +
+'\n' +
+'img {\n' +
+'  max-width: 100%;\n' +
+'  display: block;\n' +
+'}\n' +
+'\n' +
+'/* =========================================\n' +
+'   ESTRUTURA GERAL — CSS GRID\n' +
+'   ========================================= */\n' +
+'body {\n' +
+'  font-family: var(--fonte-corpo);\n' +
+'  background: var(--cor-fundo);\n' +
+'  color: var(--cor-texto);\n' +
+'  line-height: 1.6;\n' +
+'  min-height: 100vh;\n' +
+'  display: grid;\n' +
+'  grid-template-rows: auto auto 1fr auto;\n' +
+'  min-width: 0;\n' +
+'}\n' +
+'\n' +
+'/* =========================================\n' +
+'   CABEÇALHO — FLEXBOX\n' +
+'   ========================================= */\n' +
+'.cabecalho {\n' +
+'  background: var(--cor-primaria);\n' +
+'  color: #fff;\n' +
+'  padding: var(--espaco-lg) var(--espaco-md);\n' +
+'  display: flex;\n' +
+'  justify-content: space-between;\n' +
+'  align-items: center;\n' +
+'  gap: var(--espaco-md);\n' +
+'  flex-wrap: wrap;\n' +
+'}\n' +
+'\n' +
+'.cabecalho-texto {\n' +
+'  display: flex;\n' +
+'  flex-direction: column;\n' +
+'  gap: 4px;\n' +
+'}\n' +
+'\n' +
+'.cabecalho h1 {\n' +
+'  font-family: var(--fonte-titulo);\n' +
+'  font-size: clamp(1.5rem, 3vw, 2rem);\n' +
+'  letter-spacing: -.5px;\n' +
+'}\n' +
+'\n' +
+'.subtitulo {\n' +
+'  font-size: 0.9rem;\n' +
+'  color: rgba(255, 255, 255, 0.7);\n' +
+'}\n' +
+'\n' +
+'.selo {\n' +
+'  background: var(--cor-primaria-clara);\n' +
+'  padding: 6px 14px;\n' +
+'  border-radius: 20px;\n' +
+'  font-size: 0.75rem;\n' +
+'  font-weight: 700;\n' +
+'  text-transform: uppercase;\n' +
+'  letter-spacing: 0.5px;\n' +
+'}\n' +
+'\n' +
+'/* =========================================\n' +
+'   NAVEGAÇÃO — FLEXBOX\n' +
+'   ========================================= */\n' +
+'.navegacao {\n' +
+'  background: var(--cor-primaria-clara);\n' +
+'  padding: 12px var(--espaco-md);\n' +
+'  display: flex;\n' +
+'  gap: var(--espaco-md);\n' +
+'  flex-wrap: wrap;\n' +
+'  justify-content: center;\n' +
+'}\n' +
+'\n' +
+'.navegacao a {\n' +
+'  color: #fff;\n' +
+'  text-decoration: none;\n' +
+'  font-weight: 700;\n' +
+'  font-size: 0.9rem;\n' +
+'  padding: 4px 8px;\n' +
+'  border-radius: 6px;\n' +
+'  transition: background 0.2s;\n' +
+'}\n' +
+'\n' +
+'.navegacao a:hover {\n' +
+'  background: rgba(255, 255, 255, 0.15);\n' +
+'}\n' +
+'\n' +
+'/* =========================================\n' +
+'   CONTEÚDO PRINCIPAL — GRID\n' +
+'   ========================================= */\n' +
+'.conteudo {\n' +
+'  padding: var(--espaco-lg) var(--espaco-md);\n' +
+'  display: grid;\n' +
+'  min-width: 0;\n' +
+'}\n' +
+'\n' +
+'.grade-produtos {\n' +
+'  display: grid;\n' +
+'  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));\n' +
+'  gap: var(--espaco-md);\n' +
+'  max-width: 1200px;\n' +
+'  margin: 0 auto;\n' +
+'  width: 100%;\n' +
+'  min-width: 0;\n' +
+'}\n' +
+'\n' +
+'/* =========================================\n' +
+'   CARTÃO — FLEXBOX\n' +
+'   ========================================= */\n' +
+'.cartao {\n' +
+'  background: #fff;\n' +
+'  border: 1px solid var(--cor-borda);\n' +
+'  border-radius: var(--raio);\n' +
+'  padding: var(--espaco-md);\n' +
+'  display: flex;\n' +
+'  flex-direction: column;\n' +
+'  gap: 10px;\n' +
+'  min-width: 0;\n' +
+'}\n' +
+'\n' +
+'.cartao-imagem {\n' +
+'  background: #fed7aa;\n' +
+'  border-radius: var(--raio);\n' +
+'  padding: 20px 12px;\n' +
+'  text-align: center;\n' +
+'  font-weight: 800;\n' +
+'  color: var(--cor-primaria);\n' +
+'  font-size: 0.85rem;\n' +
+'}\n' +
+'\n' +
+'.cartao-titulo {\n' +
+'  font-size: 1.05rem;\n' +
+'  color: var(--cor-primaria);\n' +
+'}\n' +
+'\n' +
+'.cartao-descricao {\n' +
+'  font-size: 0.85rem;\n' +
+'  color: var(--cor-neutro);\n' +
+'  flex-grow: 1;\n' +
+'}\n' +
+'\n' +
+'.cartao-rodape {\n' +
+'  display: flex;\n' +
+'  justify-content: space-between;\n' +
+'  align-items: center;\n' +
+'  gap: 10px;\n' +
+'  margin-top: auto;\n' +
+'}\n' +
+'\n' +
+'.preco {\n' +
+'  color: var(--cor-primaria-clara);\n' +
+'  font-weight: 800;\n' +
+'  font-size: 1rem;\n' +
+'}\n' +
+'\n' +
+'.botao {\n' +
+'  background: var(--cor-primaria);\n' +
+'  color: #fff;\n' +
+'  border: 0;\n' +
+'  padding: 8px 14px;\n' +
+'  border-radius: 6px;\n' +
+'  font-weight: 700;\n' +
+'  font-size: 0.85rem;\n' +
+'  cursor: pointer;\n' +
+'  flex: 1;\n' +
+'}\n' +
+'\n' +
+'.botao:hover {\n' +
+'  background: var(--cor-primaria-clara);\n' +
+'}\n' +
+'\n' +
+'/* =========================================\n' +
+'   RODAPÉ — FLEXBOX\n' +
+'   ========================================= */\n' +
+'.rodape {\n' +
+'  background: var(--cor-primaria);\n' +
+'  color: rgba(255, 255, 255, 0.8);\n' +
+'  padding: var(--espaco-md);\n' +
+'  display: flex;\n' +
+'  justify-content: space-between;\n' +
+'  align-items: center;\n' +
+'  gap: var(--espaco-md);\n' +
+'  flex-wrap: wrap;\n' +
+'  font-size: 0.85rem;\n' +
+'}\n' +
+'\n' +
+'.rodape-links {\n' +
+'  display: flex;\n' +
+'  gap: var(--espaco-md);\n' +
+'}\n' +
+'\n' +
+'.rodape a {\n' +
+'  color: #fed7aa;\n' +
+'  text-decoration: none;\n' +
+'}\n' +
+'\n' +
+'/* =========================================\n' +
+'   MEDIA QUERY — MUDANÇA REAL DE LAYOUT\n' +
+'   ========================================= */\n' +
+'@media (max-width: 768px) {\n' +
+'\n' +
+'  /* 1) Grade de produtos: 3 → 1 coluna (via auto-fit a 1fr fixa) */\n' +
+'  .grade-produtos {\n' +
+'    grid-template-columns: 1fr;\n' +
+'  }\n' +
+'\n' +
+'  /* 2) Navegação: linha → coluna */\n' +
+'  .navegacao {\n' +
+'    flex-direction: column;\n' +
+'    align-items: flex-start;\n' +
+'    gap: 8px;\n' +
+'  }\n' +
+'\n' +
+'  /* 3) Cabeçalho: linha → coluna */\n' +
+'  .cabecalho {\n' +
+'    flex-direction: column;\n' +
+'    align-items: flex-start;\n' +
+'  }\n' +
+'\n' +
+'  /* 4) Rodapé: linha → coluna */\n' +
+'  .rodape {\n' +
+'    flex-direction: column;\n' +
+'    align-items: flex-start;\n' +
+'    gap: 8px;\n' +
+'  }\n' +
+'}\n';
+
+function montarCodigo(){
+  var paneHtml = $('code-pane-html');
+  var paneCss = $('code-pane-css');
+  if (paneHtml) paneHtml.textContent = COD_HTML;
+  if (paneCss) paneCss.textContent = COD_CSS;
+}
+
+function abrirPreview(html, alvoId){
+  var alvo = $(alvoId);
+  if (!alvo) return;
+  var antigo = alvo.querySelector('.preview-inline');
+  if (antigo) antigo.remove();
+  var caixa = document.createElement('div');
+  caixa.className = 'preview-inline';
+  var header = document.createElement('div');
+  header.className = 'preview-header';
+  header.innerHTML = '<span>🧪 Preview — redimensione a janela para ver as 4 mudanças</span>';
+  var fechar = document.createElement('button');
+  fechar.type = 'button';
+  fechar.className = 'preview-close';
+  fechar.textContent = '✕ Fechar';
+  header.appendChild(fechar);
+  var iframe = document.createElement('iframe');
+  iframe.setAttribute('sandbox','allow-scripts allow-same-origin');
+  iframe.setAttribute('title','Preview do desafio');
+  iframe.srcdoc = html;
+  caixa.appendChild(header);
+  caixa.appendChild(iframe);
+  alvo.appendChild(caixa);
+  fechar.addEventListener('click', function(){ caixa.remove(); });
+  caixa.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function montarPreviewCompleto(){
+  return '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8">' +
+         '<meta name="viewport" content="width=device-width, initial-scale=1.0">' +
+         '<title>Preview</title><style>' + COD_CSS + '</style></head><body>' +
+         COD_HTML.replace(/<!DOCTYPE html>|<html[^>]*>|<\/html>|<head>[\s\S]*?<\/head>|<meta[^>]*>|<title>.*?<\/title>|<link[^>]*>|<body>|<\/body>/g, '') +
+         '</body></html>';
+}
+
+/* ============================================================
+   LABORATÓRIO
+   ============================================================ */
+function atualizarLab(){
+  var larguraVp = parseInt($('slider-vp').value, 10);
+  var sim = $('lab-sim');
+  var widthMax = Math.min(larguraVp, window.innerWidth - 120);
+  if (sim) sim.style.width = Math.max(280, widthMax) + 'px';
+
+  $('lbl-vp').textContent = larguraVp + 'px';
+
+  var gridSim = $('grid-sim');
+  var navSim = $('nav-sim');
+  var cabSim = $('cab-sim');
+
+  var estado = '';
+  if (larguraVp > 768){
+    estado = '🖥 Desktop — 3 colunas · navegação em linha · cabeçalho em linha';
+    if (gridSim) gridSim.style.gridTemplateColumns = 'repeat(3, 1fr)';
+    if (navSim){ navSim.style.flexDirection = 'row'; navSim.style.alignItems = 'center'; }
+    if (cabSim){ cabSim.style.flexDirection = 'row'; cabSim.style.alignItems = 'center'; }
+  } else {
+    estado = '📱 Media query ativa — 1 coluna · navegação em pilha · cabeçalho em pilha';
+    if (gridSim) gridSim.style.gridTemplateColumns = '1fr';
+    if (navSim){ navSim.style.flexDirection = 'column'; navSim.style.alignItems = 'flex-start'; }
+    if (cabSim){ cabSim.style.flexDirection = 'column'; cabSim.style.alignItems = 'flex-start'; }
+  }
+  $('lbl-estado').textContent = estado;
+
+  // Info
+  var info = $('lab-info');
+  if (info){
+    info.textContent =
+      'Viewport: ' + larguraVp + 'px\n' +
+      'Breakpoint: 768px\n' +
+      '\n' +
+      (larguraVp > 768
+        ? 'Grade: repeat(auto-fit, minmax(220px, 1fr))\n'         + 'Colunas visíveis: ' + Math.min(6, Math.max(1, Math.floor((widthMax - 36) / 232))) + '\n' +
+          'Cabeçalho: flex-direction: row\n' +
+          'Navegação: flex-direction: row'
+        : 'Grade: grid-template-columns: 1fr\n'                    + 'Colunas visíveis: 1\n' +
+          'Cabeçalho: flex-direction: column\n' +
+          'Navegação: flex-direction: column')
+      ;
+  }
+}
+
+/* ============================================================
+   QUIZ
+   ============================================================ */
+var QUESTOES = [
+  {
+    p: 'Sobre a divisão de responsabilidades da rubrica (Grid na estrutura, Flexbox nos componentes), qual afirmação está alinhada com o que o desafio pede?',
+    o: [
+      { l:'a', t:'Grid deve ser usado só na .grade-produtos, e o resto da página deve ser Flexbox.' },
+      { l:'b', t:'Grid deve estar tanto no body/main (layout de linhas) quanto na .grade-produtos; Flexbox vai nos componentes internos (cabecalho, navegacao, cartao, rodape).' },
+      { l:'c', t:'Flexbox deve ser usado em tudo, e Grid só se o professor exigir.' },
+      { l:'d', t:'É indiferente — Grid e Flexbox são intercambiáveis.' }
+    ],
+    c: 'b',
+    e: 'A rubrica avalia Grid na estrutura principal e Flexbox em componentes internos. A melhor resposta atende às duas partes: Grid no body/main e na grade; Flexbox nos componentes. Usar só Grid no .grade-produtos e Flexbox no resto não cumpre "Grid aplicado corretamente na estrutura".'
+  },
+  {
+    p: 'O seletor universal *, *::before, *::after { box-sizing: border-box; } é importante porque…',
+    o: [
+      { l:'a', t:'Deixa o site mais rápido' },
+      { l:'b', t:'Evita que padding e border somem à largura e causem rolagem horizontal' },
+      { l:'c', t:'Desativa o CSS padrão do navegador' },
+      { l:'d', t:'Só serve para deixar as fontes coloridas' }
+    ],
+    c: 'b',
+    e: 'Com box-sizing: border-box, a largura declarada inclui padding e border. Sem esse reset, elementos com padding fixo em 360px estouram a viewport e geram rolagem horizontal — justamente o critério que perde ponto.'
+  },
+  {
+    p: 'A rubrica exige "media query com mudança real de layout". Qual das opções abaixo conta como mudança real?',
+    o: [
+      { l:'a', t:'@media (max-width: 768px) { h1 { font-size: 1.2rem; } }' },
+      { l:'b', t:'@media (max-width: 768px) { .grade-produtos { grid-template-columns: 1fr; } .navegacao { flex-direction: column; } }' },
+      { l:'c', t:'@media (max-width: 768px) { body { color: #555; } }' },
+      { l:'d', t:'@media (max-width: 768px) { button { padding: 6px; } }' }
+    ],
+    c: 'b',
+    e: 'Mudança real = mudança de layout (colunas, eixos, empilhamento). A opção (b) altera colunas do Grid e direção do Flexbox, o que é visível a olho nu. As demais alteram apenas tamanho de texto, cor ou espaçamento — não contam.'
+  },
+  {
+    p: 'Como verificar objetivamente que a página NÃO tem rolagem horizontal em 360px?',
+    o: [
+      { l:'a', t:'Olhar a página e "achar" que está boa' },
+      { l:'b', t:'Reduzir a janela a 360px e confirmar que nenhuma barra de rolagem horizontal aparece — se aparecer, inspecionar o elemento que estoura' },
+      { l:'c', t:'Contar quantos <div> existem no HTML' },
+      { l:'d', t:'Somar as larguras fixas dos elementos' }
+    ],
+    c: 'b',
+    e: 'A verificação empírica é reduzir a janela e observar. Se a barra aparece, inspecionar no DevTools qual elemento tem width ou min-width maior que a viewport. Os erros de overflow em 360px geralmente vêm de imagens com width fixo, padding não box-sized, ou min-width: max-content.'
+  },
+  {
+    p: 'Sobre a entrega em dois arquivos, qual afirmação é correta?',
+    o: [
+      { l:'a', t:'index.html e estilo.css podem ficar em pastas diferentes desde que o link aponte para o caminho certo.' },
+      { l:'b', t:'O HTML não pode ter <style> nem style="..."; só <link rel="stylesheet" href="estilo.css">, e os dois arquivos na mesma pasta.' },
+      { l:'c', t:'É aceitável deixar pequenos estilos inline para ajustes finos.' },
+      { l:'d', t:'O CSS pode ficar no HTML desde que o arquivo .css exista.' }
+    ],
+    c: 'b',
+    e: 'O critério "CSS em arquivo externo (peso 1)" é binário: qualquer <style> ou style="..." no HTML tira o ponto. Os dois arquivos precisam estar na mesma pasta e o link com o caminho relativo correto.'
+  },
+  {
+    p: 'Por que a página de referência aplica flex-wrap: wrap no cabeçalho e no rodapé, mesmo tendo media query que empilha em coluna?',
+    o: [
+      { l:'a', t:'Porque flex-wrap: wrap é sempre obrigatório em Flexbox' },
+      { l:'b', t:'Porque antes de a media query disparar (entre ~769px e ~900px), os itens podem precisar quebrar linha naturalmente, em vez de estourar a viewport' },
+      { l:'c', t:'Só por decoração' },
+      { l:'d', t:'Para acelerar o render' }
+    ],
+    c: 'b',
+    e: 'flex-wrap: wrap é a rede de segurança. Antes do breakpoint da media query (768px aqui), os itens precisam poder quebrar sozinhos se apertar. Sem ele, entre 768px e 900px o cabeçalho geraria rolagem horizontal. A media query e o wrap atuam em faixas diferentes, e combinados garantem continuidade.'
+  }
+];
+
+var respostas = {};
+function renderQuiz(){
+  var c = $('container-quiz');
+  if (!c) return;
+  c.innerHTML = '';
+  QUESTOES.forEach(function(q, idx){
+    var n = idx + 1;
+    var div = document.createElement('div');
+    div.className = 'question';
+    div.id = 'quiz-q' + n;
+    var h = document.createElement('div');
+    h.className = 'question-header';
+    h.innerHTML = '<span class="question-number">' + n + '</span><div>' + esc(q.p) + '</div>';
+    div.appendChild(h);
+    var opts = document.createElement('div');
+    opts.className = 'options';
+    q.o.forEach(function(op){
+      var opt = document.createElement('div');
+      opt.className = 'option';
+      opt.dataset.letra = op.l;
+      opt.innerHTML = '<strong>' + op.l + ')</strong> ' + esc(op.t);
+      opt.addEventListener('click', function(){ marcarQuiz(n, op.l, opt); });
+      opts.appendChild(opt);
+    });
+    div.appendChild(opts);
+    var feed = document.createElement('div');
+    feed.className = 'feedback-imediato';
+    feed.id = 'feed-q' + n;
+    div.appendChild(feed);
+    c.appendChild(div);
+  });
+}
+function marcarQuiz(num, letra, opt){
+  if (respostas[num]) return;
+  var div = $('quiz-q' + num);
+  if (!div) return;
+  div.querySelectorAll('.option').forEach(function(o){ o.classList.add('disabled'); });
+  var q = QUESTOES[num - 1];
+  var feed = $('feed-q' + num);
+  if (letra === q.c){
+    opt.classList.add('correct');
+    if (feed){ feed.classList.add('mostrar','ok'); feed.innerHTML = '✅ <strong>Correto!</strong> ' + esc(q.e); }
+  } else {
+    opt.classList.add('wrong');
+    var correta = div.querySelector('.option[data-letra="' + q.c + '"]');
+    if (correta) correta.classList.add('correct');
+    if (feed){ feed.classList.add('mostrar','no'); feed.innerHTML = '❌ <strong>Ainda não.</strong> ' + esc(q.e); }
+  }
+  respostas[num] = letra;
+  atualizarProgressoQuiz();
+}
+function atualizarProgressoQuiz(){
+  var total = QUESTOES.length;
+  var feitas = Object.keys(respostas).length;
+  var txt = $('txt-prog-quiz');
+  var bar = $('fill-prog-quiz');
+  var btn = $('btn-ver-placar');
+  if (txt) txt.textContent = feitas + ' de ' + total;
+  if (bar) bar.style.width = ((feitas / total) * 100) + '%';
+  if (btn) btn.disabled = (feitas < total);
+}
+function verPlacarQuiz(){
+  var acertos = 0;
+  QUESTOES.forEach(function(q, idx){
+    if (respostas[idx + 1] === q.c) acertos++;
+  });
+  var pct = Math.round((acertos / QUESTOES.length) * 100);
+  var diag = pct >= 80 ? '🏆 Excelente domínio!' : pct >= 60 ? '👏 Bom resultado. Revise o que errou.' : '📖 Releia as abas 2, 4 e 6.';
+  var html = '<div style="text-align:center;padding:14px;background:#f0fdf4;border-radius:9px;margin-bottom:10px;">' +
+               '<div style="font-size:1.5rem;font-weight:900;color:#15803d;">' + acertos + ' / ' + QUESTOES.length + '</div>' +
+               '<div style="color:#166534;font-weight:700;">Aproveitamento: ' + pct + '% — ' + diag + '</div>' +
+             '</div>';
+  QUESTOES.forEach(function(q, idx){
+    var n = idx + 1;
+    var resp = respostas[n] || '—';
+    var ok = (resp === q.c);
+    html += '<div style="padding:7px 0;border-bottom:1px solid #e2e8f0;color:' + (ok ? '#15803d' : '#b91c1c') + ';font-size:.85rem;">' +
+              (ok ? '✅' : '❌') + ' Q' + n + ' — ' + (ok ? 'Correta' : 'Marcou (' + resp + '), gabarito (' + q.c + ')') +
+            '</div>';
+  });
+  var cont = $('resultado-quiz-conteudo');
+  if (cont) cont.innerHTML = html;
+  var res = $('resultado-quiz');
+  if (res){
+    res.classList.add('mostrar');
+    res.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+}
+function limparQuiz(){
+  respostas = {};
+  document.querySelectorAll('#container-quiz .option').forEach(function(o){
+    o.classList.remove('correct','wrong','disabled');
+  });
+  document.querySelectorAll('#container-quiz .feedback-imediato').forEach(function(f){
+    f.classList.remove('mostrar','ok','no');
+    f.innerHTML = '';
+  });
+  $('resultado-quiz').classList.remove('mostrar');
+  atualizarProgressoQuiz();
+}
+
+/* ============================================================
+   CHECKLIST
+   ============================================================ */
+var ITENS_CHECK = [
+  'O HTML tem exatamente as tags <header>, <nav>, <main> e <footer> (não <div>).',
+  'Cabeçalho tem <h1> (título) e <p> (subtítulo).',
+  'A navegação tem pelo menos 3 links em <nav>.',
+  'Existem pelo menos 4 cartões (articles) na grade de produtos.',
+  'O body ou main declara display: grid.',
+  'A .grade-produtos declara display: grid com grid-template-columns.',
+  'No mínimo 2 componentes internos usam display: flex (cabecalho, navegacao, cartao, rodape...).',
+  'Existe pelo menos uma media query que muda grid-template-columns ou flex-direction (não só font-size ou padding).',
+  'Em 360px a janela não mostra rolagem horizontal.',
+  'CSS está em arquivo separado — index.html não tem <style> nem style="...".',
+  'Os dois arquivos (index.html e estilo.css) estão na mesma pasta e o <link> aponta para "estilo.css".'
+];
+var marcadosCheck = {};
+function renderCheck(){
+  var c = $('container-check');
+  if (!c) return;
+  c.innerHTML = '';
+  ITENS_CHECK.forEach(function(txt, idx){
+    var div = document.createElement('div');
+    div.className = 'check-item';
+    div.dataset.idx = idx;
+    div.innerHTML = '<div class="check-box">✓</div><div class="check-texto">' + esc(txt) + '</div>';
+    div.addEventListener('click', function(){ toggleCheck(idx, div); });
+    c.appendChild(div);
+  });
+}
+function toggleCheck(idx, div){
+  if (marcadosCheck[idx]){ delete marcadosCheck[idx]; div.classList.remove('marcado'); }
+  else { marcadosCheck[idx] = true; div.classList.add('marcado'); }
+  atualizarCheck();
+}
+function atualizarCheck(){
+  var total = ITENS_CHECK.length;
+  var feitos = Object.keys(marcadosCheck).length;
+  var txt = $('txt-prog-check');
+  var bar = $('barra-check');
+  if (txt) txt.textContent = feitos + ' de ' + total;
+  if (bar) bar.style.width = ((feitos / total) * 100) + '%';
+}
+function limparCheck(){
+  marcadosCheck = {};
+  document.querySelectorAll('.check-item').forEach(function(d){ d.classList.remove('marcado'); });
+  atualizarCheck();
+}
+
+/* ============================================================
+   INICIALIZAÇÃO
+   ============================================================ */
+document.addEventListener('DOMContentLoaded', function(){
+
+  montarCodigo();
+
+  var btnCopiarHtml = $('btn-copiar-html');
+  if (btnCopiarHtml) btnCopiarHtml.addEventListener('click', function(){
+    copiarTexto(COD_HTML, btnCopiarHtml);
+  });
+
+  var btnCopiarCss = $('btn-copiar-css');
+  if (btnCopiarCss) btnCopiarCss.addEventListener('click', function(){
+    copiarTexto(COD_CSS, btnCopiarCss);
+  });
+
+  var btnPreview = $('btn-preview-final');
+  if (btnPreview) btnPreview.addEventListener('click', function(){
+    abrirPreview(montarPreviewCompleto(), 'preview-principal');
+  });
+
+  // Abas
+  document.querySelectorAll('.tab-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      document.querySelectorAll('.tab-btn').forEach(function(b){
+        b.classList.remove('active');
+        b.setAttribute('aria-selected','false');
+      });
+      document.querySelectorAll('.tab-content').forEach(function(c){ c.classList.remove('active'); });
+      btn.classList.add('active');
+      btn.setAttribute('aria-selected','true');
+      var alvo = $(btn.dataset.aba);
+      if (alvo) alvo.classList.add('active');
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+  });
+
+  // Laboratório
+  var slider = $('slider-vp');
+  if (slider) slider.addEventListener('input', atualizarLab);
+  document.querySelectorAll('.preset-btn').forEach(function(b){
+    b.addEventListener('click', function(){
+      $('slider-vp').value = b.getAttribute('data-vp');
+      atualizarLab();
+    });
+  });
+  atualizarLab();
+
+  // Quiz
+  renderQuiz();
+  atualizarProgressoQuiz();
+  var btnVer = $('btn-ver-placar');
+  if (btnVer) btnVer.addEventListener('click', verPlacarQuiz);
+  var btnLQ = $('btn-limpar-quiz');
+  if (btnLQ) btnLQ.addEventListener('click', limparQuiz);
+
+  // Checklist
+  renderCheck();
+  atualizarCheck();
+  var btnLC = $('btn-limpar-check');
+  if (btnLC) btnLC.addEventListener('click', limparCheck);
+
+  // Topo
+  var btnTopo = $('btn-topo');
+  if (btnTopo) btnTopo.addEventListener('click', function(){
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+});
+</script>
+
+</body></html>

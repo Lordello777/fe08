@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atividades Flexbox</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  background: #f1f5f9;
+}
+
+h2 {
+  margin: 25px 0 12px;
+}
+
+/* 1 - Alinhar itens em uma linha */
+.linha {
+  display: flex;
+  gap: 10px;
+}
+
+.linha div {
+  background: #2563eb;
+  color: white;
+  padding: 20px;
+}
+
+/* 2 - Menu com logo e links */
+.topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: #1e293b;
+  color: white;
+}
+
+.links {
+  display: flex;
+  gap: 20px;
+}
+
+.links a {
+  color: white;
+  text-decoration: none;
+}
+
+/* 3 - Cartões que quebram linha */
+.lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.cartao {
+  flex: 1 1 220px;
+  padding: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: white;
+}
+
+/* 4 - Botão no rodapé do cartão */
+.cartao-botao {
+  display: flex;
+  flex-direction: column;
+  min-height: 220px;
+  padding: 16px;
+  border: 1px solid #ccc;
+  background: white;
+}
+
+.cartao-botao button {
+  margin-top: auto;
+  padding: 10px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+/* 5 - Grupo de botões centralizados */
+.grupo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 24px;
+}
+
+.grupo button {
+  padding: 12px 20px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+.confirmar { background: green; }
+.cancelar { background: orange; }
+.excluir { background: red; }
+
+</style>
+</head>
+
+<body>
+
+<h1>Atividades de Flexbox</h1>
+
+<h2>1 - Alinhar itens em uma linha</h2>
+<div class="linha">
+  <div>A</div>
+  <div>B</div>
+  <div>C</div>
+</div>
+
+<h2>2 - Menu com logo e links</h2>
+<header class="topo">
+  <span class="logo">MINHA LOGO</span>
+  <nav class="links">
+    <a href="#">Início</a>
+    <a href="#">Sobre</a>
+    <a href="#">Contato</a>
+  </nav>
+</header>
+
+<h2>3 - Cartões que quebram linha automaticamente</h2>
+<div class="lista">
+  <div class="cartao">
+    <h3>Cartão 1</h3>
+    <p>Este é o primeiro cartão.</p>
+  </div>
+
+  <div class="cartao">
+    <h3>Cartão 2</h3>
+    <p>Este é o segundo cartão.</p>
+  </div>
+
+  <div class="cartao">
+    <h3>Cartão 3</h3>
+    <p>Este é o terceiro cartão.</p>
+  </div>
+
+  <div class="cartao">
+    <h3>Cartão 4</h3>
+    <p>Este é o quarto cartão.</p>
+  </div>
+</div>
+
+<h2>4 - Cartão com botão no rodapé</h2>
+<div class="cartao-botao">
+  <h3>Meu cartão</h3>
+  <p>Este cartão possui um botão sempre na parte inferior.</p>
+  <button>Saiba mais</button>
+</div>
+
+<h2>5 - Grupo de botões centralizados</h2>
+<div class="grupo">
+  <button class="confirmar">Confirmar</button>
+  <button class="cancelar">Cancelar</button>
+  <button class="excluir">Excluir</button>
+</div>
+
+</body>
+</html>
